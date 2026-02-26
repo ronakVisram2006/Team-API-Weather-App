@@ -1,0 +1,34 @@
+#root {
+  max-width: 1920px;
+  max-height: 1080px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.main-weather-window{
+  padding-top:5rem;
+  padding-bottom:5rem;
+  padding-left:18rem;
+  padding-right:18rem;
+  margin-left:-10rem;
+  border-radius: 10px;
+  border-radius: 50px;
+  border: 2px solid #FFF;
+  background: radial-gradient(107.32% 141.42% at 0% 0%, rgba(255, 255, 255, 0.40) 0%, rgba(246, 0, 255, 0.40) 57.69%, rgba(255, 0, 4, 0.30) 100%);
+  box-shadow: -5px -5px 250px 0 rgba(255, 255, 255, 0.02) inset;
+  backdrop-filter: blur(21px);
+}
+.tempTag{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
