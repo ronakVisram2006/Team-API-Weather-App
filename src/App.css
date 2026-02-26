@@ -3,7 +3,6 @@
   max-height: 1080px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 .background {
   position: fixed;
@@ -15,11 +14,12 @@
 }
 
 .main-weather-window{
-  padding-top:5rem;
+  display: flex;
+  flex-direction: column;
+  padding-top:3rem;
   padding-bottom:5rem;
   padding-left:18rem;
   padding-right:18rem;
-  margin-left:-10rem;
   border-radius: 10px;
   border-radius: 50px;
   border: 2px solid #FFF;
@@ -27,8 +27,17 @@
   box-shadow: -5px -5px 250px 0 rgba(255, 255, 255, 0.02) inset;
   backdrop-filter: blur(21px);
 }
+.tempRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+}
+.degreeTag{
+  font-size: 1.5rem;
+}
 .tempTag{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-top:2.5rem;
 }
