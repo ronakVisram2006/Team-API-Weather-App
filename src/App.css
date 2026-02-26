@@ -16,6 +16,8 @@
 .main-weather-window{
   display: flex;
   flex-direction: column;
+  margin-right:45%;
+  margin-top:10%;
   padding-top:3rem;
   padding-bottom:5rem;
   padding-left:18rem;
@@ -27,6 +29,13 @@
   box-shadow: -5px -5px 250px 0 rgba(255, 255, 255, 0.02) inset;
   backdrop-filter: blur(21px);
 }
+.location{
+  display: flex;
+  flex-direction: row;
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+
+}
 .tempRow {
   display: flex;
   align-items: center;
@@ -34,10 +43,23 @@
 }
 .degreeTag{
   font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+
 }
 .tempTag{
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-top:2.5rem;
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-size:4rem;
+  font-style: normal;
+  font-weight: 500;
 }

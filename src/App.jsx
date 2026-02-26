@@ -1,5 +1,6 @@
 import './App.css';
 import bg from './Images/background.png';
+import React from 'react';
 function Background() {
   return (
     <>
@@ -12,6 +13,10 @@ function MainWeatherWindow() {
   return (
     <>
       <div className = "main-weather-window">
+        <div className="location">
+          <h1 className="locationTag">London,</h1>
+          <h1 className="greaterLocationTag">England</h1>
+        </div>
         <div className = "degreeGroup">
           <div className="tempRow">
             <h1 className="tempTag" id="tempVal">5</h1>
@@ -24,7 +29,7 @@ function MainWeatherWindow() {
 }
 function App() {
   return (
-    <>
+    <>      
       <Background/>
       <MainWeatherWindow/>
     </>
