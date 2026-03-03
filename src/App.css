@@ -1,9 +1,10 @@
 #root {
+  position:fixed;
   max-width: 1920px;
   max-height: 1080px;
   margin: 0 auto;
-  padding: 2rem;
 }
+
 .background {
   position: fixed;
   top: 0;
@@ -18,10 +19,11 @@
   flex-direction: column;
   margin-right:45%;
   margin-top:10%;
+  margin-left:3%;
   padding-top:3rem;
   padding-bottom:5rem;
   padding-left:18rem;
-  padding-right:18rem;
+  padding-right:35rem;
   border-radius: 10px;
   border-radius: 50px;
   border: 2px solid #FFF;
@@ -29,17 +31,15 @@
   box-shadow: -5px -5px 250px 0 rgba(255, 255, 255, 0.02) inset;
   backdrop-filter: blur(21px);
 }
-.location{
+.location {
   display: flex;
-  flex-direction: row;
-  color: #FFF;
-  font-family: 'Poppins', sans-serif;
-
+  flex-direction: column;
 }
 .tempRow {
   display: flex;
   align-items: center;
   gap: 0.5rem; 
+  
 }
 .degreeTag{
   font-size: 1.5rem;
@@ -50,16 +50,28 @@
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 500;
-
+  margin-top:-1.2rem;
 }
+
 .tempTag{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top:2.5rem;
   color: #FFF;
   font-family: 'Poppins', sans-serif;
   font-size:4rem;
   font-style: normal;
   font-weight: 500;
+}
+
+.locationTag{
+  margin-left:-15rem;
+  margin-top:-2rem;
+  font-family: 'Poppins', sans-serif;
+}
+.greaterLocationTag{
+  margin-left:-15rem;
+  margin-top:-0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-size:1.4rem;
 }
