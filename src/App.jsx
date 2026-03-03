@@ -1,3 +1,4 @@
+import './reset.css';
 import './App.css';
 import bg from './Images/background.png';
 import React from 'react';
