@@ -10,6 +10,11 @@ function MainWeatherWindow() {
           <div className="sideWindowRow">
             <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon"/>
             <h2 className="sunriseTag">6:30</h2>
+            <div className = "sunset">
+              <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon"/>
+              <h2 className="sunsetTag">18:45</h2>
+            </div>
+
           </div>
         </div>
         <div className = "degreeGroup">
@@ -22,5 +27,4 @@ function MainWeatherWindow() {
     </>
   );
 }
-
-export default MainWeatherWindow;   
+export default MainWeatherWindow;
