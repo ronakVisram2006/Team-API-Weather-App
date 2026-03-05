@@ -14,6 +14,7 @@
   
 }
 
+
 .day-panel ,.current-day-panel {
   display: flex;
   flex-direction: column;
@@ -328,6 +329,75 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   margin: 0;
+}
+
+.side-info-hikers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 13rem;
+  height: auto;
+  padding: 1.2rem 1rem;
+  border-radius: 1.5rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(
+    ellipse 141.42% 107.32% at 0% 0%,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(21, 0, 255, 0.35) 100%
+  );
+  backdrop-filter: blur(20px);
+  gap: 0.8rem;
+}
+
+.weatherConditionIcon img {
+  width: 4rem;
+  height: 4rem;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
+}
+
+.weatherCondition {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.hiker-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1rem;
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.cloudCoverText, .UVIndexText,
+.visibilityText, .HumidityText, .airPressureText {
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.cloudCoverFigure, .UVIndexFigure,
+.visibilityFigure, .HumidityFigure, .airPressureFigure {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.weather-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin: 2rem 3%;
 }
 
 .hour-panel {
