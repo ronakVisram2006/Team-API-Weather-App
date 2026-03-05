@@ -14,10 +14,72 @@
   
 }
 
-.dayRowBox{
-  background-color: red;
-  width:10rem;
-  height:10rem;
+.active-day-panel {
+  margin-left:10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 10rem;
+  height: 7.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0 0 2rem 2rem;
+  background: linear-gradient(
+    125deg,
+    rgba(78, 146, 255, 0.5) 0%,
+    rgba(0, 21, 255, 0.6) 100%
+  );
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.day-top-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.day-name {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.day-date {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.day-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.day-high-temp {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1;
+}
+
+.day-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.day-low-temp {
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  align-self: flex-end;
 }
 
 .main-weather-window {
@@ -30,7 +92,7 @@
   padding: 1.8rem 2.5rem;
   gap: 1.2rem;
   margin: 5% 3%;
-  margin-top:11rem;
+  margin-top:2rem;
 
   border-radius: 30px;
   border: 2px solid rgba(255, 255, 255, 0.6);
