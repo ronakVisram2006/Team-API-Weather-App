@@ -14,6 +14,12 @@
   
 }
 
+.dayRowBox{
+  background-color: red;
+  width:10rem;
+  height:10rem;
+}
+
 .main-weather-window {
   display: flex;
   flex-direction: column;
