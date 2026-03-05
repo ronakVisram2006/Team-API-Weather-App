@@ -97,7 +97,7 @@
 .windDirectionTag {
   color: rgba(255,255,255,0.75);
   font-family: 'Poppins', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 400;
   margin: 0;
 }
@@ -113,26 +113,27 @@
 
 /* Left: sunrise/sunset */
 .sideWindowRow {
+  margin-top:2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.2rem;
 }
 
 .sunrise, .sunset {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1.6rem;
 }
 
 .sunriseIcon, .sunsetIcon {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
 }
 
 .sunriseTag, .sunsetTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 
@@ -151,7 +152,7 @@
 .tempTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 5rem;
+  font-size: 8rem;
   font-weight: 500;
   margin: 0;
   line-height: 1;
@@ -160,16 +161,17 @@
 .degreeTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: 500;
-  margin-top: 0.3rem;
+  margin-top:-0.3rem;
 }
 
+
 .weatherIcon {
-  width: 3rem;
-  height: 3rem;
+  width: 6rem;
+  height: 6rem;
   align-self: center;
-  margin-left: 0.3rem;
+  margin-right:-3rem;
 }
 
 .feelsLike {
@@ -181,21 +183,29 @@
 .feelsLikeTag {
   color: rgba(255,255,255,0.8);
   font-family: 'Poppins', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 700;
   margin: 0;
 }
 
 .feelsLikeTemp {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
+  font-size: 1.7rem;
   font-weight: 600;
   margin: 0;
+}
+.feelsdegreeTag{
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top:-0.7rem;
 }
 
 /* Right: wind speed + rain */
 .statsCol {
+  margin-top:2rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -204,18 +214,18 @@
 .windSpeed, .rainChance {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1.2rem;
 }
 
 .windSpeedIcon, .rainChanceIcon {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .windSpeedVal, .rainChanceVal {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 
