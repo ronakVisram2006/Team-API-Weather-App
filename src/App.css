@@ -273,7 +273,6 @@
   margin-top:-0.3rem;
 }
 
-
 .weatherIcon {
   width: 6rem;
   height: 6rem;
@@ -399,12 +398,17 @@
   margin: 0;
   text-align:center;
 }
+.hour-panel-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-left: 8%;
 
+}
 .hour-panel {
   margin-top:-1rem;
   width: 12rem;
   height: 14rem;
-  margin-left: 8%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -413,9 +417,9 @@
   padding: 0.8rem 1rem;
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
-    rgba(102, 255, 0, 0.4) 0%,
-    rgba(21, 0, 255, 0.26) 60%,
-    rgba(21, 0, 255, 0.30) 100%
+    rgb(0, 255, 204) 0%,
+    rgba(21, 0, 255, 0.7) 60%,
+    rgba(0, 123, 255, 0.836) 100%
   );
   box-shadow: -5px -5px 250px rgba(255, 255, 255, 0.02) inset;
   overflow: hidden;
@@ -485,4 +489,18 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   margin: 0;
+}
+.hour-temp-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.hour-temp-num-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  line-height: 1;
+  margin-left:10%;
 }
