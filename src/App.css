@@ -17,13 +17,14 @@
 .main-weather-window {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;  
-  gap: 1rem;
+  gap: 0.5rem;
 
-  width: 100%;
-  max-width: 500px;
+  max-width: 800px;
+  min-height: 160px;
+  padding: 1.8rem 2.5rem;
+  gap: 1.2rem;
   margin: 5% 3%;
-  padding: 2rem;
+  margin-top:11rem;
 
   border-radius: 30px;
   border: 2px solid rgba(255, 255, 255, 0.6);
@@ -38,88 +39,184 @@
   backdrop-filter: blur(20px);
 }
 
-
-.tempRow {
+/* ── Top row: location + wind direction ── */
+.top-row {
   display: flex;
-  align-items: flex-start;   /* keeps °C aligned with number */
-  align-self: center;        /* center inside parent column */
-}
-.degreeTag{
-  margin-top:0;
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #FFF;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.tempTag{
+.location {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: #FFF;
-  font-family: 'Poppins', sans-serif;
-  font-size:7rem;
-  font-style: normal;
-  font-weight: 500;
+  gap: 0;
 }
 
-
-
-.locationTag{
-  font-size:3rem;
-  margin-top:-2rem;
+.locationTag {
+  font-size: 2.2rem;
+  margin: 0;
+  color: #fff;
   font-family: 'Poppins', sans-serif;
+  font-weight: 700;
 }
-.greaterLocationTag{
-  color:white;
+
+.greaterLocationTag {
+  color: rgba(255,255,255,0.85);
   margin-top:-0.5rem;
   font-family: 'Poppins', sans-serif;
-  font-size:1.4rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
+
+.windDirection {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.windDirectionIcon {
+  width: 5rem;
+  height: 5rem;
+}
+
+.windDirectionRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.windDirectionVal {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.windDirectionTag {
+  color: rgba(255,255,255,0.75);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ── Main row ── */
+.main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+
+}
+
+/* Left: sunrise/sunset */
 .sideWindowRow {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-.sunset{
-  display:flex;
-  gap:2rem;
-}
-.sunrise{
-  display:flex;
-  gap:2rem;
-}
-.sunsetIcon{
-  width: 3rem;
-  height: 3rem;
+  gap: 0.8rem;
 }
 
-.sunriseIcon{
-  width: 3rem;
-  height: 3rem;
+.sunrise, .sunset {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.sunriseTag {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #FFF;
-  font-family: 'Poppins', sans-serif;
-  font-size:1.4rem;
+.sunriseIcon, .sunsetIcon {
+  width: 1.8rem;
+  height: 1.8rem;
 }
-.sunsetTag {
+
+.sunriseTag, .sunsetTag {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Center: temp + feels like */
+.tempCol {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: #FFF;
+  align-items: center;
+}
+
+.tempRow {
+  display: flex;
+  align-items: flex-start;
+}
+
+.tempTag {
+  color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size:1.4rem;
-  margin-top:1.5rem;
+  font-size: 5rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1;
+}
+
+.degreeTag {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 0.3rem;
+}
+
+.weatherIcon {
+  width: 3rem;
+  height: 3rem;
+  align-self: center;
+  margin-left: 0.3rem;
+}
+
+.feelsLike {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.feelsLikeTag {
+  color: rgba(255,255,255,0.8);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.feelsLikeTemp {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Right: wind speed + rain */
+.statsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.windSpeed, .rainChance {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.windSpeedIcon, .rainChanceIcon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.windSpeedVal, .rainChanceVal {
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  margin: 0;
 }
 
 .hour-panel {
