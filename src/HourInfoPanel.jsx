@@ -1,38 +1,24 @@
-
 function HourInfoPanel() {
-    return (
-        <div className="hour-panel">
-            <div className="icon-container">
-                <div className="icon-outline">
-                    <img src="/public/images/cloud-rain.svg" alt="Icon" />
-                </div>
-            </div>
-
-            <div className="temperature">4</div>
-
-            <div className="humidity">30%</div>
-
-            <div className="wind-icon">
-                <div className="wind-outline">
-                    <img src="/public/images/wind.svg" alt="" />
-                </div>
-            </div>
-
-            <div className="wind-speed">14mph</div>
-
-            <div className="highlight-box">
-                <img src="/public/images/icon.svg" alt="" />
-            </div>
-
-            <div className="time">13:00</div>
-
-            <div className="degree">°C</div>
+  return (
+    <div className="hour-panel">
+      <div className="time">13:00</div>
+      <img src="/images/icon.svg" alt="Weather Icon" className="weather-icon-center"/>
+      <div className="temp-row">
+        <span className="temperature">4</span>
+        <span className="degree">°C</span>
+      </div>
+      <div className="bottom-row">
+        <div className="rain-info">
+          <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon"/>
+          <span className="humidity">30%</span>
         </div>
-        
-    );
+        <div className="wind-info">
+          <img src="/images/wind.svg" alt="Wind" className="bottom-icon"/>
+          <span className="wind-speed">14mph</span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default HourInfoPanel;
-
-
-

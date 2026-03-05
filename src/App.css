@@ -400,155 +400,87 @@
   text-align:center;
 }
 
-
 .hour-panel {
-    width: 252px;
-    height: 315.887px;
-    margin: 5% 3%;
-    position: relative;
-    background: radial-gradient(
-        ellipse 141.42% 107.32% at 0% 0%,
-        rgba(255, 255, 255, 0.40) 0%,
-        rgba(21, 0, 255, 0.26) 60%,
-        rgba(21, 0, 255, 0.30) 100%
-    );
-    box-shadow: -5px -5px 250px rgba(255, 255, 255, 0.02) inset;
-    overflow: hidden;
-    border-radius: 50px;
-    backdrop-filter: blur(21px);
+  width: 12rem;
+  height: 13rem;
+  margin-left: 4%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  background: radial-gradient(
+    ellipse 141.42% 107.32% at 0% 0%,
+    rgba(255, 255, 255, 0.40) 0%,
+    rgba(21, 0, 255, 0.26) 60%,
+    rgba(21, 0, 255, 0.30) 100%
+  );
+  box-shadow: -5px -5px 250px rgba(255, 255, 255, 0.02) inset;
+  overflow: hidden;
+  border-radius: 3rem;
+  backdrop-filter: blur(21px);
 }
 
-/* Small top-left icon */
-.icon-container {
-    width: 29.86px;
-    height: 28.75px;
-    position: absolute;
-    left: 19px;
-    top: 263px;
-    overflow: hidden;
-}
-
-.icon-outline {
-    width: 27.37px;
-    height: 26.35px;
-    position: absolute;
-    left: 1.24px;
-    top: 1.20px;
-    outline-offset: -1.25px;
-}
-
-/* Big temperature number */
-.temperature {
-    width: 89.57px;
-    height: 40.91px;
-    position: absolute;
-    left: 94px;
-    top: 170px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-    font-size: 96px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    line-height: 144px;
-}
-
-/* Humidity */
-.humidity {
-    width: 59.71px;
-    height: 26.54px;
-    position: absolute;
-    left: 62.79px;
-    top: 264px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-    font-size: 20px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    line-height: 30px;
-}
-
-/* Wind icon */
-.wind-icon {
-    width: 32.07px;
-    height: 34.28px;
-    position: absolute;
-    left: 123px;
-    top: 260px;
-    overflow: hidden;
-}
-
-.wind-outline {
-    width: 26.72px;
-    height: 22.85px;
-    position: absolute;
-    left: 2.67px;
-    top: 1.71px;
-    outline-offset: -2px;
-}
-
-/* Wind speed text */
-.wind-speed {
-    width: 75.19px;
-    height: 33.17px;
-    position: absolute;
-    left: 169.44px;
-    top: 260px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-    font-size: 20px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    line-height: 30px;
-}
-
-/* Yellow highlight square */
-.highlight-box {
-    width: 75px;
-    height: 75px;
-    position: absolute;
-    left: 163px;
-    top: 50px;
-    transform: rotate(90deg);
-    transform-origin: top left;
-    outline-offset: -2px;
-}
-
-/* Time */
 .time {
-    width: 105px;
-    height: 68px;
-    position: absolute;
-    left: 80px;
-    top: -8px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-    font-size: 36px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    line-height: 54px;
+  color: white;
+  font-size: 1.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  margin: 0;
+  align-self: flex-start;
 }
 
-/* Degree symbol */
+.weather-icon-center {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.temp-row {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.temperature {
+  color: white;
+  font-size: 3.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1;
+}
+
 .degree {
-    width: 39px;
-    height: 33px;
-    position: absolute;
-    left: 146px;
-    top: 137px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-    font-size: 20px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    line-height: 30px;
+  color: white;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  margin-top: 0.2rem;
+}
+
+.bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rain-info, .wind-info {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.bottom-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.humidity, .wind-speed {
+  color: white;
+  font-size: 0.85rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin: 0;
 }
