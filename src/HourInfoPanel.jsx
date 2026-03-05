@@ -4,10 +4,16 @@ const hourTimes = [
   { time: '13:00', temp: '4', rain: '30%', wind: '14mph', icon: '/images/icon.svg' },
   { time: '14:00', temp: '5', rain: '20%', wind: '11mph', icon: '/images/icon.svg' },
   { time: '15:00', temp: '5', rain: '15%', wind: '9mph',  icon: '/images/icon.svg' },
+  { time: '16:00', temp: '3', rain: '45%', wind: '10mph',  icon: '/images/icon.svg' },
 ];
 
 function HourInfoPanel() {
   return (
+    <>
+    <div className = "hour-panel-wrapper">
+        <div className = "hourleftArrow">
+            <img src="/images/left-arrow.svg" alt="Left Arrow Icon"/>
+        </div>
     <div className="hour-panel-row">
       {hourTimes.map((hour) => (
         <div key={hour.time} className="hour-panel">
@@ -32,6 +38,11 @@ function HourInfoPanel() {
         </div>
       ))}
     </div>
+        <div className = "hourRightArrow">
+            <img src="/images/right-arrow.svg" alt="right Arrow Icon"/>
+        </div>
+    </div>
+    </>
   );
 }
 
