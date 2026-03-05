@@ -36,7 +36,8 @@ function MainWeatherWindow() {
         </div>
         <div className="feelsLike">
           <h2 className="feelsLikeTag">Feels like</h2>
-          <h2 className="feelsLikeTemp">2°C</h2>
+          <h2 className="feelsLikeTemp">2</h2>
+          <h2 className="feelsdegreeTag">°C</h2>
         </div>
       </div>
 
