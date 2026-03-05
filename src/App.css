@@ -96,7 +96,23 @@
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  margin-left: 10%; 
+}
+.leftArrow{
+  width:4rem;
+  height: 4rem;
+  display: flex;
+}
+.rightArrow{
+  width:4rem;
+  height: 4rem;
+  display: flex;
+}
+.day-row-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+  margin-left: 1%;
 }
 
 .main-weather-window {
