@@ -125,7 +125,7 @@
   min-height: 160px;
   padding: 1.8rem 2.5rem;
   gap: 1.2rem;
-  margin: 5% 3%;
+  margin: 5% 8%;
   margin-top:2rem;
 
   border-radius: 30px;
@@ -139,6 +139,11 @@
   );
 
   backdrop-filter: blur(20px);
+  
+}
+.weather-layout {
+  display:grid;
+  grid-template-columns: 1fr 0.5fr;
 }
 
 /* ── Top row: location + wind direction ── */
@@ -332,12 +337,13 @@
 }
 
 .side-info-hikers {
+  margin-top:2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 13rem;
-  height: auto;
+  width: 20rem;
+  height: 22rem;
   padding: 1.2rem 1rem;
   border-radius: 1.5rem;
   border: 1.5px solid rgba(255, 255, 255, 0.4);
@@ -351,15 +357,15 @@
 }
 
 .weatherConditionIcon img {
-  width: 4rem;
-  height: 4rem;
+  width: 7rem;
+  height: 7rem;
   filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
 }
 
 .weatherCondition {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 700;
   text-align: center;
 }
@@ -367,19 +373,20 @@
 .hiker-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.6rem 1rem;
+  gap: 0.2rem;
   width: 100%;
   margin-top: 0.4rem;
 }
 
 .cloudCoverText, .UVIndexText,
 .visibilityText, .HumidityText, .airPressureText {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
   font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  text-align:center;
   margin: 0;
 }
 
@@ -390,15 +397,9 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0;
+  text-align:center;
 }
 
-.weather-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1.5rem;
-  margin: 2rem 3%;
-}
 
 .hour-panel {
     width: 252px;
