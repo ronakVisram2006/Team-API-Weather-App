@@ -1,11 +1,15 @@
-function MainWeatherWindow() {
+function MainWeatherWindow({weather}) {
+  if (!weather.list) return null;
+
+  const current = weather.list[0];
+
   return (
     <div className="main-weather-window">
 
     <div className="top-row">
       <div className="location">
-        <h1 className="locationTag">London,</h1>
-        <h2 className="greaterLocationTag">England</h2>
+        <h1 className="locationTag">{weather.city.name},</h1>
+        <h2 className="greaterLocationTag">{weather.city.country}</h2>
       </div>
       <div className="windDirection">
         <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon"/>
@@ -30,13 +34,15 @@ function MainWeatherWindow() {
 
       <div className="tempCol">
         <div className="tempRow">
-          <h1 className="tempTag" id="tempVal">5</h1>
+          <h1 className="tempTag" id="tempVal">
+            {Math.round(current.main.temp)}
+          </h1>
           <h1 className="degreeTag">°C</h1>
           <img className="weatherIcon" src="/images/icon.svg" alt="Weather Icon"/>
         </div>
         <div className="feelsLike">
           <h2 className="feelsLikeTag">Feels like</h2>
-          <h2 className="feelsLikeTemp">2</h2>
+          <h2 className="feelsLikeTemp">{Math.round(current.main.feels_like)}</h2>
           <h2 className="feelsdegreeTag">°C</h2>
         </div>
       </div>
@@ -44,11 +50,11 @@ function MainWeatherWindow() {
       <div className="statsCol">
         <div className="windSpeed">
           <img className="windSpeedIcon" src="/images/wind.svg" alt="Wind Speed Icon"/>
-          <h2 className="windSpeedVal">12 mph</h2>
+          <h2 className="windSpeedVal">{current.wind.speed} m/s</h2>
         </div>
         <div className="rainChance">
           <img className="rainChanceIcon" src="/images/cloud-rain.svg" alt="Rain Chance Icon"/>
-          <h2 className="rainChanceVal">23%</h2>
+          <h2 className="rainChanceVal">{current.rain ? current.rain['1h'] * 100 : 0}%</h2>
         </div>
       </div>
 
