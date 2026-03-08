@@ -8,6 +8,9 @@ import SideInfoHikers from './SideInfoHikers.jsx';
 
 import { useState, useEffect } from 'react';
 
+
+const city_arr = ["London", "Paris", "New York", "Tokyo", "Sydney", "Cairo", "Rio de Janeiro", "Berlin", "Beijing", "Mumbai","Sylhet"];
+
 function App() {
 
   const [query, setQuery] = useState(""); // will be used if for a searchbar
@@ -21,7 +24,7 @@ function App() {
   };
 
   useEffect(() => {
-    getWeatherObj("Sylhet");
+    getWeatherObj(city_arr[Math.floor(Math.random() * city_arr.length)]);
   }, []);
 
   return (
@@ -32,7 +35,7 @@ function App() {
         <MainWeatherWindow weather={weather}/>
         <SideInfoHikers/>
       </div>
-      <HourInfoPanel weather={weather}/>   
+       <HourInfoPanel weather={weather}/>   
     </>
   );
 }

@@ -54,7 +54,7 @@ function MainWeatherWindow({weather}) {
         </div>
         <div className="rainChance">
           <img className="rainChanceIcon" src="/images/cloud-rain.svg" alt="Rain Chance Icon"/>
-          <h2 className="rainChanceVal">{current.rain ? current.rain['1h'] * 100 : 0}%</h2>
+          <h2 className="rainChanceVal">test%</h2>
         </div>
       </div>
 
