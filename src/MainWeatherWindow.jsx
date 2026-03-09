@@ -3,6 +3,18 @@ function MainWeatherWindow({weather}) {
 
   const current = weather.list[0];
 
+  let sunriseHour = Math.round((((weather.city.sunrise+weather.city.timezone)/60)/60)%24)
+  if (Math.floor(sunriseHour/10)==0) sunriseHour="0".concat(sunriseHour.toString());
+
+  let sunriseMin = Math.round(((weather.city.sunrise+weather.city.timezone)/60)%60)
+  if (Math.floor(sunriseMin/10)==0) sunriseMin="0".concat(sunriseMin.toString());
+
+  let sunsetHour = Math.round((((weather.city.sunset+weather.city.timezone)/60)/60)%24)
+  if (Math.floor(sunsetHour/10)==0) sunsetHour="0".concat(sunsetHour.toString());
+
+  let sunsetMin = Math.round(((weather.city.sunset+weather.city.timezone)/60)%60)
+  if (Math.floor(sunsetMin/10)==0) sunsetMin="0".concat(sunsetMin.toString());
+
   return (
     <div className="main-weather-window">
 
@@ -24,11 +36,11 @@ function MainWeatherWindow({weather}) {
       <div className="sideWindowRow">
         <div className="sunrise">
           <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon"/>
-          <h2 className="sunriseTag">07:15</h2>
+          <h2 className="sunriseTag">{sunriseHour}:{sunriseMin}</h2>
         </div>
         <div className="sunset">
           <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon"/>
-          <h2 className="sunsetTag">21:15</h2>
+          <h2 className="sunsetTag">{sunsetHour}:{sunsetMin}</h2>
         </div>
       </div>
 
