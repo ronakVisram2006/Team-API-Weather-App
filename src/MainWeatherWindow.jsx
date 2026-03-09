@@ -24,11 +24,11 @@ function MainWeatherWindow({weather}) {
       <div className="sideWindowRow">
         <div className="sunrise">
           <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon"/>
-          <h2 className="sunriseTag">07:15</h2>
+          <h2 className="sunriseTag">{weather.city.sunrise}</h2>
         </div>
         <div className="sunset">
           <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon"/>
-          <h2 className="sunsetTag">21:15</h2>
+          <h2 className="sunsetTag">{weather.city.sunset}</h2>
         </div>
       </div>
 

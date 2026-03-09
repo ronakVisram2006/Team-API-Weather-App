@@ -1,14 +1,30 @@
-const days = [
-  { name: 'Mon', date: '3rd', high: '7°', low: '2°', icon: '/images/icon.svg' },
-  { name: 'Tues', date: '4th', high: '8°', low: '3°', icon: '/images/icon.svg' },
-  { name: 'Wed', date: '5th', high: '6°', low: '4°', icon: '/images/icon.svg', current: true },
-  { name: 'Thurs', date: '6th', high: '5°', low: '1°', icon: '/images/icon.svg' },
-  { name: 'Fri', date: '7th', high: '9°', low: '3°', icon: '/images/icon.svg' },
-  { name: 'Sat', date: '8th', high: '10°', low: '4°', icon: '/images/icon.svg' },
-    { name: 'Sun', date: '9th', high: '8°', low: '2°', icon: '/images/icon.svg' },
-];
 
-function NewDayRow() {
+function NewDayRow({weather}) {
+  if (!weather.list) return null; // Handle case when weather data is not yet available
+
+  const dayMap = {};
+  weather.list.forEach((hour) => {
+    const date = hour.dt_txt.split(" ")[0];
+    if (!dayMap[date]){
+        dayMap[date] = {
+            date,
+            temps : [],
+            icon : `https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png` //gonna try this for now
+        }
+
+    }
+    dayMap[date].temps.push(hour.main.temp);
+  });
+  const today = Object.keys(dayMap)[0]
+  const days = Object.values(dayMap).map((d) => ({
+    date : d.date,
+    name: new Date(d.date).toLocaleDateString("en-GB", { weekday: "short" }),
+    high: `${Math.round(Math.max(...d.temps))}°`,
+    low : `${Math.round(Math.min(...d.temps))}°`,
+    icon : d.icon,
+    current : d.date === today,
+  }));
+
   return (
     <>
     <div className="day-row-wrapper">
@@ -20,7 +36,7 @@ function NewDayRow() {
             <div key={day.date} className={day.current ? 'current-day-panel' : 'day-panel'}>
             <div className="day-top-row">
                 <span className="day-name">{day.name}</span>
-                <span className="day-date">{day.date}</span>
+                <span className="day-date">{day.date.split("-")[2]}</span>
             </div>
             <div className="day-bottom-row">
                 <span className="day-high-temp">{day.high}</span>
@@ -36,7 +52,6 @@ function NewDayRow() {
     </div>
 
     </>
-    
   );
 }
 
