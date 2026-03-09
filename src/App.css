@@ -11,18 +11,17 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  
 }
 
-
-.day-panel ,.current-day-panel {
+/* ── Day panels (top row) ── */
+.day-panel, .current-day-panel {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 10rem;
-  height: 6.9rem;
-  padding: 0.6rem 0.8rem;
-  border-radius: 0 0 2rem 2rem;
+  width: 13rem;
+  height: 9rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0 0 2.5rem 2.5rem;
   background: linear-gradient(
     125deg,
     rgba(200, 255, 0, 0.5) 0%,
@@ -31,26 +30,27 @@
   backdrop-filter: blur(12px);
   overflow: hidden;
 }
-.current-day-panel{
-    width: 10rem;
-    height: 9rem;
-    background: radial-gradient(
-      ellipse 141.42% 107.32% at 0% 0%,
-      rgba(0, 231, 81, 0.4) 0%,
-      rgba(21, 0, 255, 0.40) 100%
-    );
+
+.current-day-panel {
+  width: 13rem;
+  height: 11.5rem;
+  background: radial-gradient(
+    ellipse 141.42% 107.32% at 0% 0%,
+    rgba(0, 231, 81, 0.4) 0%,
+    rgba(21, 0, 255, 0.40) 100%
+  );
 }
 
 .day-top-row {
   display: flex;
   align-items: baseline;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .day-name {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.7rem;
+  font-size: 2.1rem;
   font-weight: 700;
   margin: 0;
 }
@@ -58,7 +58,7 @@
 .day-date {
   color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 800;
 }
 
@@ -71,64 +71,66 @@
 .day-high-temp {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 2.5rem;
+  font-size: 3.1rem;
   font-weight: 600;
-  margin-left:0.2rem;
-  margin-bottom:1rem;
+  margin-left: 0.2rem;
+  margin-bottom: 1rem;
   line-height: 1;
 }
 
 .day-icon {
-  margin-right:0.7rem;
-  width: 3rem;
-  height: 3rem;
+  margin-right: 0.7rem;
+  width: 3.8rem;
+  height: 3.8rem;
 }
 
 .day-low-temp {
   color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 500;
   margin: 0;
   align-self: flex-end;
-  margin-right:0.8rem;
+  margin-right: 0.8rem;
 }
+
 .new-day-row {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 1.2rem;
 }
-.leftArrow{
-  width:4rem;
-  height: 4rem;
+
+.leftArrow {
+  width: 5rem;
+  height: 5rem;
   display: flex;
 }
-.rightArrow{
-  width:4rem;
-  height: 4rem;
+
+.rightArrow {
+  width: 5rem;
+  height: 5rem;
   display: flex;
 }
+
 .day-row-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 3rem;
-  margin-left: 1%;
+  gap: 3.5rem;
+  margin-left: 2%;
 }
 
+/* ── Main weather window ── */
 .main-weather-window {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
+  max-width: 1000px;
+  min-height: 200px;
+  padding: 2.5rem 3.5rem;
+  margin: 2rem 5% 0 5%;
 
-  max-width: 800px;
-  min-height: 160px;
-  padding: 1.8rem 2.5rem;
-  gap: 1.2rem;
-  margin: 5% 8%;
-  margin-top:2rem;
-
-  border-radius: 30px;
+  border-radius: 40px;
   border: 2px solid rgba(255, 255, 255, 0.6);
 
   background: radial-gradient(
@@ -139,10 +141,10 @@
   );
 
   backdrop-filter: blur(20px);
-  
 }
+
 .weather-layout {
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr 0.5fr;
 }
 
@@ -160,7 +162,7 @@
 }
 
 .locationTag {
-  font-size: 2.2rem;
+  font-size: 3rem;
   margin: 0;
   color: #fff;
   font-family: 'Poppins', sans-serif;
@@ -169,21 +171,21 @@
 
 .greaterLocationTag {
   color: rgba(255,255,255,0.85);
-  margin-top:-0.5rem;
+  margin-top: -0.5rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 500;
 }
 
 .windDirection {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .windDirectionIcon {
-  width: 5rem;
-  height: 5rem;
+  width: 6.5rem;
+  height: 6.5rem;
 }
 
 .windDirectionRight {
@@ -196,7 +198,7 @@
 .windDirectionVal {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 3rem;
+  font-size: 3.8rem;
   font-weight: 700;
   margin: 0;
 }
@@ -204,7 +206,7 @@
 .windDirectionTag {
   color: rgba(255,255,255,0.75);
   font-family: 'Poppins', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 400;
   margin: 0;
 }
@@ -214,33 +216,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-
+  gap: 2.5rem;
 }
 
 /* Left: sunrise/sunset */
 .sideWindowRow {
-  margin-top:2rem;
+  margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.6rem;
 }
 
 .sunrise, .sunset {
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  gap: 2rem;
 }
 
 .sunriseIcon, .sunsetIcon {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.8rem;
+  height: 2.8rem;
 }
 
 .sunriseTag, .sunsetTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin: 0;
 }
 
@@ -259,7 +260,7 @@
 .tempTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 8rem;
+  font-size: 10.5rem;
   font-weight: 500;
   margin: 0;
   line-height: 1;
@@ -268,28 +269,28 @@
 .degreeTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
+  font-size: 2.6rem;
   font-weight: 500;
-  margin-top:-0.3rem;
+  margin-top: -0.3rem;
 }
 
 .weatherIcon {
-  width: 6rem;
-  height: 6rem;
+  width: 7.5rem;
+  height: 7.5rem;
   align-self: center;
-  margin-right:-3rem;
+  margin-right: -3rem;
 }
 
 .feelsLike {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .feelsLikeTag {
   color: rgba(255,255,255,0.8);
   font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
+  font-size: 1.15rem;
   font-weight: 700;
   margin: 0;
 }
@@ -297,74 +298,77 @@
 .feelsLikeTemp {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.7rem;
+  font-size: 2.2rem;
   font-weight: 600;
   margin: 0;
 }
-.feelsdegreeTag{
+
+.feelsdegreeTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-top:-0.7rem;
+  margin-top: -0.7rem;
 }
 
 /* Right: wind speed + rain */
 .statsCol {
-  margin-top:2rem;
+  margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.1rem;
 }
 
 .windSpeed, .rainChance {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
 .windSpeedIcon, .rainChanceIcon {
-  width: 3rem;
-  height: 3rem;
+  width: 3.8rem;
+  height: 3.8rem;
 }
 
 .windSpeedVal, .rainChanceVal {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin: 0;
 }
 
+/* ── Side info (hiker panel) ── */
 .side-info-hikers {
-  margin-top:2rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 20rem;
-  height: 22rem;
-  padding: 1.2rem 1rem;
-  border-radius: 1.5rem;
+  width: 25rem;
+  height: 28rem;
+  padding: 1.8rem 1.4rem;
+  border-radius: 2rem;
   border: 1.5px solid rgba(255, 255, 255, 0.4);
   background: radial-gradient(
-    ellipse 141.42% 107.32% at 0% 0%,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(21, 0, 255, 0.35) 100%
+    120% 150% at 0% 0%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(246, 0, 255, 0.4) 55%,
+    rgba(255, 0, 4, 0.3) 100%
   );
   backdrop-filter: blur(20px);
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .weatherConditionIcon img {
-  width: 7rem;
-  height: 7rem;
+  width: 9rem;
+  height: 9rem;
   filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
 }
 
 .weatherCondition {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
 }
@@ -372,20 +376,20 @@
 .hiker-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.2rem;
+  gap: 0.4rem;
   width: 100%;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
 
 .cloudCoverText, .UVIndexText,
 .visibilityText, .HumidityText, .airPressureText {
   color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  text-align:center;
+  text-align: center;
   margin: 0;
 }
 
@@ -393,28 +397,30 @@
 .visibilityFigure, .HumidityFigure, .airPressureFigure {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
-  text-align:center;
+  text-align: center;
 }
+
+/* ── Hourly panels ── */
 .hour-panel-row {
+  margin-top:3rem;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
-
-
+  gap: 1.4rem;
 }
+
 .hour-panel {
-  margin-top:-1rem;
-  width: 12rem;
-  height: 14rem;
+  margin-top: -1rem;
+  width: 15rem;
+  height: 18rem;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 1rem;
+  padding: 1.1rem 1.3rem;
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
     rgb(0, 255, 204) 0%,
@@ -423,13 +429,13 @@
   );
   box-shadow: -5px -5px 250px rgba(255, 255, 255, 0.02) inset;
   overflow: hidden;
-  border-radius: 3rem;
+  border-radius: 3.5rem;
   backdrop-filter: blur(21px);
 }
 
 .time {
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
   margin: 0;
@@ -437,9 +443,9 @@
 }
 
 .weather-icon-center {
-  margin-top:-0.6rem;
-  width: 3.5rem;
-  height: 3.5rem;
+  margin-top: -0.6rem;
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
 .temp-row {
@@ -450,7 +456,7 @@
 
 .temperature {
   color: white;
-  font-size: 4.5rem;
+  font-size: 5.8rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   margin: 0;
@@ -459,7 +465,7 @@
 
 .degree {
   color: white;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   margin-top: 0.2rem;
@@ -475,21 +481,22 @@
 .rain-info, .wind-info {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .bottom-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.9rem;
+  height: 1.9rem;
 }
 
 .humidity, .wind-speed {
   color: white;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   margin: 0;
 }
+
 .hour-temp-row {
   display: flex;
   flex-direction: column;
@@ -502,26 +509,29 @@
   flex-direction: row;
   align-items: flex-start;
   line-height: 1;
-  margin-left:10%;
+  margin-left: 10%;
 }
 
-.hourleftArrow{
-  width:4rem;
-  height: 4rem;
+.hourleftArrow {
+  width: 5rem;
+  height: 5rem;
   display: flex;
 }
-.hourRightArrow{
-  width:4rem;
-  height: 4rem;
+
+.hourRightArrow {
+  width: 5rem;
+  height: 5rem;
   display: flex;
 }
+
 .hour-panel-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 3rem;
-  margin-left: 1%;
+  gap: 3.5rem;
+  margin-left: 2%;
 }
+
 .hourleftArrow img,
 .hourRightArrow img {
   filter: invert(1);
