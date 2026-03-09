@@ -22,6 +22,7 @@ function App() {
 
   };
 
+  
   useEffect(() => {
     getWeatherObj(city_arr[Math.floor(Math.random() * city_arr.length)]);
   }, []);
@@ -29,7 +30,7 @@ function App() {
   return (
     <>  
       <Background/> 
-      <NewDayRow/>
+      <NewDayRow weather={weather}/>
       <div className="weather-layout">
         <MainWeatherWindow weather={weather}/>
         <SideInfoHikers/>
