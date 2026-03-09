@@ -3,6 +3,17 @@ function MainWeatherWindow({weather}) {
 
   const current = weather.list[0];
 
+  const timestampToTime = (timestamp, timezoneOffsetInSeconds = 0) => {
+  // Add timezone offset
+  const localTimestamp = timestamp + timezoneOffsetInSeconds;
+  const date = new Date(localTimestamp * 1000);
+
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+
+  return `${hours}:${minutes.toString().padStart(2, "0")}`;
+};
+
   return (
     <div className="main-weather-window">
 
@@ -24,11 +35,11 @@ function MainWeatherWindow({weather}) {
       <div className="sideWindowRow">
         <div className="sunrise">
           <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon"/>
-          <h2 className="sunriseTag">{weather.city.sunrise}</h2>
+          <h2 className="sunriseTag">{timestampToTime(weather.city.sunrise,weather.timestamp)}</h2>
         </div>
         <div className="sunset">
           <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon"/>
-          <h2 className="sunsetTag">{weather.city.sunset}</h2>
+          <h2 className="sunsetTag">{timestampToTime(weather.city.sunset, weather.timestamp)}</h2>
         </div>
       </div>
 
