@@ -9,7 +9,6 @@ import NewDayRow from './NewDayRow.jsx';
 import SideInfoHikers from './SideInfoHikers.jsx';
 
 import { useState, useEffect } from 'react';
-
 function App() {
   return (
     <>  
