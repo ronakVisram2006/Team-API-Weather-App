@@ -2,6 +2,7 @@
   margin: 0 auto;
   width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .background {
@@ -344,7 +345,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 25rem;
+  width: 28rem;
   height: 28rem;
   padding: 1.8rem 1.4rem;
   border-radius: 2rem;
@@ -413,8 +414,8 @@
 
 .hour-panel {
   margin-top: -1rem;
-  width: 15rem;
-  height: 18rem;
+  width: 12rem;
+  height: 15rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -435,7 +436,7 @@
 
 .time {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
   margin: 0;
@@ -443,9 +444,9 @@
 }
 
 .weather-icon-center {
-  margin-top: -0.6rem;
-  width: 4.5rem;
-  height: 4.5rem;
+  margin-bottom:0.6rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .temp-row {
@@ -456,7 +457,7 @@
 
 .temperature {
   color: white;
-  font-size: 5.8rem;
+  font-size: 4rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   margin: 0;
@@ -465,7 +466,7 @@
 
 .degree {
   color: white;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   margin-top: 0.2rem;
@@ -485,13 +486,13 @@
 }
 
 .bottom-icon {
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 1.3rem;
+  height: 1.3rem;
 }
 
 .humidity, .wind-speed {
   color: white;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   margin: 0;
@@ -525,11 +526,11 @@
 }
 
 .hour-panel-wrapper {
+  margin-top:2.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 3.5rem;
-  margin-left: 2%;
+  gap: 1rem;
 }
 
 .hourleftArrow img,

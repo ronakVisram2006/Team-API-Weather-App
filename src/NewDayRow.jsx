@@ -2,7 +2,7 @@ function NewDayRow({ dailyWeather }) {
   if (!dailyWeather?.list) return null;
 
   const today = dailyWeather.list[0].dt;
-  const days = dailyWeather.list.map((day) => ({
+  const days = dailyWeather.list.slice(0, 7).map((day) => ({
     date: day.dt,
     name: new Date(day.dt * 1000).toLocaleDateString("en-GB", { weekday: "short" }),
     dayNum: new Date(day.dt * 1000).getDate(),
@@ -21,7 +21,7 @@ function NewDayRow({ dailyWeather }) {
       <div className="new-day-row">
         {days.map((day) => (
           <div key={day.date} className={day.current ? 'current-day-panel' : 'day-panel'}>
-            <div className="day-top-row">
+            <div className="day-top-row" >
               <span className="day-name">{day.name}</span>
               <span className="day-date">{day.dayNum}</span>
             </div>
