@@ -6,16 +6,16 @@ function MainWeatherWindow({weather}) {
 
 
   let sunriseHour = Math.round((((weather.city.sunrise+weather.city.timezone)/60)/60)%24)
-  if (Math.floor(sunriseHour/10)==0) sunriseHour="0".concat(sunriseHour.toString());
+  if (sunriseHour<10) sunriseHour="0".concat(sunriseHour.toString());
 
   let sunriseMin = Math.round(((weather.city.sunrise+weather.city.timezone)/60)%60)
-  if (Math.floor(sunriseMin/10)==0) sunriseMin="0".concat(sunriseMin.toString());
+  if (sunriseMin<10) sunriseMin="0".concat(sunriseMin.toString());
 
   let sunsetHour = Math.round((((weather.city.sunset+weather.city.timezone)/60)/60)%24)
-  if (Math.floor(sunsetHour/10)==0) sunsetHour="0".concat(sunsetHour.toString());
+  if (sunsetHour<10) sunsetHour="0".concat(sunsetHour.toString());
 
   let sunsetMin = Math.round(((weather.city.sunset+weather.city.timezone)/60)%60)
-  if (Math.floor(sunsetMin/10)==0) sunsetMin="0".concat(sunsetMin.toString());
+  if (sunsetMin<10) sunsetMin="0".concat(sunsetMin.toString());
 
   return (
     <div className="main-weather-window">
@@ -67,7 +67,7 @@ function MainWeatherWindow({weather}) {
         </div>
         <div className="rainChance">
           <img className="rainChanceIcon" src="/images/cloud-rain.svg" alt="Rain Chance Icon"/>
-          <h2 className="rainChanceVal">test%</h2>
+          <h2 className="rainChanceVal">{current.pop}%</h2>
         </div>
       </div>
 
