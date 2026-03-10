@@ -8,11 +8,11 @@ function HourInfoPanel({weather}) {
             <img src="/images/left-arrow.svg" alt="Left Arrow Icon"/>
         </div>
     <div className="hour-panel-row">
-      {weather.list && (weather.list.slice(0,6).map((hour, idx) => (
+      {weather.list && (weather.list.slice(0,8).map((hour, idx) => (
         <div key={idx} className="hour-panel">
           <div className="time">{hour.dt_txt.split(" ")[1].slice(0,5)}</div>
           <div className="hour-temp-row">
-            <img src='/images/icon.svg' alt="Weather Icon" className="weather-icon-center"/>
+            <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="Weather Icon" className="weather-icon-center"/>
             <div className="hour-temp-num-row">
               <span className="temperature">{Math.round(hour.main.temp)}</span>
               <span className="degree">°C</span>

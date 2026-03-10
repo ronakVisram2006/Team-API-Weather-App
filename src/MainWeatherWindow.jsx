@@ -17,7 +17,6 @@ function MainWeatherWindow({weather}) {
 
   return (
     <div className="main-weather-window">
-
     <div className="top-row">
       <div className="location">
         <h1 className="locationTag">{weather.city.name},</h1>
