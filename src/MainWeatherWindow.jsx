@@ -2,6 +2,8 @@ function MainWeatherWindow({weather}) {
   if (!weather.list) return null;
 
   const current = weather.list[0];
+  const iconURL = `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+
 
   let sunriseHour = Math.round((((weather.city.sunrise+weather.city.timezone)/60)/60)%24)
   if (Math.floor(sunriseHour/10)==0) sunriseHour="0".concat(sunriseHour.toString());
@@ -49,7 +51,7 @@ function MainWeatherWindow({weather}) {
             {Math.round(current.main.temp)}
           </h1>
           <h1 className="degreeTag">°C</h1>
-          <img className="weatherIcon" src="/images/icon.svg" alt="Weather Icon"/>
+          <img className="weatherIcon" src={iconURL} alt="Weather Icon"/>
         </div>
         <div className="feelsLike">
           <h2 className="feelsLikeTag">Feels like</h2>
