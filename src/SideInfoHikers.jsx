@@ -1,5 +1,15 @@
+function SideInfoHikers({dailyWeather, weather}) {
+    if (!dailyWeather?.list) return null;
+    if (!weather?.list) return null;
+    
+    const current = dailyWeather.list[0];
+    const hourly = weather.list[0]
 
-function SideInfoHikers() {
+    const cloudCoverage = current.clouds;
+    const humidity = current.humidity;
+    const visibility = (hourly.visibility / 1000).toFixed(1);
+    const airPressure = current.pressure;
+
     return (
     <>
     <div className="side-info-hikers">
@@ -11,23 +21,19 @@ function SideInfoHikers() {
         <div className="hiker-info">
             <div>
                 <div className="cloudCoverText">Cloud Cover</div>
-                <div className="cloudCoverFigure">4%</div>
-                </div>
-                <div>
-                <div className="UVIndexText">UV Index</div>
-                <div className="UVIndexFigure">2</div>
-                </div>
-                <div>
-                <div className="HumidityText">Humidity</div>
-                <div className="HumidityFigure">10%</div>
-                </div>
-                <div>
-                <div className="visibilityText">Visibility</div>
-                <div className="visibilityFigure">12km</div>
-                </div>
-                <div style={{gridColumn: 'span 2'}}>
+                <div className="cloudCoverFigure">{cloudCoverage}%</div>
+            </div>
+            <div>
                 <div className="airPressureText">Air Pressure</div>
-                <div className="airPressureFigure">1023 hPa</div>
+                <div className="airPressureFigure">{airPressure} hPa</div>
+            </div>
+            <div>
+                <div className="HumidityText">Humidity</div>
+                <div className="HumidityFigure">{humidity}%</div>
+            </div>
+            <div>
+                <div className="visibilityText">Visibility</div>
+                <div className="visibilityFigure">{visibility}km</div>
             </div>
         </div>
     </div>
