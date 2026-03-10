@@ -77,7 +77,7 @@ function App() {
   return (
     <>  
       <Background/> 
-      {dailyWeather.list && <NewDayRow dailyWeather={dailyWeather}/>}
+      {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
       <div className="weather-layout">
         <MainWeatherWindow weather={weather}/>
         <SideInfoHikers dailyWeather={dailyWeather} weather={weather}/>

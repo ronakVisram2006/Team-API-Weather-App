@@ -3,7 +3,11 @@ function MainWeatherWindow({weather}) {
 
   const current = weather.list[0];
   const iconURL = `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
-
+  const getWindDirection = (deg) => {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round(deg / 45) % 8;
+    return directions[index];
+  }
 
   let sunriseHour = Math.round((((weather.city.sunrise+weather.city.timezone)/60)/60)%24)
   if (sunriseHour<10) sunriseHour="0".concat(sunriseHour.toString());
@@ -25,9 +29,9 @@ function MainWeatherWindow({weather}) {
         <h2 className="greaterLocationTag">{weather.city.country}</h2>
       </div>
       <div className="windDirection">
-        <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon"/>
+        <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon"   style={{ transform: `rotate(${current.wind.deg}deg)` }} />
         <div className="windDirectionRight">
-          <h2 className="windDirectionVal">NW</h2>
+          <h2 className="windDirectionVal">{getWindDirection(current.wind.deg)}</h2>
           <h3 className="windDirectionTag">Winds</h3>
         </div>
       </div>
