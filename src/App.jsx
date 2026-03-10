@@ -16,6 +16,7 @@ function App() {
   const [dailyWeather, setDailyWeather] = useState({});
 
 
+
   const getWeatherObj = (city) => {
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
     .then(res => res.json())
@@ -72,7 +73,6 @@ function App() {
       getDailyWeatherObj(city);
     }
   },  []);
-
 
   return (
     <>  
