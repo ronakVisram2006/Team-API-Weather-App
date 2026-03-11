@@ -79,7 +79,11 @@ function App() {
       <Background/> 
       {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
       <div className="weather-layout">
-        <MainWeatherWindow weather={weather}/>
+        <MainWeatherWindow
+          weather={weather}
+          getWeatherByCoords={getWeatherByCoords}
+          getDailyWeatherByCoords={getDailyWeatherByCoords}
+        />
         <SideInfoHikers dailyWeather={dailyWeather} weather={weather}/>
       </div>
        <HourInfoPanel weather={weather}/>   
