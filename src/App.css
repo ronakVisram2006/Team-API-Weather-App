@@ -1,8 +1,11 @@
 #root {
   margin: 0 auto;
   width: 100%;
-  min-height: 100vh;
+  height:100%;
   overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .background {
@@ -19,9 +22,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 14rem;
-  height: 9rem;
-  padding: 0.8rem 1rem;
+  width: 12vw;
+  height: 8vw;
+  padding: 0.8vw 1vw;
   border-radius: 0 0 2.5rem 2.5rem;
   background: linear-gradient(
     125deg,
@@ -34,8 +37,8 @@
 }
 
 .current-day-panel {
-  width: 14rem;
-  height: 11.5rem;
+  width: 12vw;
+  height: 9vw;
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
     rgba(255, 255, 255, 0.4) 0%,
@@ -47,13 +50,13 @@
 .day-top-row {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.5vw;
 }
 
 .day-name {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 2.1rem;
+  font-size: 1.8vw;
   font-weight: 700;
   margin: 0;
 }
@@ -61,7 +64,7 @@
 .day-date {
   color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1vw;
   font-weight: 800;
 }
 
@@ -74,7 +77,7 @@
 .day-high-temp {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  font-size: 3.1rem;
+  font-size: 2.2vw;
   font-weight: 600;
   margin-left: 0.2rem;
   margin-bottom: 1rem;
@@ -82,15 +85,15 @@
 }
 
 .day-icon {
-  margin-right: 0.7rem;
-  width: 3.8rem;
-  height: 3.8rem;
+  margin-right: 0.7vw;
+  width: 3.8vw;
+  height: 3.8vw;
 }
 
 .day-low-temp {
   color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.3vw;
   font-weight: 500;
   margin: 0;
   align-self: flex-end;
@@ -100,18 +103,18 @@
 .new-day-row {
   display: flex;
   flex-direction: row;
-  gap: 1.2rem;
+  gap:1vw;
 }
 
 .leftArrow {
-  width: 5rem;
-  height: 5rem;
+  width: 5vw;
+  height: 5vw;
   display: flex;
 }
 
 .rightArrow {
-  width: 5rem;
-  height: 5rem;
+  width: 5vw;
+  height: 5vw;
   display: flex;
 }
 
@@ -119,17 +122,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2rem;
 }
 
 /* ── Main weather window ── */
 .main-weather-window {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 1000px;
-  min-height: 200px;
-  padding: 2.5rem 3.5rem;
+  gap: 1.5vw;
+  padding: 2.5vw 3.5vw;
   margin: 2rem 5% 0 5%;
 
   border-radius: 40px;
@@ -147,7 +147,7 @@
 
 .weather-layout {
   display: grid;
-  grid-template-columns: 1fr 0.55fr;
+  grid-template-columns: 1fr 0.4fr;
   align-items: start; /* ✅ stops it stretching the main window */
 }
 
@@ -181,7 +181,7 @@
 
 .greaterLocationTag {
   color: rgba(255,255,255,0.85);
-  margin-top: -0.5rem;
+  margin-top: -0.5vw;
   font-family: 'Poppins', sans-serif;
   font-size: 1.3rem;
   font-weight: 500;
@@ -190,7 +190,7 @@
 .windDirection {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5vw;
 }
 
 .windDirectionIcon {
@@ -348,7 +348,8 @@
 }
 
 .side-info-hikers ,.side-info-hikers2 {
-  margin-top: 0;
+  margin-top: 2rem;
+  margin-right:2%;
   width: 28rem;
   height: 28rem;
   display: flex;
@@ -419,14 +420,14 @@
 
 /* ── Hourly panels ── */
 .hour-panel-row {
-  margin-top:3rem;
+  margin-top:2rem;
   display: flex;
   flex-direction: row;
   gap: 1.4rem;
 }
 
 .hour-panel {
-  margin-top: -1rem;
+  margin-top: 0;
   width: 12rem;
   height: 15rem;
   position: relative;
@@ -539,7 +540,7 @@
 }
 
 .hour-panel-wrapper {
-  margin-top:2.6rem;
+  margin-top:auto;
   display: flex;
   flex-direction: row;
   align-items: center;

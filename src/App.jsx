@@ -16,7 +16,6 @@ function App() {
   const [dailyWeather, setDailyWeather] = useState({});
 
 
-
   const getWeatherObj = (city) => {
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
     .then(res => res.json())
@@ -48,6 +47,7 @@ function App() {
     .then(result => setUV(result));
 }
 
+
   useEffect(() => {
 
     if (navigator.geolocation) {
@@ -76,6 +76,7 @@ function App() {
 
   return (
     <>  
+    <link rel="stylesheet" media="(max-width: 600px)" href="tablet.css"></link>
       <Background/> 
       {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
       <div className="weather-layout">
