@@ -1,5 +1,6 @@
 import './reset.css';
 import './App.css';
+import './smallScreen.css';
 import Background from './Background.jsx';
 import MainWeatherWindow from './MainWeatherWindow.jsx';
 import HourInfoPanel from './HourInfoPanel.jsx';
@@ -76,7 +77,6 @@ function App() {
 
   return (
     <>  
-    <link rel="stylesheet" media="(max-width: 600px)" href="tablet.css"></link>
       <Background/> 
       {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
       <div className="weather-layout">
