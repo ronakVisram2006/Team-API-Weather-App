@@ -1,0 +1,14 @@
+@media (max-width: 1048px) {
+
+.side-info-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+  .hour-panel {
+    height: 16rem;
+  }
+
+}

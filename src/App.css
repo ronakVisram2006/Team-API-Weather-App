@@ -370,9 +370,19 @@
   backdrop-filter: blur(20px);
   gap: 1rem;
 }
-.side-info-hikers2{
-  display:none;
+
+.side-info-hikers,
+.side-info-hikers2 {
+  display: none; 
+  flex-direction: column;
 }
+
+.side-info-hikers.active,
+.side-info-hikers2.active {
+  display: flex;
+}
+
+
 
 .weatherConditionIcon img {
   width: 9rem;
@@ -424,11 +434,13 @@
   display: flex;
   flex-direction: row;
   gap: 1.4rem;
+  width:100%;
 }
 
 .hour-panel {
   margin-top: 0;
-  width: 12rem;
+  flex: 1;
+  min-width: 120px;
   height: 15rem;
   position: relative;
   display: flex;

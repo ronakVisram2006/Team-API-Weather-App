@@ -14,6 +14,8 @@ function SideInfoHikers({dailyWeather, weather}) {
     const airPressure = current.pressure;
     const [showFirst, setShowFirst] = useState(true);
 
+    
+
 useEffect(() => {
   const interval = setInterval(() => {
     setShowFirst(prev => !prev);
@@ -24,8 +26,7 @@ useEffect(() => {
     return (
     <>
     <div className = "sideInfoStack">
-        {showFirst ? (
-        <div className="side-info-hikers" style={{display: showFirst ? 'flex' : 'none'}}>
+        <div className={`side-info-hikers ${showFirst ? 'active' : ''}`}>
             <div className="weatherConditionIcon">
                 <img src="/images/dry.svg" alt="Dry Conditions Icon"/>
             </div>
@@ -50,8 +51,7 @@ useEffect(() => {
                 </div>
             </div>
         </div>
-        ) : (
-            <div className="side-info-hikers2" style={{display: showFirst ? 'none' : 'flex'}}>
+  <        div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}>
             <div className="weatherConditionIcon">
                 <img src="/images/sunset.svg" alt="Dry Conditions Icon"/>
             </div>
@@ -59,7 +59,7 @@ useEffect(() => {
             <div className = "whatToWear">Wear some new stuff</div>
             <div className = "whenToWear">Some more info</div>
         </div>
-                ) }
+                
     </div>    
     </>
     );
