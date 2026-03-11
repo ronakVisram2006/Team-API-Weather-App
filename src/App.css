@@ -25,8 +25,9 @@
   border-radius: 0 0 2.5rem 2.5rem;
   background: linear-gradient(
     125deg,
-    rgba(200, 255, 0, 0.5) 0%,
-    rgba(0, 21, 255, 0.6) 100%
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(246, 0, 255, 0.4) 55%,
+    rgba(255, 0, 4, 0.3) 100%
   );
   backdrop-filter: blur(12px);
   overflow: hidden;
@@ -37,8 +38,9 @@
   height: 11.5rem;
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
-    rgba(0, 231, 81, 0.4) 0%,
-    rgba(21, 0, 255, 0.40) 100%
+    rgba(255, 255, 255, 0.4) 0%,
+    rgb(89, 0, 255) 55%,
+    rgba(255, 0, 234, 0.3) 100%
   );
 }
 
@@ -436,8 +438,8 @@
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
     rgb(0, 255, 204) 0%,
-    rgba(21, 0, 255, 0.7) 60%,
-    rgba(0, 123, 255, 0.836) 100%
+    rgba(153, 0, 255, 0.7) 60%,
+    rgba(162, 0, 255, 0.836) 100%
   );
   box-shadow: -5px -5px 250px rgba(255, 255, 255, 0.02) inset;
   overflow: hidden;
