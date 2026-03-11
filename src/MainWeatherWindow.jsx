@@ -1,4 +1,4 @@
-function MainWeatherWindow({weather}) {
+function MainWeatherWindow({weather, getWeatherByCoords, getDailyWeatherByCoords}) {
   if (!weather.list) return null;
 
   const current = weather.list[0];
@@ -21,12 +21,32 @@ function MainWeatherWindow({weather}) {
   let sunsetMin = Math.round(((weather.city.sunset+weather.city.timezone)/60)%60)
   if (sunsetMin<10) sunsetMin="0".concat(sunsetMin.toString());
 
+  const currentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition (
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          getWeatherByCoords(lat, lon);
+          getDailyWeatherByCoords(lat, lon);
+        },
+        (error) => {
+          alert("Unable to retrieve your location. Please allow location access and try again.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
   return (
     <div className="main-weather-window">
     <div className="top-row">
       <div className="location">
         <h1 className="locationTag">{weather.city.name},</h1>
         <h2 className="greaterLocationTag">{weather.city.country}</h2>
+        <img className="currentLocationIcon" src="./images/location.png" alt="Location Icon" onClick={currentLocation} />
       </div>
       <div className="windDirection">
         <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon"   style={{ transform: `rotate(${current.wind.deg}deg)` }} />
