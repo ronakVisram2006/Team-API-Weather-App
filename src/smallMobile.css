@@ -1,0 +1,83 @@
+@media (max-width: 664px) {
+  .main-weather-window {
+    padding: 0.6rem 0.8rem;
+    width: 96%;
+    border-radius: 20px;
+  }
+
+  .locationTag {
+    font-size: 5vw;
+  }
+
+  .greaterLocationTag {
+    font-size: 2.5vw;
+  }
+
+  .tempTag {
+    font-size: 15vw;
+  }
+
+  .degreeTag {
+    font-size: 3.5vw;
+  }
+
+  .feelsLikeTemp {
+    font-size: 3.5vw;
+  }
+
+  .windSpeedVal, .rainChanceVal {
+    font-size: 2.5vw;
+  }
+
+  .windSpeedIcon, .rainChanceIcon {
+    width: 5vw;
+    height: 5vw;
+  }
+
+  .sunriseTag, .sunsetTag {
+    font-size: 2.5vw;
+  }
+
+  .sunriseIcon, .sunsetIcon {
+    width: 4vw;
+    height: 4vw;
+  }
+
+  .weather-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .side-info-stack {
+    display: none;
+  }
+
+  .main-row {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .tempTag {
+    font-size: 20vw;
+  }
+
+  .degreeTag {
+    font-size: 5vw;
+  }
+
+  .tempCol {
+    align-items: center;
+    width: 100%;
+  }
+
+  .feelsLike {
+    justify-content: center;
+  }
+
+  .feelsLikeTag {
+    font-size: 3.5vw;
+  }
+
+  .feelsdegreeTag {
+    font-size: 3.5vw;
+  }
+}
