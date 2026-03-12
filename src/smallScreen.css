@@ -13,14 +13,18 @@
 
 
   .main-weather-window {
-    margin-left: auto;   /* auto margin on left */
-    margin-right: auto;  /* auto margin on right */
-    width: 90%;          /* optional: shrink width for small screens */
+    height:30rem;
+    justify-content: center; 
+    width: auto;      
   }
 
-  .side-info-hikers{
-    margin-left: auto;   /* auto margin on left */
-    margin-right: auto;  /* auto margin on right */
+  .side-info-hikers, .side-info-hikers2{
     width: 90%; 
   }
+
+.weather-layout {
+  grid-template-columns: 1fr;
+  justify-items: center;  
+}
+
 }

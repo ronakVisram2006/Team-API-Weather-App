@@ -14,7 +14,8 @@ function HourInfoPanel({ weather }) {
       else if (width > 1450) setVisibleHours(weather.list.slice(0, 6));
       else if (width > 1250) setVisibleHours(weather.list.slice(0, 5));
       else if (width > 1050) setVisibleHours(weather.list.slice(0, 4));
-      else setVisibleHours(weather.list.slice(0, 3));
+      else if (width > 650) setVisibleHours(weather.list.slice(0,3));
+      else setVisibleHours(weather.list.slice(0, 2));
     };
 
     updatePanels();

@@ -1,6 +1,7 @@
 import './reset.css';
 import './App.css';
 import './smallScreen.css';
+import './smallMobile.css';
 import Background from './Background.jsx';
 import MainWeatherWindow from './MainWeatherWindow.jsx';
 import HourInfoPanel from './HourInfoPanel.jsx';
