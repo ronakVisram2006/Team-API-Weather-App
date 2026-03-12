@@ -91,7 +91,7 @@ function MainWeatherWindow({weather, getWeatherByCoords, getDailyWeatherByCoords
         </div>
         <div className="rainChance">
           <img className="rainChanceIcon" src="/images/cloud-rain.svg" alt="Rain Chance Icon"/>
-          <h2 className="rainChanceVal">{current.pop}%</h2>
+          <h2 className="rainChanceVal">{Math.round(current.pop * 100)}% </h2>
         </div>
       </div>
 
