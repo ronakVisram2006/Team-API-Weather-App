@@ -61,11 +61,11 @@ function MainWeatherWindow({weather, getWeatherByCoords, getDailyWeatherByCoords
       <div className="sideWindowRow">
         <div className="sunrise">
           <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon"/>
-          <h2 className="sunriseTag">{sunriseHour}:{sunriseMin}</h2>
+          <h2 className="sunriseTag">{sunriseHour}:{sunriseMin} AM</h2>
         </div>
         <div className="sunset">
           <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon"/>
-          <h2 className="sunsetTag">{sunsetHour}:{sunsetMin}</h2>
+          <h2 className="sunsetTag">{sunsetHour}:{sunsetMin} PM</h2>
         </div>
       </div>
 
@@ -87,11 +87,11 @@ function MainWeatherWindow({weather, getWeatherByCoords, getDailyWeatherByCoords
       <div className="statsCol">
         <div className="windSpeed">
           <img className="windSpeedIcon" src="/images/wind.svg" alt="Wind Speed Icon"/>
-          <h2 className="windSpeedVal">{current.wind.speed} m/s</h2>
+          <h2 className="windSpeedVal">{Math.round(current.wind.speed * 2.237)} mph</h2>
         </div>
         <div className="rainChance">
           <img className="rainChanceIcon" src="/images/cloud-rain.svg" alt="Rain Chance Icon"/>
-          <h2 className="rainChanceVal">{current.pop}%</h2>
+          <h2 className="rainChanceVal">{Math.round(current.pop * 100)}% </h2>
         </div>
       </div>
 

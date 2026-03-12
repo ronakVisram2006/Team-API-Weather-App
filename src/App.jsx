@@ -8,7 +8,7 @@ import NewDayRow from './NewDayRow.jsx';
 import SideInfoHikers from './SideInfoHikers.jsx';
 import { useState, useEffect } from 'react';
 
-const city_arr = ["London", "Paris", "New York", "Tokyo", "Sydney", "Cairo", "Rio de Janeiro", "Berlin", "Beijing", "Mumbai","Sylhet"];
+const city_arr = ["Chongqing", "London", "Paris", "New York", "Tokyo", "Sydney", "Cairo", "Rio de Janeiro", "Berlin", "Beijing", "Mumbai", "Sylhet"];
 
 function App() {
 
