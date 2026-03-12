@@ -15,6 +15,10 @@ function App() {
   const [query, setQuery] = useState(""); // will be used if for a searchbar
   const [weather, setWeather] = useState({});
   const [dailyWeather, setDailyWeather] = useState({});
+  const [activePanel, setActivePanel] = useState(0); 
+  const [isMobile, setIsMobile] = useState(false);
+
+
 
 
   const getWeatherObj = (city) => {
@@ -75,18 +79,59 @@ function App() {
     }
   },  []);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1048px)");
+    setIsMobile(mq.matches);
+
+    const handleResize = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handleResize);
+    return () => mq.removeEventListener("change", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const togglePanels = () => {
+      setActivePanel(prev => (prev + 1) % 3); 
+      let nextDuration;
+
+      if (activePanel === 0) nextDuration = 15000; 
+      else nextDuration = 10000; 
+
+      setTimeout(togglePanels, nextDuration);
+    };
+
+    const timer = setTimeout(togglePanels, activePanel === 0 ? 15000 : 5000);
+
+    return () => clearTimeout(timer);
+  }, [isMobile, activePanel]);
+
   return (
     <>  
       <Background/> 
       {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
-      <div className="weather-layout">
-        <MainWeatherWindow
-          weather={weather}
-          getWeatherByCoords={getWeatherByCoords}
-          getDailyWeatherByCoords={getDailyWeatherByCoords}
-        />
-        <SideInfoHikers dailyWeather={dailyWeather} weather={weather}/>
-      </div>
+    <div className="weather-layout">
+      {isMobile ? (
+        activePanel === 0 ? (
+          <MainWeatherWindow
+            weather={weather}
+            getWeatherByCoords={getWeatherByCoords}
+            getDailyWeatherByCoords={getDailyWeatherByCoords}
+          />
+        ) : (
+          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} />
+        )
+      ) : (
+        <>
+          <MainWeatherWindow
+            weather={weather}
+            getWeatherByCoords={getWeatherByCoords}
+            getDailyWeatherByCoords={getDailyWeatherByCoords}
+          />
+          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} />
+        </>
+      )}
+    </div>
        <HourInfoPanel weather={weather}/>   
     </>
   );

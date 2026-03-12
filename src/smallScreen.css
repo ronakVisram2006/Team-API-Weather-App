@@ -11,4 +11,16 @@
     height: 16rem;
   }
 
+
+  .main-weather-window {
+    margin-left: auto;   /* auto margin on left */
+    margin-right: auto;  /* auto margin on right */
+    width: 90%;          /* optional: shrink width for small screens */
+  }
+
+  .side-info-hikers{
+    margin-left: auto;   /* auto margin on left */
+    margin-right: auto;  /* auto margin on right */
+    width: 90%; 
+  }
 }
