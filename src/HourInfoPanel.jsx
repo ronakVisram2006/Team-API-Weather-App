@@ -60,12 +60,12 @@ function HourInfoPanel({ weather }) {
               <div className="bottom-row">
                 <div className="rain-info">
                   <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
-                  <span className="humidity">test</span>
+                  <span className="humidity">{Math.round(hour.pop * 100)}%</span>
                 </div>
 
                 <div className="wind-info">
                   <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
-                  <span className="wind-speed">{hour.wind.speed} m/s</span>
+                  <span className="wind-speed">{Math.round(hour.wind.speed * 2.237)} mph</span>
                 </div>
               </div>
 
