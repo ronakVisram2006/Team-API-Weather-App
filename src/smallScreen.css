@@ -27,4 +27,18 @@
   justify-items: center;  
 }
 
+.day-high-temp {
+  display:none;
+}
+.day-low-temp {
+  display: none;
+}
+.day-icon{
+  margin-top:-1rem;
+  width:8vw;
+  height:8vw;
+}
+.day-panel, .current-day-panel {
+  height:12vw;
+}
 }
