@@ -80,4 +80,13 @@
   .feelsdegreeTag {
     font-size: 3.5vw;
   }
+
+.day-icon{
+  margin-top:-1rem;
+  width:10vw;
+  height:10vw;
+}
+.day-panel, .current-day-panel {
+  height:15vw;
+}
 }
