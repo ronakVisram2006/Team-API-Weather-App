@@ -1,4 +1,4 @@
-import bg from './Images/background.png';
+import bg from './Images/244040.jpg';
 
 function Background() {
   return (
