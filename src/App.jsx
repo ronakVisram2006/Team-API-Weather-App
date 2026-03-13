@@ -14,11 +14,12 @@ const city_arr = ["Chongqing", "London", "Paris", "New York", "Tokyo", "Sydney",
 function App() {
 
   const [query, setQuery] = useState(""); // will be used if for a searchbar
-  const [weather, setWeather] = useState({});
-  const [dailyWeather, setDailyWeather] = useState({});
+  const [weather, setWeather] = useState(null);  
+  const [dailyWeather, setDailyWeather] = useState(null);
   const [activePanel, setActivePanel] = useState(0); 
   const [isMobile, setIsMobile] = useState(false);
   const condition = weather?.list?.[0]?.weather?.[0]?.description;
+  
 
 
 
@@ -118,10 +119,14 @@ const getConditionKey = (description = "") => {
     return () => clearTimeout(timer);
   }, [isMobile, activePanel]);
 
-  return (
-    <>  
-      <Background condition={getConditionKey(condition)}/> 
-      {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
+
+    {if (!weather) return (
+      <div className="loading">⏳</div>
+      );}
+return (
+  <>  
+    {weather && <Background condition={getConditionKey(condition)} />}
+    {dailyWeather?.list && <NewDayRow dailyWeather={dailyWeather} weather={weather} />}
     <div className="weather-layout">
       {isMobile ? (
         activePanel === 0 ? (
@@ -144,9 +149,9 @@ const getConditionKey = (description = "") => {
         </>
       )}
     </div>
-       <HourInfoPanel weather={weather}/>   
-    </>
-  );
+    {weather && <HourInfoPanel weather={weather} />}
+  </>
+);
 }
 
 export default App;
