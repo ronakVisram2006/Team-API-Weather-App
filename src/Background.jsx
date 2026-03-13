@@ -17,7 +17,7 @@ const weatherBackgrounds = {
 
 function Background({ condition }) {
   const timeOfDay = getTimeOfDay();
-  const bg = weatherBackgrounds[condition]?.[timeOfDay] ?? "/images/background/sunriseImage.jpg"; 
+  const bg = weatherBackgrounds[condition]?.[timeOfDay] ?? "/images/background/sunnyNightHiker.jpg"; 
 
   return (
     <img id="background" src={bg} alt="Background" className="background" />
