@@ -455,9 +455,9 @@
   padding: 1.1rem 1.3rem;
   background: radial-gradient(
     ellipse 141.42% 107.32% at 0% 0%,
-    rgba(255, 255, 255, 0.568) 20%,
-    rgba(255, 255, 255, 0.06) 60%,
-    rgba(255, 255, 255, 0.08) 100%
+    rgba(143, 143, 143, 0.568) 20%,
+    rgba(41, 41, 41, 0.356) 60%,
+    rgba(54, 54, 54, 0.377) 100%
   );
 backdrop-filter: blur(21px);
 border: 1px solid rgba(255, 255, 255, 0.15);
