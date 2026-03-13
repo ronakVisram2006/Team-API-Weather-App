@@ -39,6 +39,9 @@
   height:8vw;
 }
 .day-panel, .current-day-panel {
-  height:12vw;
+  height:11vw;
+}
+.current-day-panel{
+  height:15vw;
 }
 }

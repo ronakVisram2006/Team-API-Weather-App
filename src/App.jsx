@@ -18,9 +18,20 @@ function App() {
   const [dailyWeather, setDailyWeather] = useState({});
   const [activePanel, setActivePanel] = useState(0); 
   const [isMobile, setIsMobile] = useState(false);
+  const condition = weather?.list?.[0]?.weather?.[0]?.description;
 
 
 
+
+const getConditionKey = (description = "") => {
+  const c = description.toLowerCase();
+  if (c.includes("sun") || c.includes("clear")) return "sunny";
+  if (c.includes("rain") || c.includes("drizzle")) return "rainy";
+  if (c.includes("snow")) return "snowy";
+  if (c.includes("storm") || c.includes("thunder")) return "stormy";
+  if (c.includes("fog") || c.includes("mist")) return "foggy";
+  return "cloudy";
+};
 
   const getWeatherObj = (city) => {
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
@@ -109,7 +120,7 @@ function App() {
 
   return (
     <>  
-      <Background/> 
+      <Background condition={getConditionKey(condition)}/> 
       {dailyWeather.list && <NewDayRow  dailyWeather={dailyWeather} weather={weather}/>}
     <div className="weather-layout">
       {isMobile ? (
