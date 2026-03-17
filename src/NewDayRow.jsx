@@ -1,8 +1,14 @@
-function NewDayRow({ dailyWeather, weather }) {
+function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
   if (!dailyWeather?.list) return null;
   if (!weather?.list) return null;
 
   const today = dailyWeather.list[0].dt;
+
+  const isSelected = (date) => {
+    if (selectedDay) return date === selectedDay;
+    return date === today;
+  };
+
   const days = dailyWeather.list.slice(0, 7).map((day) => {
     const dayDate = new Date(day.dt * 1000).toLocaleDateString("en-GB");
     const hourlyForDay = weather.list.filter(hour =>
@@ -17,7 +23,6 @@ function NewDayRow({ dailyWeather, weather }) {
       high: temps.length ? `${Math.round(Math.max(...temps))}°` : `${Math.round(day.temp.max)}°`,
       low: temps.length ? `${Math.round(Math.min(...temps))}°` : `${Math.round(day.temp.min)}°`,
       icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
-      current: day.dt === today,
     };
   });
 
@@ -28,7 +33,12 @@ function NewDayRow({ dailyWeather, weather }) {
       </div>
       <div className="new-day-row">
         {days.map((day) => (
-          <div key={day.date} className={day.current ? 'current-day-panel' : 'day-panel'}>
+          <div
+            key={day.date}
+            className={isSelected(day.date) ? 'current-day-panel' : 'day-panel'}
+            onClick={() => onDaySelect(day.date)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="day-top-row">
               <span className="day-name">{day.name}</span>
               <span className="day-date">{day.dayNum}</span>

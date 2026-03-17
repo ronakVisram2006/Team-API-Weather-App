@@ -148,21 +148,32 @@ return (
         activePanel === 0 ? (
           <MainWeatherWindow
             weather={weather}
+            dailyWeather={dailyWeather}
             selectedDay = {selectedDay}
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
           />
         ) : (
-          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} selectedDay = {selectedDay} />
-        )
+            <SideInfoHikers
+              dailyWeather={dailyWeather}
+              weather={weather}
+              selectedDay={selectedDay}
+            />        )
       ) : (
         <>
-          <MainWeatherWindow
-            weather={weather}
-            getWeatherByCoords={getWeatherByCoords}
-            getDailyWeatherByCoords={getDailyWeatherByCoords}
-          />
-          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} />
+            <MainWeatherWindow
+              weather={weather}
+              dailyWeather={dailyWeather}
+              selectedDay={selectedDay}
+              getWeatherByCoords={getWeatherByCoords}
+              getDailyWeatherByCoords={getDailyWeatherByCoords}
+            />
+
+            <SideInfoHikers
+              dailyWeather={dailyWeather}
+              weather={weather}
+              selectedDay={selectedDay}
+            />
         </>
       )}
     </div>
