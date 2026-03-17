@@ -18,6 +18,7 @@ function App() {
   const [dailyWeather, setDailyWeather] = useState(null);
   const [activePanel, setActivePanel] = useState(0); 
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedDay, setSelectedDay] = useState();
   const condition = weather?.list?.[0]?.weather?.[0]?.description;
   
 
@@ -33,6 +34,8 @@ const getConditionKey = (description = "") => {
   if (c.includes("fog") || c.includes("mist")) return "foggy";
   return "cloudy";
 };
+
+
 
   const getWeatherObj = (city) => {
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
@@ -114,6 +117,12 @@ const getConditionKey = (description = "") => {
       setTimeout(togglePanels, nextDuration);
     };
 
+    useEffect(() => {
+      if (dailyWeather?.list?.[0]) {
+        setSelectedDay(dailyWeather.list[0].dt);
+      }
+}, [dailyWeather]);
+
     const timer = setTimeout(togglePanels, activePanel === 0 ? 15000 : 5000);
 
     return () => clearTimeout(timer);
@@ -126,17 +135,25 @@ const getConditionKey = (description = "") => {
 return (
   <>  
     {weather && <Background condition={getConditionKey(condition)} />}
-    {dailyWeather?.list && <NewDayRow dailyWeather={dailyWeather} weather={weather} />}
+    {dailyWeather?.list && (
+      <NewDayRow
+        dailyWeather={dailyWeather}
+        weather={weather}
+        selectedDay={selectedDay}
+        onDaySelect={setSelectedDay}
+      />
+    )}    
     <div className="weather-layout">
       {isMobile ? (
         activePanel === 0 ? (
           <MainWeatherWindow
             weather={weather}
+            selectedDay = {selectedDay}
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
           />
         ) : (
-          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} />
+          <SideInfoHikers dailyWeather={dailyWeather} weather={weather} selectedDay = {selectedDay} />
         )
       ) : (
         <>
