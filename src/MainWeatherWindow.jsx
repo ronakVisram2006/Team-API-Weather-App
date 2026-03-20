@@ -20,11 +20,19 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
   let sunriseHour = Math.round((((weather.city.sunrise + weather.city.timezone) / 60) / 60) % 24);
   if (sunriseHour < 10) sunriseHour = "0".concat(sunriseHour.toString());
 
+  let sunrisePeriod;
+  if (sunriseHour<12) sunrisePeriod="AM";
+  else sunrisePeriod="PM";
+
   let sunriseMin = Math.round(((weather.city.sunrise + weather.city.timezone) / 60) % 60);
   if (sunriseMin < 10) sunriseMin = "0".concat(sunriseMin.toString());
 
   let sunsetHour = Math.round((((weather.city.sunset + weather.city.timezone) / 60) / 60) % 24);
   if (sunsetHour < 10) sunsetHour = "0".concat(sunsetHour.toString());
+
+  let sunsetPeriod;
+  if (sunsetHour<12) sunsetPeriod="AM";
+  else sunsetPeriod="PM";
 
   let sunsetMin = Math.round(((weather.city.sunset + weather.city.timezone) / 60) % 60);
   if (sunsetMin < 10) sunsetMin = "0".concat(sunsetMin.toString());
@@ -64,11 +72,11 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
         <div className="sideWindowRow">
           <div className="sunrise">
             <img className="sunriseIcon" src="/images/sunrise.svg" alt="Sunrise Icon" />
-            <h2 className="sunriseTag">{sunriseHour}:{sunriseMin} AM</h2>
+            <h2 className="sunriseTag">{sunriseHour}:{sunriseMin} {sunrisePeriod}</h2>
           </div>
           <div className="sunset">
             <img className="sunsetIcon" src="/images/sunset.svg" alt="Sunset Icon" />
-            <h2 className="sunsetTag">{sunsetHour}:{sunsetMin} PM</h2>
+            <h2 className="sunsetTag">{sunsetHour}:{sunsetMin} {sunsetPeriod}</h2>
           </div>
         </div>
 
