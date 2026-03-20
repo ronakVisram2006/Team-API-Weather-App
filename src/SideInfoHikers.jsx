@@ -32,6 +32,9 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
     const visibility = ((hourlyEntry.visibility ?? 10000) / 1000).toFixed(1);
     const airPressure = current.pressure;
 
+    const condition=current.weather[0].description;
+    const conditionIcon=`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+
     const avgPop = hourly.length
         ? hourly.reduce((sum, h) => sum + (h.pop ?? 0), 0) / hourly.length
         : (current.pop ?? 0);
@@ -64,9 +67,9 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
     <div className = "sideInfoStack">
         <div className={`side-info-hikers ${showFirst ? 'active' : ''}`}>
             <div className="weatherConditionIcon">
-                <img src="/images/dry.svg" alt="Dry Conditions Icon"/>
+                <img src={conditionIcon} alt="Conditions Icon"/>
             </div>
-            <div className="weatherCondition">Dry Conditions</div>
+            <div className="weatherCondition">{condition}</div>
 
             <div className="hiker-info">
                 <div>
@@ -87,7 +90,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
                 </div>
             </div>
         </div>
-         <div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}>
+        <div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}>
             <div className="weatherConditionIcon">
                 <img src="/images/mountain.png" alt="Dry Conditions Icon"/>
             </div>
