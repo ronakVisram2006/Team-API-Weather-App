@@ -19,10 +19,14 @@ function App() {
   const [activePanel, setActivePanel] = useState(0); 
   const [isMobile, setIsMobile] = useState(false);
   const [selectedDay, setSelectedDay] = useState();
-  const condition = weather?.list?.[0]?.weather?.[0]?.description;
-
   const [showFirst, setShowFirst] = useState(true);
 
+
+
+  const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
+  const selectedCondition = selectedDailyData
+  ? selectedDailyData.weather?.[0]?.main?.toLowerCase() // or description
+  : weather?.list?.[0]?.weather?.[0]?.main?.toLowerCase();
     const togglePanel = () => {
     setActivePanel(prev => (prev === 0 ? 1 : 0));
   };
@@ -41,7 +45,6 @@ function App() {
               }
             }
             } else {
-              // Desktop only toggles between side-info-hikers and side-info-hikers2
               setShowFirst(prev => !prev);
             }
     };
@@ -121,6 +124,13 @@ const getConditionKey = (description = "") => {
   },  []);
 
   useEffect(() => {
+  const interval = setInterval(() => {
+    handleToggle();
+  }, 5000); 
+  return () => clearInterval(interval);
+}, [activePanel, showFirst, isMobile]);
+
+  useEffect(() => {
     const mq = window.matchMedia("(max-width: 1048px)");
     setIsMobile(mq.matches);
 
@@ -140,7 +150,7 @@ const getConditionKey = (description = "") => {
       );}
 return (
   <>  
-    {weather && <Background condition={getConditionKey(condition)} />}
+    {weather && <Background condition={getConditionKey(selectedCondition)} />}
     {dailyWeather?.list && (
       <NewDayRow
         dailyWeather={dailyWeather}
