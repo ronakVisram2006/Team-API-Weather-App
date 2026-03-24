@@ -117,17 +117,16 @@ const getConditionKey = (description = "") => {
       setTimeout(togglePanels, nextDuration);
     };
 
-    useEffect(() => {
-      if (dailyWeather?.list?.[0]) {
-        setSelectedDay(dailyWeather.list[0].dt);
-      }
-}, [dailyWeather]);
-
     const timer = setTimeout(togglePanels, activePanel === 0 ? 15000 : 5000);
 
     return () => clearTimeout(timer);
   }, [isMobile, activePanel]);
 
+    useEffect(() => {
+      if (dailyWeather?.list?.[0]) {
+        setSelectedDay(dailyWeather.list[0].dt);
+      }
+}, [dailyWeather]);
 
     {if (!weather) return (
       <div className="loading">⏳</div>
