@@ -92,4 +92,25 @@
 .current-day-panel{
   height:18vw;
 }
+  .side-info-hikers,
+  .side-info-hikers2 {
+    width: 90vw;
+    margin: 0 auto;
+    height: auto;
+    padding: 1.5rem;
+  }
+
+  .sideInfoStack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .weather-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 }

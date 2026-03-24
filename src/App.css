@@ -18,6 +18,21 @@
   object-position: center;
   z-index: -1;
 }
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideOutUp {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-30px); }
+}
+
+.new-day-row.slide-in-left,
+.new-day-row.slide-in-right  { animation: slideInDown  0.3s ease forwards; }
+.new-day-row.slide-out-left,
+.new-day-row.slide-out-right { animation: slideOutUp   0.3s ease forwards; }
 /* ── Day panels (top row) ── */
 .day-panel, .current-day-panel {
   display: flex;

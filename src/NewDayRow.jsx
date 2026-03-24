@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
   if (!dailyWeather?.list) return null;
   if (!weather?.list) return null;
 
   const [page, setPage] = useState(0);
+  const [animating, setAnimating] = useState(false);
+  const [direction, setDirection] = useState("left");
   const pageSize = 7;
   const totalPages = Math.ceil(dailyWeather.list.length / pageSize);
+
+  const changePage = (newPage, dir) => {
+    if (animating) return;
+    setDirection(dir);
+    setAnimating(true);
+    setTimeout(() => {
+      setPage(newPage);
+      setAnimating(false);
+    }, 300);
+  };
 
   const today = dailyWeather.list[0].dt;
 
@@ -36,14 +48,13 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
     <div className="day-row-wrapper">
       <div
         className="leftArrow"
-        
-        onClick={() => setPage(p => Math.max(0, p - 1))}
+        onClick={() => page > 0 && changePage(page - 1, "right")}
         style={{ cursor: page === 0 ? 'default' : 'pointer', opacity: page === 0 ? 0.3 : 1 }}
       >
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
 
-      <div className="new-day-row">
+      <div className={`new-day-row ${animating ? `slide-out-${direction}` : `slide-in-${direction}`}`}>
         {days.map((day) => (
           <div
             key={day.date}
@@ -66,7 +77,7 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
 
       <div
         className="rightArrow"
-        onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+        onClick={() => page < totalPages - 1 && changePage(page + 1, "left")}
         style={{ cursor: page === totalPages - 1 ? 'default' : 'pointer', opacity: page === totalPages - 1 ? 0.3 : 1 }}
       >
         <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
