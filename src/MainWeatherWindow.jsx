@@ -1,4 +1,4 @@
-function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords }) {
+function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle}) {
   if (!weather.list) return null;
 
   const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
@@ -52,8 +52,8 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
   }
 
   return (
-    <div className="main-weather-window">
-      <div className="top-row">
+<div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
+        <div className="top-row">
         <div className="location">
           <h1 className="locationTag">{weather.city.name},</h1>
           <h2 className="greaterLocationTag">{weather.city.country}</h2>

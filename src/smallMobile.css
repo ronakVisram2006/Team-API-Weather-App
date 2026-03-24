@@ -89,9 +89,6 @@
 .day-panel, .current-day-panel {
   height:13vw;
 }
-.current-day-panel{
-  height:18vw;
-}
   .side-info-hikers,
   .side-info-hikers2 {
     width: 90vw;
@@ -101,6 +98,7 @@
   }
 
   .sideInfoStack {
+    margin-top:8rem;
     width: 100%;
     display: flex;
     flex-direction: column;
