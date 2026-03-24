@@ -132,6 +132,10 @@
   display: flex;
 }
 
+.leftArrow:hover, .rightArrow:hover {
+  filter:invert(1)
+}
+
 .day-row-wrapper {
   display: flex;
   flex-direction: row;

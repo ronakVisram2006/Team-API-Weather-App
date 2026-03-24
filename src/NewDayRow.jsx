@@ -1,6 +1,12 @@
+import { useState } from "react";
+
 function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
   if (!dailyWeather?.list) return null;
   if (!weather?.list) return null;
+
+  const [page, setPage] = useState(0);
+  const pageSize = 7;
+  const totalPages = Math.ceil(dailyWeather.list.length / pageSize);
 
   const today = dailyWeather.list[0].dt;
 
@@ -9,7 +15,7 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
     return date === today;
   };
 
-  const days = dailyWeather.list.slice(0, 7).map((day) => {
+  const days = dailyWeather.list.slice(page * pageSize, page * pageSize + pageSize).map((day) => {
     const dayDate = new Date(day.dt * 1000).toLocaleDateString("en-GB");
     const hourlyForDay = weather.list.filter(hour =>
       new Date(hour.dt * 1000).toLocaleDateString("en-GB") === dayDate
@@ -28,9 +34,15 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
 
   return (
     <div className="day-row-wrapper">
-      <div className="leftArrow">
+      <div
+        className="leftArrow"
+        
+        onClick={() => setPage(p => Math.max(0, p - 1))}
+        style={{ cursor: page === 0 ? 'default' : 'pointer', opacity: page === 0 ? 0.3 : 1 }}
+      >
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
+
       <div className="new-day-row">
         {days.map((day) => (
           <div
@@ -51,7 +63,12 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
           </div>
         ))}
       </div>
-      <div className="rightArrow">
+
+      <div
+        className="rightArrow"
+        onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+        style={{ cursor: page === totalPages - 1 ? 'default' : 'pointer', opacity: page === totalPages - 1 ? 0.3 : 1 }}
+      >
         <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
       </div>
     </div>
