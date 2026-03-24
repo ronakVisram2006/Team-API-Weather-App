@@ -13,9 +13,11 @@ const hikerVisibilityInformation = {
     2: "very high visibility risk : bring a high visibility vest and a flashlight",
 };
 
-function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
+function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst,onToggle}) {
+    
     if (!dailyWeather?.list) return null;
     if (!weather?.list) return null;
+    if (!selectedDay) return null;
 
     const current = dailyWeather.list.find(d => d.dt === selectedDay) ?? dailyWeather.list[0];
 
@@ -32,14 +34,15 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
     const visibility = ((hourlyEntry.visibility ?? 10000) / 1000).toFixed(1);
     const airPressure = current.pressure;
 
-    const condition=current.weather[0].description;
-    const conditionIcon=`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+    const condition = current?.weather?.[0]?.description ?? "";
+    const conditionIcon = current?.weather?.[0]?.icon
+    ? `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`
+    : "";
 
     const avgPop = hourly.length
         ? hourly.reduce((sum, h) => sum + (h.pop ?? 0), 0) / hourly.length
         : (current.pop ?? 0);
 
-    const [showFirst, setShowFirst] = useState(true);
 
     const getHikerRainInfo = () => {
         if (avgPop < 0.25) return hikerRainInformation[0];
@@ -55,17 +58,12 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
         return hikerVisibilityInformation[2];
     };
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setShowFirst(prev => !prev);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
-
     return (
     <>
-    <div className = "sideInfoStack">
-        <div className={`side-info-hikers ${showFirst ? 'active' : ''}`}>
+<div className="sideInfoStack">
+            <div className={`side-info-hikers ${showFirst ? 'active' : ''} `}
+            onClick={onToggle}
+            style={{cursor : 'pointer'}}>
             <div className="weatherConditionIcon">
                 <img src={conditionIcon} alt="Conditions Icon"/>
             </div>
@@ -90,7 +88,9 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay }) {
                 </div>
             </div>
         </div>
-        <div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}>
+        <div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}
+        onClick={onToggle}
+        style={{cursor : 'pointer'}}>
             <div className="weatherConditionIcon">
                 <img src="/images/mountain.png" alt="Dry Conditions Icon"/>
             </div>

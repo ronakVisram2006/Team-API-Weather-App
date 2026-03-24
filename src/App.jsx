@@ -20,6 +20,31 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedDay, setSelectedDay] = useState();
   const condition = weather?.list?.[0]?.weather?.[0]?.description;
+
+  const [showFirst, setShowFirst] = useState(true);
+
+    const togglePanel = () => {
+    setActivePanel(prev => (prev === 0 ? 1 : 0));
+  };
+
+    const handleToggle = () => {
+      if (isMobile) {
+        if (activePanel === 0) {
+              setActivePanel(1);
+              setShowFirst(true);
+            } else {
+              if (showFirst) {
+                setShowFirst(false);
+              } else {
+                setActivePanel(0);
+                setShowFirst(true);
+              }
+            }
+            } else {
+              // Desktop only toggles between side-info-hikers and side-info-hikers2
+              setShowFirst(prev => !prev);
+            }
+    };
   
 
 
@@ -104,24 +129,6 @@ const getConditionKey = (description = "") => {
     return () => mq.removeEventListener("change", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (!isMobile) return;
-
-    const togglePanels = () => {
-      setActivePanel(prev => (prev + 1) % 3); 
-      let nextDuration;
-
-      if (activePanel === 0) nextDuration = 15000; 
-      else nextDuration = 10000; 
-
-      setTimeout(togglePanels, nextDuration);
-    };
-
-    const timer = setTimeout(togglePanels, activePanel === 0 ? 15000 : 5000);
-
-    return () => clearTimeout(timer);
-  }, [isMobile, activePanel]);
-
     useEffect(() => {
       if (dailyWeather?.list?.[0]) {
         setSelectedDay(dailyWeather.list[0].dt);
@@ -148,31 +155,39 @@ return (
           <MainWeatherWindow
             weather={weather}
             dailyWeather={dailyWeather}
-            selectedDay = {selectedDay}
+            selectedDay={selectedDay}
+            getWeatherByCoords={getWeatherByCoords}
+            getDailyWeatherByCoords={getDailyWeatherByCoords}
+            onToggle={handleToggle}
+          />
+        ) : (
+          <SideInfoHikers
+            dailyWeather={dailyWeather}
+            weather={weather}
+            selectedDay={selectedDay}
+            showFirst={showFirst}
+            setShowFirst={setShowFirst}
+            onToggle={handleToggle}
+          />
+        )
+      ) : (
+        <>
+          <MainWeatherWindow
+            weather={weather}
+            dailyWeather={dailyWeather}
+            selectedDay={selectedDay}
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
           />
-        ) : (
-            <SideInfoHikers
-              dailyWeather={dailyWeather}
-              weather={weather}
-              selectedDay={selectedDay}
-            />        )
-      ) : (
-        <>
-            <MainWeatherWindow
-              weather={weather}
-              dailyWeather={dailyWeather}
-              selectedDay={selectedDay}
-              getWeatherByCoords={getWeatherByCoords}
-              getDailyWeatherByCoords={getDailyWeatherByCoords}
-            />
 
-            <SideInfoHikers
-              dailyWeather={dailyWeather}
-              weather={weather}
-              selectedDay={selectedDay}
-            />
+          <SideInfoHikers
+            dailyWeather={dailyWeather}
+            weather={weather}
+            selectedDay={selectedDay}
+            showFirst={showFirst}
+            setShowFirst={setShowFirst}
+            onToggle={handleToggle} // toggles side-info panels on desktop
+          />
         </>
       )}
     </div>
