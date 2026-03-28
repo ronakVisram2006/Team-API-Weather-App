@@ -449,6 +449,45 @@
   margin: 0;
 }
 
+.hikersInfoText{
+  font-size: 1.5rem;
+}
+
+
+
+.iconRow {
+  display: flex;
+  gap: 10px;
+}
+
+.iconWrapper {
+  position: relative;
+}
+
+.iconWrapper img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.tooltip {
+  visibility: hidden;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-align: center;
+  z-index: 10;
+}
+.iconWrapper:hover .tooltip {
+  visibility: visible;
+}
+
+
 .cloudCoverFigure, .UVIndexFigure,
 .visibilityFigure, .HumidityFigure, .airPressureFigure {
   color: #fff;
