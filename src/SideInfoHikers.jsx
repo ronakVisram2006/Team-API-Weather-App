@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
 
-const hikerRainInformation = {
-    0: "low rain risk : no need for rain gear",
-    1: "moderate rain risk : bring an umbrella",
-    2: "high rain risk : bring a rain coat and some waterproof shoes",
-    3: "very high rain risk : bring a rain coat and boots for slippery conditions",
+const rainGear = {
+  optional : "no rain gear needed",
+  recommended : "a light jacket is recommended",
+  essential : "a rain jacket and waterproof pants is needed",
 };
 
-const hikerVisibilityInformation = {
-    0: "low visibility risk : no need for additional gear",
-    1: "moderate visibility risk : bring a flashlight",
-    2: "very high visibility risk : bring a high visibility vest and a flashlight",
+const visibilityGear = {
+  optional: "no navigation gear needed visibility is good",
+  recommended: "reduced visibility, a map or GPS is recommended",
+  essential: "poor visibility, a map and GPS is essential and wear bright clothing",
+};
+
+const temperatureGear = {
+  freezing: "freezing temperatures, insulated and waterproof clothing is essential",
+  cold: "cold temperatures, layered clothing and a warm jacket is recommended",
+  mild: "a warm layer is recommended",
+  warm: "a light layer is recommended",
+  hot: "lightweight, breathable clothing is essential for hot temperatures",
 };
 
 function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst,onToggle}) {
@@ -45,18 +52,27 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
 
 
     const getHikerRainInfo = () => {
-        if (avgPop < 0.25) return hikerRainInformation[0];
-        if (avgPop < 0.5)  return hikerRainInformation[1];
-        if (avgPop < 0.75) return hikerRainInformation[2];
-        return hikerRainInformation[3];
+        if (avgPop < 0.25) return rainGear.optional;
+        if (0.25 <= avgPop < 0.55)  return rainGear.recommended;
+        if (avgPop >= 0.55) return rainGear.essential;
+        return rainGear.essential;
     };
 
     const getHikerVisibilityInfo = () => {
-        const vis = hourlyEntry.visibility ?? 10000;
-        if (vis > 8000) return hikerVisibilityInformation[0];
-        if (vis > 4000) return hikerVisibilityInformation[1];
-        return hikerVisibilityInformation[2];
+        if (visibility >= 8000) return visibilityGear.optional;
+        if ( 4000 <=visibility < 8000) return visibilityGear.recommended;
+        return visibilityGear.essential;
     };
+
+    const getHikerTemperatureInfo = () => {
+        const temp = current.temp;
+        if (temp <= 0) return temperatureGear.freezing;
+        if (0 < temp <= 8) return temperatureGear.cold;
+        if (8 < temp <= 18) return temperatureGear.mild;
+        if (18 < temp <= 25) return temperatureGear.warm;
+        if (temp > 25) return temperatureGear.hot;
+        return temperatureGear.mild;
+    }
 
     return (
     <>
@@ -91,12 +107,30 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
         <div className={`side-info-hikers2 ${!showFirst ? 'active' : ''}`}
         onClick={onToggle}
         style={{cursor : 'pointer'}}>
+{/*
             <div className="weatherConditionIcon">
                 <img src="/images/mountain.png" alt="Dry Conditions Icon"/>
             </div>
-            <div className = "hikersInfoText">Hikers Info</div>
-            <div className = "whatToWear">{getHikerRainInfo()}</div> 
-            <div className = "whenToWear">{getHikerVisibilityInfo()}</div>
+*/}
+            
+            <div className = "hikersInfoText">Recommended Gear For Hiking</div>
+            <div className="iconRow">
+
+                <div className="iconWrapper">
+                    <img src="/images/infoIcons/rainy.png" alt="Rain Icon"/>
+                    <span className="tooltip">{getHikerRainInfo()}</span>
+                </div>
+                <div className="iconWrapper">
+                    <img src="/images/infoIcons/eye.png" alt="Visibility Icon"/>
+                    <span className="tooltip">{getHikerVisibilityInfo()}</span>
+                </div>
+                <div className="iconWrapper">
+                    <img src="/images/infoIcons/thermometer.png" alt="Temperature Icon" />
+                    <span className="tooltip">{getHikerTemperatureInfo()}</span>
+                </div>
+            </div>
+ 
+
         </div>
                 
     </div>    
