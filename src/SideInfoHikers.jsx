@@ -1,24 +1,38 @@
 import { useState, useEffect } from 'react';
 
 const rainGear = {
-  optional : "no rain gear needed",
-  recommended : "a light jacket is recommended",
-  essential : "a rain jacket and waterproof pants is needed",
+  optional : "Low precipitation - no rain gear needed",
+  recommended : "Moderate precipitation - a light jacket is recommended",
+  essential : "Expected precipitation - a rain jacket and waterproof pants is needed",
 };
 
 const visibilityGear = {
-  optional: "no navigation gear needed visibility is good",
-  recommended: "reduced visibility, a map or GPS is recommended",
-  essential: "poor visibility, a map and GPS is essential and wear bright clothing",
+  optional: "Clear visibility - no navigation gear needed",
+  recommended: "Reduced visibility- a map or GPS is recommended",
+  essential: "Poor visibility - a map and GPS is essential and wear bright clothing",
 };
 
 const temperatureGear = {
-  freezing: "freezing temperatures, insulated and waterproof clothing is essential",
-  cold: "cold temperatures, layered clothing and a warm jacket is recommended",
-  mild: "a warm layer is recommended",
-  warm: "a light layer is recommended",
-  hot: "lightweight, breathable clothing is essential for hot temperatures",
+  freezing: "Freezing temperatures - insulated and waterproof clothing is essential",
+  cold: "Cold temperatures - thermal clothing and a warm jacket is recommended",
+  mild: "Mild temperatures - a warm layer is recommended",
+  warm: "Warm temperatures - a light layer is recommended",
+  hot: "Hot temperatures - lightweight clothing is essential",
 };
+
+const uvGear = {
+    optional: "low UV exposure - no sun protection needed",
+    recommended: "moderate UV - wear sunglasses and apply sunscreen",
+    essential: "high UV - wear sunscreen, sunglasses, and a hat for protection",
+};
+
+const footwear = {
+    slippery: "slippery conditions, wear shoes with good traction",
+    muddy: "muddy conditions, waterproof boots are recommended",
+    dry: "dry conditions, regular hiking shoes are sufficient",
+    icy : "icy conditions, crampons or ice cleats are essential for safety",
+
+}
 
 function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst,onToggle}) {
     
@@ -59,8 +73,8 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
     };
 
     const getHikerVisibilityInfo = () => {
-        if (visibility >= 8000) return visibilityGear.optional;
-        if ( 4000 <=visibility < 8000) return visibilityGear.recommended;
+        if (visibility >= 8) return visibilityGear.optional;
+        if ( 4 <=visibility < 8) return visibilityGear.recommended;
         return visibilityGear.essential;
     };
 
@@ -73,6 +87,16 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
         if (temp > 25) return temperatureGear.hot;
         return temperatureGear.mild;
     }
+
+    const getHikerUVInfo = () => {
+        const uv = current.uvi;
+        if (uv < 3) return uvGear.optional;
+        if (3 <= uv < 6) return uvGear.recommended;
+        if (uv >= 6) return uvGear.essential;
+        return uvGear.recommended;
+    }
+
+
 
     return (
     <>
@@ -127,6 +151,16 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
                 <div className="iconWrapper">
                     <img src="/images/infoIcons/thermometer.png" alt="Temperature Icon" />
                     <span className="tooltip">{getHikerTemperatureInfo()}</span>
+                </div>
+
+                <div className="iconWrapper">
+                    <img src="/images/infoIcons/uv.png" alt="UV Icon" />
+                    <span className="tooltip">{getHikerUVInfo()}</span>
+                </div>
+
+                <div className='iconWrapper'>
+                    <img src="/images/infoIcons/running-shoe.png" alt="Footwear Icon" />
+                    <span className="tooltip">Sturdy footwear is recommended for hiking</span>
                 </div>
             </div>
  
