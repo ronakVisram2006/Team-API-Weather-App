@@ -145,7 +145,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
                     <span className="tooltip">{getHikerRainInfo()}</span>
                 </div>
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/eye(1).png" alt="Visibility Icon"/>
+                    <img src="/images/infoIcons/eye.png" alt="Visibility Icon"/>
                     <span className="tooltip">{getHikerVisibilityInfo()}</span>
                 </div>
                 <div className="iconWrapper">
@@ -154,7 +154,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
                 </div>
 
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/uv(1).png" alt="UV Icon" />
+                    <img src="/images/infoIcons/uv.png" alt="UV Icon" />
                     <span className="tooltip">{getHikerUVInfo()}</span>
                 </div>
 
