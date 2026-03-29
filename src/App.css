@@ -456,8 +456,14 @@
 
 
 .iconRow {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2em;
+  justify-items: center;
+}
+
+.iconRow > *:nth-child(3) {
+  grid-column: 2;
 }
 
 .iconWrapper {
@@ -465,8 +471,8 @@
 }
 
 .iconWrapper img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
 }
 
 .tooltip {
