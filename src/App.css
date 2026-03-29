@@ -456,10 +456,11 @@
 
 
 .iconRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1.2em;
   justify-items: center;
+  margin-left: -70%;
 }
 
 .iconRow > *:nth-child(3) {

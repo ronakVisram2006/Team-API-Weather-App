@@ -1,8 +1,50 @@
 import { useState, useEffect } from "react";
 
+import clearDay from "/images/mappedIcons/sun.png";
+import clearNight from "/images/mappedIcons/moon.png";
+
+import fewCloudsDay from "/images/mappedIcons/cloudy.png";
+import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
+
+import scatteredClouds from "/images/mappedIcons/clouds.png";
+
+import showerRain from "/images/mappedIcons/shower.png";
+import rainDay from "/images/mappedIcons/rainy-day.png";
+import rainNight from "/images/mappedIcons/raining.png";
+
+import thunderstorm from "/images/mappedIcons/thunder.png";
+import snow from "/images/mappedIcons/snow.png";
+import mist from "/images/mappedIcons/fog.png";
+
 function HourInfoPanel({ weather }) {
   const [visibleHours, setVisibleHours] = useState([]);
 
+
+  const iconMap = {
+    "01d": clearDay,
+    "01n": clearNight,
+
+    "02d": fewCloudsDay,
+    "02n": fewCloudsNight,
+
+    "03d": scatteredClouds,
+    "03n": scatteredClouds,
+
+    "09d": showerRain,
+    "09n": showerRain,
+
+    "10d": rainDay,
+    "10n": rainNight,
+
+    "11d": thunderstorm,
+    "11n": thunderstorm,
+
+    "13d": snow,
+    "13n": snow,
+
+    "50d": mist,
+    "50n": mist,
+  };
   useEffect(() => {
     if (!weather.list) return;
 
@@ -44,11 +86,11 @@ function HourInfoPanel({ weather }) {
               </div>
 
               <div className="hour-temp-row">
-                <img
-                  src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`}
-                  alt="Weather Icon"
-                  className="weather-icon-center"
-                />
+              <img
+                src={iconMap[hour.weather[0].icon] || clearDay}
+                alt="Weather Icon"
+                className="weather-icon-center"
+              />
 
                 <div className="hour-temp-num-row">
                   <span className="temperature">

@@ -126,7 +126,7 @@ const getConditionKey = (description = "") => {
   useEffect(() => {
   const interval = setInterval(() => {
     handleToggle();
-  }, 5000); 
+  }, 15000); 
   return () => clearInterval(interval);
 }, [activePanel, showFirst, isMobile]);
 
