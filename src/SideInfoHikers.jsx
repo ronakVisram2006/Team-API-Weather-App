@@ -141,25 +141,25 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
             <div className="iconRow">
 
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/rainy.png" alt="Rain Icon"/>
+                    <img src="/images/infoIcons/heavy-rain.png" alt="Rain Icon"/>
                     <span className="tooltip">{getHikerRainInfo()}</span>
                 </div>
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/eye.png" alt="Visibility Icon"/>
+                    <img src="/images/infoIcons/eye(1).png" alt="Visibility Icon"/>
                     <span className="tooltip">{getHikerVisibilityInfo()}</span>
                 </div>
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/thermometer.png" alt="Temperature Icon" />
+                    <img src="/images/infoIcons/temperature.png" alt="Temperature Icon" />
                     <span className="tooltip">{getHikerTemperatureInfo()}</span>
                 </div>
 
                 <div className="iconWrapper">
-                    <img src="/images/infoIcons/uv.png" alt="UV Icon" />
+                    <img src="/images/infoIcons/uv(1).png" alt="UV Icon" />
                     <span className="tooltip">{getHikerUVInfo()}</span>
                 </div>
 
                 <div className='iconWrapper'>
-                    <img src="/images/infoIcons/running-shoe.png" alt="Footwear Icon" />
+                    <img src="/images/infoIcons/safety-boot.png" alt="Footwear Icon" />
                     <span className="tooltip">Sturdy footwear is recommended for hiking</span>
                 </div>
             </div>
