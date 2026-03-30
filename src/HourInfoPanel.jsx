@@ -45,7 +45,6 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
   }, [weather.list, selectedDay]);
 
   useEffect(() => {
-
     const updatePanels = () => {
       if (!dayHours.length) return;
       const width = window.innerWidth;
@@ -68,6 +67,14 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
   }, [dayHours, offset]);
 
   if (!weather.list) return null;
+
+  const dailyEntry = dailyWeather?.list?.find(d => {
+    const dDay = new Date(d.dt * 1000).getUTCDate();
+    const dMonth = new Date(d.dt * 1000).getUTCMonth();
+    const sDay = new Date(selectedDay * 1000).getUTCDate();
+    const sMonth = new Date(selectedDay * 1000).getUTCMonth();
+    return dDay === sDay && dMonth === sMonth;
+  });
 
   return (
     <div className="hour-panel-wrapper">
@@ -111,32 +118,27 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
               </div>
             );
           })
-        ) : (
-          (() => {
-            const dailyEntry = dailyWeather?.list?.find(d => {
-              const dDay = new Date(d.dt * 1000).getUTCDate();
-              const dMonth = new Date(d.dt * 1000).getUTCMonth();
-              const sDay = new Date(selectedDay * 1000).getUTCDate();
-              const sMonth = new Date(selectedDay * 1000).getUTCMonth();
-              return dDay === sDay && dMonth === sMonth;
-            });
-
-            if (!dailyEntry) return null;
-
-            const fixedHour = new Date().getHours();
-            const isNight = fixedHour < 6 || fixedHour >= 20;
-            const iconCode = dailyEntry.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd');
+        ) : dailyEntry ? (
+          [
+            { label: "Morning",   temp: dailyEntry.temp.morn,  feels: dailyEntry.feels_like.morn,  hour: 8  },
+            { label: "Afternoon", temp: dailyEntry.temp.day,   feels: dailyEntry.feels_like.day,   hour: 13 },
+            { label: "Evening",   temp: dailyEntry.temp.eve,   feels: dailyEntry.feels_like.eve,   hour: 18 },
+            { label: "Night",     temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22 },
+          ].map((slot, idx) => {
+            const slotIsNight = slot.hour >= 20 || slot.hour < 6;
+            const slotIconCode = dailyEntry.weather[0].icon.replace(/[dn]/, slotIsNight ? 'n' : 'd');
 
             return (
-              <div className="hour-panel">
-                <div className="time">All Day</div>
+              <div key={idx} className="hour-panel">
+                <div className="time">{slot.label}</div>
                 <div className="hour-temp-row">
-                  <img src={iconMap[iconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
+                  <img src={iconMap[slotIconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
-                    <span className="temperature">{Math.round(dailyEntry.temp.day)}</span>
+                    <span className="temperature">{Math.round(slot.temp)}</span>
                     <span className="degree">°C</span>
                   </div>
                 </div>
+                <div className="feelsLike-small">Feels like {Math.round(slot.feels)}°C</div>
                 <div className="bottom-row">
                   <div className="rain-info">
                     <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
@@ -149,8 +151,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
                 </div>
               </div>
             );
-          })()
-        )}
+          })
+        ) : null}
       </div>
 
       <div className="hourRightArrow"

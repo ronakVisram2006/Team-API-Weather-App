@@ -51,11 +51,16 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
         isNight = false;
       }
 
-      const iconCode = selectedHour
-        ? selectedHour.weather[0].icon
-        : selectedDailyData
-          ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd')
-          : current.weather[0].icon;
+
+    const iconCode = selectedHour
+      ? (() => {
+          const selectedHourNum = new Date(selectedHour.dt * 1000).getHours();
+          const selectedIsNight = selectedHourNum <= 6 || selectedHourNum >= 20;
+          return selectedHour.weather[0].icon.replace(/[dn]/, selectedIsNight ? 'n' : 'd');
+        })()
+      : selectedDailyData
+        ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd')
+        : current.weather[0].icon;
 
         
 const iconMap = {
