@@ -22,6 +22,7 @@ function App() {
   const [showFirst, setShowFirst] = useState(true);
   const [selectedHour, setSelectedHour] = useState(null);
   const [uv, setUV] = useState(null);
+  const [hourOffset, setHourOffset] = useState(0);
 
 
 
@@ -99,6 +100,25 @@ const getConditionKey = (description = "") => {
     .then(result => setUV(result));
 }
 
+const handleNextDay = () => {
+  const currentIndex = dailyWeather.list.findIndex(d => d.dt === selectedDay);
+  const next = dailyWeather.list[currentIndex + 1];
+  if (next) {
+    setSelectedDay(next.dt);
+    setSelectedHour(null);
+    setHourOffset(0);
+  }
+};
+
+const handlePrevDay = () => {
+  const currentIndex = dailyWeather.list.findIndex(d => d.dt === selectedDay);
+  const prev = dailyWeather.list[currentIndex - 1];
+  if (prev) {
+    setSelectedDay(prev.dt);
+    setSelectedHour(null);
+    setHourOffset(999);
+  }
+};
 
   useEffect(() => {
 
@@ -208,8 +228,14 @@ return (
         </>
       )}
     </div>
-    {weather && <HourInfoPanel weather={weather} dailyWeather={dailyWeather} selectedDay={selectedDay}
+    {weather && <HourInfoPanel 
+    weather={weather} 
+    dailyWeather={dailyWeather} 
+    selectedDay={selectedDay}
+    onNextDay = {handleNextDay}
+    onPrevDay = {handlePrevDay}
     onHourSelect={(hour) => setSelectedHour(hour)} 
+    initialOffset={hourOffset}
 />}
   </>
 );

@@ -373,6 +373,22 @@
   color: #fff;
 }
 
+.hour-panel {
+  animation: slideIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .windSpeed, .rainChance {
   display: flex;
   align-items: center;
