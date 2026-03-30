@@ -13,7 +13,15 @@ const weatherBackgrounds = {
   foggy:   { day: "/images/background/foggyDayHiker.jpg", night: "/images/background/foggyNightHiker.jpg" },
 };
 
-function Background({ condition }) {
+function Background({ condition, selectedHour }) {
+    const getTimeOfDay = () => {
+     if (selectedHour) {
+        const hourNum = new Date(selectedHour.dt * 1000).getHours();
+        return hourNum >= 5 && hourNum < 18 ? "day" : "night";
+      }
+      const hour = new Date().getHours();
+      return hour >= 5 && hour < 18 ? "day" : "night";
+  };
   const timeOfDay = getTimeOfDay();
   const bg = weatherBackgrounds[condition]?.[timeOfDay] ?? "/images/background/clearNightHiker.jpg"; 
 
