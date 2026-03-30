@@ -12,10 +12,20 @@ import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
+const getPageSize = (width) => {
+  if (width > 1850) return 8;
+  if (width > 1650) return 7;
+  if (width > 1450) return 6;
+  if (width > 1250) return 5;
+  if (width > 1050) return 4;
+  if (width > 650)  return 3;
+  return 2;
+};
+
 function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset }) {
   const [visibleHours, setVisibleHours] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [pageSize, setPageSize] = useState(4);
+  const [pageSize, setPageSize] = useState(() => getPageSize(window.innerWidth));
   const [dayHours, setDayHours] = useState([]);
   const [direction, setDirection] = useState("right");
   const [visibleDisplay, setVisibleDisplay] = useState([]);
@@ -31,7 +41,11 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
     "50d": mist, "50n": mist,
   };
 
-  
+  useEffect(() => {
+    const updatePanels = () => setPageSize(getPageSize(window.innerWidth));
+    window.addEventListener("resize", updatePanels);
+    return () => window.removeEventListener("resize", updatePanels);
+  }, []);
 
   useEffect(() => {
     if (!weather.list || !selectedDay) return;
@@ -46,34 +60,15 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
 
     setDayHours(filtered);
 
-    // Clamp initialOffset to valid range
+    // Clamp initialOffset to valid range using the already-correct pageSize
     const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
     setOffset(clampedOffset);
   }, [weather.list, selectedDay, initialOffset]);
 
   useEffect(() => {
-    const updatePanels = () => {
-      const width = window.innerWidth;
-      let size;
-      if (width > 1850) size = 8;
-      else if (width > 1650) size = 7;
-      else if (width > 1450) size = 6;
-      else if (width > 1250) size = 5;
-      else if (width > 1050) size = 4;
-      else if (width > 650) size = 3;
-      else size = 2;
+    setVisibleHours(dayHours.slice(offset, offset + pageSize));
+  }, [dayHours, offset, pageSize]);
 
-      setPageSize(size);
-    };
-    updatePanels();
-    window.addEventListener("resize", updatePanels);
-    return () => window.removeEventListener("resize", updatePanels);
-  }, []);
-
-    useEffect(() => {
-        setVisibleHours(dayHours.slice(offset, offset + pageSize));
-      }, [dayHours, offset, pageSize]);
-      
   const dailyEntry = dailyWeather?.list?.find(d => {
     const dDay = new Date(d.dt * 1000).getUTCDate();
     const dMonth = new Date(d.dt * 1000).getUTCMonth();
@@ -97,7 +92,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
 
-      <div className="hour-panel-row" key = {`${selectedDay}-${direction}`}>
+      <div className="hour-panel-row" key={`${selectedDay}-${direction}`}>
         {dayHours.length > 0 ? (
           visibleHours.map((hour, idx) => {
             const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
@@ -109,13 +104,13 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
               <div key={`${hour.dt}-${idx}`} className="hour-panel"
                 onClick={(e) => { e.stopPropagation(); onHourSelect(hour); }}
                 style={{
-              cursor: 'pointer',
-              animationDelay: `${
-                (direction === "right"
-                  ? idx * 0.05
-                  : (pageSize - idx) * 0.05)
-              }s`
-            }}
+                  cursor: 'pointer',
+                  animationDelay: `${
+                    (direction === "right"
+                      ? idx * 0.05
+                      : (pageSize - idx) * 0.05)
+                  }s`
+                }}
               >
                 <div className="time">{hour.dt_txt.split(" ")[1].slice(0, 5)}</div>
                 <div className="hour-temp-row">
@@ -151,14 +146,14 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
 
             return (
               <div key={idx} className="hour-panel" style={{
-              cursor: 'pointer',
-              animationDelay: `${
-              direction === "right"
-                ? idx * 0.05
-                : (visibleHours.length - idx) * 0.05
-              }s`
-            }}>
-                    <div className="time">{slot.label}</div>
+                cursor: 'pointer',
+                animationDelay: `${
+                  direction === "right"
+                    ? idx * 0.05
+                    : (visibleHours.length - idx) * 0.05
+                }s`
+              }}>
+                <div className="time">{slot.label}</div>
                 <div className="hour-temp-row">
                   <img src={iconMap[slotIconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
@@ -186,7 +181,6 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
       <div className="hourRightArrow"
         onClick={() => {
           setDirection("right");
-          
           if (offset + pageSize >= dayHours.length) {
             onNextDay?.();
           } else {
