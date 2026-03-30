@@ -159,8 +159,10 @@ return (
         dailyWeather={dailyWeather}
         weather={weather}
         selectedDay={selectedDay}
-        onDaySelect={setSelectedDay}
-      />
+        onDaySelect={(day) => {
+          setSelectedDay(day);
+          setSelectedHour(null);
+        }}      />
     )}    
     <div className="weather-layout">
       {isMobile ? (

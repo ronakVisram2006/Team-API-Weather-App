@@ -346,6 +346,7 @@
   margin: 0;
 }
 
+
 .feelsdegreeTag {
   color: #fff;
   font-family: 'Poppins', sans-serif;
@@ -506,6 +507,11 @@
   gap: 1.4rem;
   width:100%;
 }
+.hourleftArrow:hover img,
+.hourRightArrow:hover img {
+  filter: brightness(0);
+}
+
 
 .loading {
   display: flex;
@@ -546,6 +552,12 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 3.5rem;
   backdrop-filter: blur(21px);
 }
+
+.hour-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgb(87, 86, 86);
+}
+
 
 .time {
   color: white;
