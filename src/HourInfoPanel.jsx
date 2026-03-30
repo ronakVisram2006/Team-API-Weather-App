@@ -12,7 +12,7 @@ import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
-function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
+function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset }) {
   const [visibleHours, setVisibleHours] = useState([]);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(4);
@@ -41,8 +41,11 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
     });
 
     setDayHours(filtered);
-    setOffset(0);
-  }, [weather.list, selectedDay]);
+
+    // Clamp initialOffset to valid range
+    const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
+    setOffset(clampedOffset);
+  }, [weather.list, selectedDay, initialOffset]);
 
   useEffect(() => {
     const updatePanels = () => {
@@ -79,7 +82,13 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
   return (
     <div className="hour-panel-wrapper">
       <div className="hourleftArrow"
-        onClick={() => setOffset(prev => Math.max(0, prev - 1))}
+        onClick={() => {
+          if (offset === 0) {
+            onPrevDay?.();
+          } else {
+            setOffset(prev => Math.max(0, prev - (pageSize - 1)));
+          }
+        }}
         style={{ cursor: 'pointer' }}>
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
@@ -93,9 +102,9 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
             iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
 
             return (
-              <div key={idx} className="hour-panel"
+              <div key={`${hour.dt}-${idx}`} className="hour-panel"
                 onClick={(e) => { e.stopPropagation(); onHourSelect(hour); }}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', animationDelay: `${idx * 0.05}s` }}
               >
                 <div className="time">{hour.dt_txt.split(" ")[1].slice(0, 5)}</div>
                 <div className="hour-temp-row">
@@ -129,7 +138,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
             const slotIconCode = dailyEntry.weather[0].icon.replace(/[dn]/, slotIsNight ? 'n' : 'd');
 
             return (
-              <div key={idx} className="hour-panel">
+              <div key={idx} className="hour-panel" style={{ animationDelay: `${idx * 0.05}s` }}>
                 <div className="time">{slot.label}</div>
                 <div className="hour-temp-row">
                   <img src={iconMap[slotIconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
@@ -156,7 +165,13 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
       </div>
 
       <div className="hourRightArrow"
-        onClick={() => setOffset(prev => Math.min(Math.max(0, dayHours.length - pageSize), prev + 1))}
+        onClick={() => {
+          if (offset + pageSize >= dayHours.length) {
+            onNextDay?.();
+          } else {
+            setOffset(prev => prev + (pageSize - 1));
+          }
+        }}
         style={{ cursor: 'pointer' }}>
         <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
       </div>
