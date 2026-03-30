@@ -16,7 +16,7 @@ import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
-function HourInfoPanel({ weather }) {
+function HourInfoPanel({ weather, dailyWeather, selectedDay }) {
   const [visibleHours, setVisibleHours] = useState([]);
 
 
@@ -80,6 +80,8 @@ function HourInfoPanel({ weather }) {
         <div className="hour-panel-row">
           {visibleHours.map((hour, idx) => {
 
+
+
               const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
 
               const isNight = hourNum >= 20 || hourNum < 6;
@@ -90,7 +92,10 @@ function HourInfoPanel({ weather }) {
                 : iconCode.replace("n", "d");
 
           return (
-            <div key={idx} className="hour-panel">
+            <div key={idx} 
+            className="hour-panel"         
+            onClick={() => onHourSelect(hour)}
+            style={{ cursor: 'pointer' }}>
 
               <div className="time">
                 {hour.dt_txt.split(" ")[1].slice(0, 5)}

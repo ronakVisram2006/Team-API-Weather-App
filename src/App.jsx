@@ -20,6 +20,9 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedDay, setSelectedDay] = useState();
   const [showFirst, setShowFirst] = useState(true);
+  const [selectedHour, setSelectedHour] = useState(null);
+  const [uv, setUV] = useState(null);
+
 
 
 
@@ -169,6 +172,7 @@ return (
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
             onToggle={handleToggle}
+            selectedHour={selectedHour}
           />
         ) : (
           <SideInfoHikers
@@ -188,6 +192,7 @@ return (
             selectedDay={selectedDay}
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
+            selectedHour={selectedHour}
           />
 
           <SideInfoHikers
@@ -201,7 +206,9 @@ return (
         </>
       )}
     </div>
-    {weather && <HourInfoPanel weather={weather} />}
+    {weather && <HourInfoPanel weather={weather} dailyWeather={dailyWeather} selectedDay={selectedDay}
+    onHourSelect={(hour) => setSelectedHour(hour)} 
+/>}
   </>
 );
 }
