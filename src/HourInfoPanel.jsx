@@ -18,6 +18,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   const [pageSize, setPageSize] = useState(4);
   const [dayHours, setDayHours] = useState([]);
   const [direction, setDirection] = useState("right");
+  const [visibleDisplay, setVisibleDisplay] = useState([]);
 
   const iconMap = {
     "01d": clearDay, "01n": clearNight,
@@ -29,6 +30,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
     "13d": snow, "13n": snow,
     "50d": mist, "50n": mist,
   };
+
+  
 
   useEffect(() => {
     if (!weather.list || !selectedDay) return;
@@ -50,7 +53,6 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
 
   useEffect(() => {
     const updatePanels = () => {
-      if (!dayHours.length) return;
       const width = window.innerWidth;
       let size;
       if (width > 1850) size = 8;
@@ -62,16 +64,16 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
       else size = 2;
 
       setPageSize(size);
-      setVisibleHours(dayHours.slice(offset, offset + size));
     };
-
     updatePanels();
     window.addEventListener("resize", updatePanels);
     return () => window.removeEventListener("resize", updatePanels);
-  }, [dayHours, offset]);
+  }, []);
 
-  if (!weather.list) return null;
-
+    useEffect(() => {
+        setVisibleHours(dayHours.slice(offset, offset + pageSize));
+      }, [dayHours, offset, pageSize]);
+      
   const dailyEntry = dailyWeather?.list?.find(d => {
     const dDay = new Date(d.dt * 1000).getUTCDate();
     const dMonth = new Date(d.dt * 1000).getUTCMonth();
@@ -95,7 +97,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
 
-      <div className="hour-panel-row">
+      <div className="hour-panel-row" key = {`${selectedDay}-${direction}`}>
         {dayHours.length > 0 ? (
           visibleHours.map((hour, idx) => {
             const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
@@ -109,9 +111,9 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
                 style={{
               cursor: 'pointer',
               animationDelay: `${
-                direction === "right"
+                (direction === "right"
                   ? idx * 0.05
-                  : (visibleHours.length - idx) * 0.05
+                  : (pageSize - idx) * 0.05)
               }s`
             }}
               >
@@ -142,7 +144,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             { label: "Afternoon", temp: dailyEntry.temp.day,   feels: dailyEntry.feels_like.day,   hour: 13 },
             { label: "Evening",   temp: dailyEntry.temp.eve,   feels: dailyEntry.feels_like.eve,   hour: 18 },
             { label: "Night",     temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22 },
-          ].map((slot, idx) => {
+          ].slice(0, pageSize)
+          .map((slot, idx) => {
             const slotIsNight = slot.hour >= 20 || slot.hour < 6;
             const slotIconCode = dailyEntry.weather[0].icon.replace(/[dn]/, slotIsNight ? 'n' : 'd');
 

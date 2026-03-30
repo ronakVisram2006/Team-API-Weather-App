@@ -6,7 +6,7 @@ function getTimeOfDay() {
 
 const weatherBackgrounds = {
   sunny:   { day: "/images/background/sunnyDayHiker.jpg", night: "/images/background/clearNightHiker.jpg" },
-  rainy:   { day: "/images/background/rainyDayHiker.jpg",  night: "/images/background/rainyNightHiker.jpg" },
+  rainy:   { day: "/images/background/rainyDayhiker.jpg",  night: "/images/background/rainyNightHiker.jpg" },
   cloudy:  { day: "/images/background/cloudyDayHiker.jpg",  night: "/images/background/cloudyNightHiker.jpg" },
   stormy:  { day: "/images/background/stormyDayHiker.jpg", night: "/images/background/stormyNightHiker.jpg" },
   snowy:   { day: "/images/background/snowyDayHiker.jpg",night: "/images/background/snowyNightHiker.jpg" },
@@ -41,10 +41,15 @@ function Background({ condition, selectedHour, weather }) {
 
     const hour = now.getHours();
     return hour >= 5 && hour < 18 ? "day" : "night";
+    
   };
 
   const timeOfDay = getTimeOfDay();
   const bg = weatherBackgrounds[condition]?.[timeOfDay] ?? "/images/background/clearNightHiker.jpg";
+
+  console.log(timeOfDay, "time of day");
+  console.log("Background condition:", condition);
+
 
   return (
     <img id="background" src={bg} alt="Background" className="background" />

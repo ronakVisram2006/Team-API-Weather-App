@@ -8,11 +8,13 @@ import HourInfoPanel from './HourInfoPanel.jsx';
 import NewDayRow from './NewDayRow.jsx';
 import SideInfoHikers from './SideInfoHikers.jsx';
 import { useState, useEffect } from 'react';
+import SearchOverlay from './SearchOverlay.jsx';
 
 const city_arr = ["Chongqing", "London", "Paris", "New York", "Tokyo", "Sydney", "Cairo", "Rio de Janeiro", "Berlin", "Beijing", "Mumbai", "Sylhet"];
 
 function App() {
 
+  const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState(""); // will be used if for a searchbar
   const [weather, setWeather] = useState(null);  
   const [dailyWeather, setDailyWeather] = useState(null);
@@ -23,8 +25,6 @@ function App() {
   const [selectedHour, setSelectedHour] = useState(null);
   const [uv, setUV] = useState(null);
   const [hourOffset, setHourOffset] = useState(0);
-
-
 
 
   const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
@@ -168,9 +168,9 @@ const handlePrevDay = () => {
       }
 }, [dailyWeather]);
 
-    {if (!weather) return (
-      <div className="loading">⏳</div>
-      );}
+    if (!weather) {
+  return <div className="loading">⏳</div>;
+}
 return (
   <>  
     {weather && <Background condition={getConditionKey(selectedCondition)} selectedHour={selectedHour} weather={weather} />}
@@ -195,6 +195,7 @@ return (
             getDailyWeatherByCoords={getDailyWeatherByCoords}
             onToggle={handleToggle}
             selectedHour={selectedHour}
+            onSearchClick = {() => setShowSearch(true)}
           />
         ) : (
           <SideInfoHikers
@@ -215,6 +216,7 @@ return (
             getWeatherByCoords={getWeatherByCoords}
             getDailyWeatherByCoords={getDailyWeatherByCoords}
             selectedHour={selectedHour}
+            onSearchClick = {() => setShowSearch(true)}
           />
 
           <SideInfoHikers
@@ -237,6 +239,15 @@ return (
     onHourSelect={(hour) => setSelectedHour(hour)} 
     initialOffset={hourOffset}
 />}
+    {showSearch && ( 
+      <SearchOverlay
+        onClose={() => setShowSearch(false)}
+        onSearch={(city) => {
+          getWeatherObj(city);
+          getDailyWeatherObj(city);
+        }}
+      />
+    )}
   </>
 );
 }
