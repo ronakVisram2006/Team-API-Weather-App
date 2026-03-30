@@ -459,34 +459,31 @@
   display: flex;
   flex-direction: column;
   gap: 1.2em;
-  justify-items: center;
-  margin-left: -85%;
 }
 
-
 .iconWrapper {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
 }
 
 .iconWrapper img {
   width: 3.5rem;
   height: 3.5rem;
+  flex-shrink: 0;
 }
 
 .tooltip {
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  padding: 5px 8px;
   border-radius: 5px;
-  position: absolute;
-  top: 40%;
-  left: 120%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  text-align: center;
-  z-index: 10;
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 600px;
+  text-align: left;
+  line-height: 1.4;
+  margin-top: -2%;
 }
-
 
 .cloudCoverFigure, .UVIndexFigure,
 .visibilityFigure, .HumidityFigure, .airPressureFigure {
