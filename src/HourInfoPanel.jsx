@@ -17,6 +17,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(4);
   const [dayHours, setDayHours] = useState([]);
+  const [direction, setDirection] = useState("right");
 
   const iconMap = {
     "01d": clearDay, "01n": clearNight,
@@ -83,6 +84,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
     <div className="hour-panel-wrapper">
       <div className="hourleftArrow"
         onClick={() => {
+          setDirection("left");
           if (offset === 0) {
             onPrevDay?.();
           } else {
@@ -104,7 +106,14 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             return (
               <div key={`${hour.dt}-${idx}`} className="hour-panel"
                 onClick={(e) => { e.stopPropagation(); onHourSelect(hour); }}
-                style={{ cursor: 'pointer', animationDelay: `${idx * 0.05}s` }}
+                style={{
+              cursor: 'pointer',
+              animationDelay: `${
+                direction === "right"
+                  ? idx * 0.05
+                  : (visibleHours.length - idx) * 0.05
+              }s`
+            }}
               >
                 <div className="time">{hour.dt_txt.split(" ")[1].slice(0, 5)}</div>
                 <div className="hour-temp-row">
@@ -138,8 +147,15 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             const slotIconCode = dailyEntry.weather[0].icon.replace(/[dn]/, slotIsNight ? 'n' : 'd');
 
             return (
-              <div key={idx} className="hour-panel" style={{ animationDelay: `${idx * 0.05}s` }}>
-                <div className="time">{slot.label}</div>
+              <div key={idx} className="hour-panel" style={{
+              cursor: 'pointer',
+              animationDelay: `${
+              direction === "right"
+                ? idx * 0.05
+                : (visibleHours.length - idx) * 0.05
+              }s`
+            }}>
+                    <div className="time">{slot.label}</div>
                 <div className="hour-temp-row">
                   <img src={iconMap[slotIconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
@@ -166,6 +182,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
 
       <div className="hourRightArrow"
         onClick={() => {
+          setDirection("right");
+          
           if (offset + pageSize >= dayHours.length) {
             onNextDay?.();
           } else {
