@@ -153,7 +153,7 @@ const getConditionKey = (description = "") => {
       );}
 return (
   <>  
-    {weather && <Background condition={getConditionKey(selectedCondition)} selectedHour = {selectedHour} />}
+    {weather && <Background condition={getConditionKey(selectedCondition)} selectedHour={selectedHour} weather={weather} />}
     {dailyWeather?.list && (
       <NewDayRow
         dailyWeather={dailyWeather}
