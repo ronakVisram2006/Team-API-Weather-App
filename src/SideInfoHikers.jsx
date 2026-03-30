@@ -115,7 +115,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
             <div className="weatherConditionIcon">
                 <img src={conditionIcon} alt="Conditions Icon"/>
             </div>
-            <div className="weatherCondition">{condition}</div>
+            <div className="weatherCondition">{condition?.toUpperCase?.()}</div>
 
             <div className="hiker-info">
                 <div>
