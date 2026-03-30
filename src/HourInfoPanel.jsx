@@ -2,16 +2,12 @@ import { useState, useEffect } from "react";
 
 import clearDay from "/images/mappedIcons/sun.png";
 import clearNight from "/images/mappedIcons/moon.png";
-
 import fewCloudsDay from "/images/mappedIcons/cloudy.png";
 import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
-
 import scatteredClouds from "/images/mappedIcons/clouds.png";
-
 import showerRain from "/images/mappedIcons/shower.png";
 import rainDay from "/images/mappedIcons/rainy-day.png";
 import rainNight from "/images/mappedIcons/raining.png";
-
 import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
@@ -23,32 +19,18 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
   const [dayHours, setDayHours] = useState([]);
 
   const iconMap = {
-    "01d": clearDay,
-    "01n": clearNight,
-
-    "02d": fewCloudsDay,
-    "02n": fewCloudsNight,
-
-    "03d": scatteredClouds,
-    "03n": scatteredClouds,
-
-    "09d": showerRain,
-    "09n": showerRain,
-
-    "10d": rainDay,
-    "10n": rainNight,
-
-    "11d": thunderstorm,
-    "11n": thunderstorm,
-
-    "13d": snow,
-    "13n": snow,
-
-    "50d": mist,
-    "50n": mist,
+    "01d": clearDay, "01n": clearNight,
+    "02d": fewCloudsDay, "02n": fewCloudsNight,
+    "03d": scatteredClouds, "03n": scatteredClouds,
+    "09d": showerRain, "09n": showerRain,
+    "10d": rainDay, "10n": rainNight,
+    "11d": thunderstorm, "11n": thunderstorm,
+    "13d": snow, "13n": snow,
+    "50d": mist, "50n": mist,
   };
+
   useEffect(() => {
-    if (!weather.list) return;
+    if (!weather.list || !selectedDay) return;
 
     const filtered = weather.list.filter(h => {
       const hDay = new Date(h.dt * 1000).getUTCDate();
@@ -61,112 +43,122 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect }) {
     setDayHours(filtered);
     setOffset(0);
   }, [weather.list, selectedDay]);
-  
-  useEffect(() => {
-    if (!dayHours.length) return;
 
+  useEffect(() => {
 
     const updatePanels = () => {
+      if (!dayHours.length) return;
       const width = window.innerWidth;
       let size;
-
       if (width > 1850) size = 8;
       else if (width > 1650) size = 7;
       else if (width > 1450) size = 6;
       else if (width > 1250) size = 5;
       else if (width > 1050) size = 4;
       else if (width > 650) size = 3;
-      else size = 2 ;
+      else size = 2;
 
-      setPageSize(size)
+      setPageSize(size);
       setVisibleHours(dayHours.slice(offset, offset + size));
-
     };
 
     updatePanels();
-
     window.addEventListener("resize", updatePanels);
     return () => window.removeEventListener("resize", updatePanels);
-
   }, [dayHours, offset]);
 
   if (!weather.list) return null;
 
   return (
-    <>
-      <div className="hour-panel-wrapper">
-
-        <div className="hourleftArrow"
-          onClick={() => setOffset(prev => Math.max(0, prev - 1))}
-          style={{ cursor: 'pointer' }}>
-          <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
-        </div>
-
-        <div className="hour-panel-row">
-          {visibleHours.map((hour, idx) => {
-
-              const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
-
-              const isNight = hourNum >= 20 || hourNum < 6;
-
-              let iconCode = hour.weather[0].icon;
-              iconCode = isNight
-                ? iconCode.replace("d", "n")
-                : iconCode.replace("n", "d");
-
-          return (
-            <div key={idx} 
-            className="hour-panel"         
-            onClick={(e) => {
-              e.stopPropagation();
-              onHourSelect(hour);
-            }}
-            style={{ cursor: 'pointer' }}
-            >
-
-              <div className="time">
-                {hour.dt_txt.split(" ")[1].slice(0, 5)}
-              </div>
-
-              <div className="hour-temp-row">
-              <img
-                src={iconMap[iconCode] || scatteredClouds}
-                alt="Weather Icon"
-                className="weather-icon-center"
-              />
-
-                <div className="hour-temp-num-row">
-                  <span className="temperature">
-                    {Math.round(hour.main.temp)}
-                  </span>
-                  <span className="degree">°C</span>
-                </div>
-              </div>
-
-              <div className="bottom-row">
-                <div className="rain-info">
-                  <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
-                  <span className="humidity">{Math.round(hour.pop * 100)}%</span>
-                </div>
-
-                <div className="wind-info">
-                  <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
-                  <span className="wind-speed">{Math.round(hour.wind.speed * 2.237)} mph</span>
-                </div>
-              </div>
-
-            </div>
-          )})}
-        </div>
-
-        <div className="hourRightArrow"
-          onClick={() => setOffset(prev => Math.min(dayHours.length - pageSize, prev + 1))}
-          style={{ cursor: 'pointer' }}>
-          <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
-        </div>
-
+    <div className="hour-panel-wrapper">
+      <div className="hourleftArrow"
+        onClick={() => setOffset(prev => Math.max(0, prev - 1))}
+        style={{ cursor: 'pointer' }}>
+        <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
-    </>
+
+      <div className="hour-panel-row">
+        {dayHours.length > 0 ? (
+          visibleHours.map((hour, idx) => {
+            const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
+            const isNight = hourNum >= 20 || hourNum < 6;
+            let iconCode = hour.weather[0].icon;
+            iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
+
+            return (
+              <div key={idx} className="hour-panel"
+                onClick={(e) => { e.stopPropagation(); onHourSelect(hour); }}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="time">{hour.dt_txt.split(" ")[1].slice(0, 5)}</div>
+                <div className="hour-temp-row">
+                  <img src={iconMap[iconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
+                  <div className="hour-temp-num-row">
+                    <span className="temperature">{Math.round(hour.main.temp)}</span>
+                    <span className="degree">°C</span>
+                  </div>
+                </div>
+                <div className="bottom-row">
+                  <div className="rain-info">
+                    <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
+                    <span className="humidity">{Math.round(hour.pop * 100)}%</span>
+                  </div>
+                  <div className="wind-info">
+                    <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
+                    <span className="wind-speed">{Math.round(hour.wind.speed * 2.237)} mph</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          (() => {
+            const dailyEntry = dailyWeather?.list?.find(d => {
+              const dDay = new Date(d.dt * 1000).getUTCDate();
+              const dMonth = new Date(d.dt * 1000).getUTCMonth();
+              const sDay = new Date(selectedDay * 1000).getUTCDate();
+              const sMonth = new Date(selectedDay * 1000).getUTCMonth();
+              return dDay === sDay && dMonth === sMonth;
+            });
+
+            if (!dailyEntry) return null;
+
+            const fixedHour = new Date().getHours();
+            const isNight = fixedHour < 6 || fixedHour >= 20;
+            const iconCode = dailyEntry.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd');
+
+            return (
+              <div className="hour-panel">
+                <div className="time">All Day</div>
+                <div className="hour-temp-row">
+                  <img src={iconMap[iconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
+                  <div className="hour-temp-num-row">
+                    <span className="temperature">{Math.round(dailyEntry.temp.day)}</span>
+                    <span className="degree">°C</span>
+                  </div>
+                </div>
+                <div className="bottom-row">
+                  <div className="rain-info">
+                    <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
+                    <span className="humidity">{Math.round(dailyEntry.pop * 100)}%</span>
+                  </div>
+                  <div className="wind-info">
+                    <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
+                    <span className="wind-speed">{Math.round(dailyEntry.speed * 2.237)} mph</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })()
+        )}
+      </div>
+
+      <div className="hourRightArrow"
+        onClick={() => setOffset(prev => Math.min(Math.max(0, dayHours.length - pageSize), prev + 1))}
+        style={{ cursor: 'pointer' }}>
+        <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
+      </div>
+    </div>
   );
 }
 
