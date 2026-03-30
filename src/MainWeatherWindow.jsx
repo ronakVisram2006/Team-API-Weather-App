@@ -15,7 +15,7 @@ import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
 
-function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle}) {
+function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle, selectedHour }) {
   if (!weather.list) return null;
 
   const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
@@ -25,14 +25,39 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
     const sDate = new Date(selectedDay * 1000).toLocaleDateString("en-GB");
     return hDate === sDate;
   });
-  const current = selectedHourly?.length ? selectedHourly[0] : weather.list[0];
 
-const hourNum = parseInt(current.dt_txt?.split(" ")[1]?.slice(0, 2)) || 12;
-const isNight = hourNum >= 20 || hourNum < 6;
+  
 
-let iconCode = current.weather[0].icon;
-iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
+  const now = new Date();
 
+  const current = selectedHour 
+    ? selectedHour
+    : selectedHourly?.length
+    ? selectedHourly.reduce((closest, hour) => {
+        const hourTime = new Date(hour.dt * 1000);
+        return Math.abs(hourTime - now) < Math.abs(new Date(closest.dt * 1000) - now)
+          ? hour
+          : closest;
+      }, selectedHourly[0])
+    : weather.list[0];
+
+
+      const fixedHour = now.getHours(); 
+
+      let isNight;
+      if (fixedHour < 6 || fixedHour >= 20) {
+        isNight = true;
+      } else {
+        isNight = false;
+      }
+
+      const iconCode = selectedHour
+        ? selectedHour.weather[0].icon
+        : selectedDailyData
+          ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd')
+          : current.weather[0].icon;
+
+        
 const iconMap = {
   "01d": clearDay,
   "01n": clearNight,
@@ -128,7 +153,7 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
         <div className="tempCol">
           <div className="tempRow">
             <h1 className="tempTag" id="tempVal">
-              {selectedDailyData ? Math.round(selectedDailyData.temp.day) : Math.round(current.main.temp)}
+              {selectedHour ? Math.round(selectedHour.main.temp) : selectedDailyData ? Math.round(selectedDailyData.temp.day) : Math.round(current.main.temp)}
             </h1>
             <h1 className="degreeTag">°C</h1>
             <img className="weatherIcon" src={iconSrc} alt="Weather Icon" />
@@ -136,7 +161,7 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
           <div className="feelsLike">
             <h2 className="feelsLikeTag">Feels like</h2>
             <h2 className="feelsLikeTemp">
-              {selectedDailyData ? Math.round(selectedDailyData.feels_like.day) : Math.round(current.main.feels_like)}
+              {selectedHour ? Math.round(selectedHour.main.feels_like) : selectedDailyData ? Math.round(selectedDailyData.feels_like.day) : Math.round(current.main.feels_like)}
             </h2>
             <h2 className="feelsdegreeTag">°C</h2>
           </div>
