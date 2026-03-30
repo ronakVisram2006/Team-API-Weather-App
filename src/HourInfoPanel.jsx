@@ -78,7 +78,18 @@ function HourInfoPanel({ weather }) {
         </div>
 
         <div className="hour-panel-row">
-          {visibleHours.map((hour, idx) => (
+          {visibleHours.map((hour, idx) => {
+
+              const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
+
+              const isNight = hourNum >= 20 || hourNum < 6;
+
+              let iconCode = hour.weather[0].icon;
+              iconCode = isNight
+                ? iconCode.replace("d", "n")
+                : iconCode.replace("n", "d");
+
+          return (
             <div key={idx} className="hour-panel">
 
               <div className="time">
@@ -87,7 +98,7 @@ function HourInfoPanel({ weather }) {
 
               <div className="hour-temp-row">
               <img
-                src={iconMap[hour.weather[0].icon] || clearDay}
+                src={iconMap[iconCode] || scatteredClouds}
                 alt="Weather Icon"
                 className="weather-icon-center"
               />
@@ -113,7 +124,7 @@ function HourInfoPanel({ weather }) {
               </div>
 
             </div>
-          ))}
+          )})}
         </div>
 
         <div className="hourRightArrow">

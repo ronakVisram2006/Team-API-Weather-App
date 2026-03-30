@@ -1,3 +1,20 @@
+import clearDay from "/images/mappedIcons/sun.png";
+import clearNight from "/images/mappedIcons/moon.png";
+
+import fewCloudsDay from "/images/mappedIcons/cloudy.png";
+import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
+
+import scatteredClouds from "/images/mappedIcons/clouds.png";
+
+import showerRain from "/images/mappedIcons/shower.png";
+import rainDay from "/images/mappedIcons/rainy-day.png";
+import rainNight from "/images/mappedIcons/raining.png";
+
+import thunderstorm from "/images/mappedIcons/thunder.png";
+import snow from "/images/mappedIcons/snow.png";
+import mist from "/images/mappedIcons/fog.png";
+
+
 function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle}) {
   if (!weather.list) return null;
 
@@ -8,9 +25,36 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
     const sDate = new Date(selectedDay * 1000).toLocaleDateString("en-GB");
     return hDate === sDate;
   });
+  const current = selectedHourly?.length ? selectedHourly[0] : weather.list[0];
 
-  const current = (selectedHourly?.length ? selectedHourly[0] : weather.list[0]);
-  const iconURL = `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+const hourNum = parseInt(current.dt_txt?.split(" ")[1]?.slice(0, 2)) || 12;
+const isNight = hourNum >= 20 || hourNum < 6;
+
+let iconCode = current.weather[0].icon;
+iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
+
+const iconMap = {
+  "01d": clearDay,
+  "01n": clearNight,
+  "02d": fewCloudsDay,
+  "02n": fewCloudsNight,
+  "03d": scatteredClouds,
+  "03n": fewCloudsNight,
+  "04d": scatteredClouds,
+  "04n": fewCloudsNight,
+  "09d": showerRain,
+  "09n": showerRain,
+  "10d": rainDay,
+  "10n": rainNight,
+  "11d": thunderstorm,
+  "11n": thunderstorm,
+  "13d": snow,
+  "13n": snow,
+  "50d": mist,
+  "50n": mist,
+};
+
+const iconSrc = iconMap[iconCode] || scatteredClouds;
 
   const getWindDirection = (deg) => {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -50,6 +94,7 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
       alert("Geolocation is not supported by this browser.");
     }
   }
+    
 
   return (
 <div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
@@ -86,7 +131,7 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
               {selectedDailyData ? Math.round(selectedDailyData.temp.day) : Math.round(current.main.temp)}
             </h1>
             <h1 className="degreeTag">°C</h1>
-            <img className="weatherIcon" src={iconURL} alt="Weather Icon" />
+            <img className="weatherIcon" src={iconSrc} alt="Weather Icon" />
           </div>
           <div className="feelsLike">
             <h2 className="feelsLikeTag">Feels like</h2>

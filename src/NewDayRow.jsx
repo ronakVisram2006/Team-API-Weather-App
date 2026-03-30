@@ -78,6 +78,19 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
       new Date(hour.dt * 1000).toLocaleDateString("en-GB") === dayDate
     );
     const temps = hourlyForDay.map(h => h.main.temp);
+    
+    const representativeHour = hourlyForDay.length
+      ? hourlyForDay[Math.floor(hourlyForDay.length / 2)]
+      : null;
+
+    let iconCode = day.weather[0].icon;
+    if (representativeHour) {
+      const hourNum = new Date(representativeHour.dt * 1000).getHours();
+      const isNight = hourNum >= 20 || hourNum < 6;
+      iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
+    }
+
+    const icon = iconMap[iconCode] || scatteredClouds;
 
     return {
       date: day.dt,
@@ -85,7 +98,7 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
       dayNum: new Date(day.dt * 1000).getDate(),
       high: temps.length ? `${Math.round(Math.max(...temps))}°` : `${Math.round(day.temp.max)}°`,
       low: temps.length ? `${Math.round(Math.min(...temps))}°` : `${Math.round(day.temp.min)}°`,
-      icon: iconMap[day.weather[0].icon] || scatteredClouds,
+      icon: icon,
     };
   });
 
