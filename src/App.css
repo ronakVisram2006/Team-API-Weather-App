@@ -220,6 +220,12 @@
   font-weight: 500;
 }
 
+.locational-row{
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
 .windDirection {
   display: flex;
   align-items: center;
@@ -753,7 +759,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   z-index: 999;
 }
 
-/* MAIN BOX */
+
 .search-box {
   width: min(90%, 520px);
   padding: 2rem;
@@ -769,7 +775,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* TITLE */
+
 .whereToText {
   margin: 0;
   font-size: 1.6rem;
@@ -779,7 +785,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   letter-spacing: 0.5px;
 }
 
-/* INPUT */
+
 .input-row {
   display: flex;
   align-items: center;
@@ -852,6 +858,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   align-items: center;
   justify-content: center;
   transition: 0.2s ease;
+  
 }
 
 .close-btn:hover {

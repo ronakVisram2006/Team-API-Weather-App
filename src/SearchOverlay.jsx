@@ -1,26 +1,35 @@
 import { useState } from 'react';
 
-function SearchOverlay({onClose, onSearch}){
+function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, getWeatherByCoords, getDailyWeatherByCoords}) {
     const [input, setInput] = useState("");
 
     const handleSearch = () => {
-        if(!input) return;
+        if (!input) return;
+
         onSearch(input);
         onClose();
     };
     const currentLocation = () => {
-        if (navigator.geolocation) {
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by this browser.");
+            return;
+        }
+
         navigator.geolocation.getCurrentPosition(
             (position) => {
-            getWeatherByCoords(position.coords.latitude, position.coords.longitude);
-            getDailyWeatherByCoords(position.coords.latitude, position.coords.longitude);
+                const { latitude, longitude } = position.coords;
+
+                onSearch({ lat: latitude, lon: longitude });
+
+                onClose();
             },
-            () => alert("Unable to retrieve your location. Please allow location access and try again.")
+            () => {
+                alert("Unable to retrieve your location. Please allow location access and try again.");
+            }
         );
-        } else {
-        alert("Geolocation is not supported by this browser.");
-        }
-    }
+    };
+
+    
 
     return (
     <div className="search-overlay">
@@ -44,8 +53,8 @@ function SearchOverlay({onClose, onSearch}){
         
 
 
-            <button onClick={handleSearch} className="search-btn">
-                Search
+            <button onClick={() => handleSearch(input)} className="search-btn">
+                    Search
             </button>
 
             <div className="popular-section">

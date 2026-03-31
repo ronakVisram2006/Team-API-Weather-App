@@ -115,13 +115,15 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
   return (
 <div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
         <div className="top-row">
-        <div className="location">
-          <h1 className="locationTag">{weather.city.name},</h1>
-          <h2 className="greaterLocationTag">{weather.city.country}</h2>
-          <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
-            e.stopPropagation();
-            onSearchClick();
-          }} />
+        <div className ="locational-row">
+          <div className="location">
+            <h1 className="locationTag">{weather.city.name},</h1>
+            <h2 className="greaterLocationTag">{weather.city.country}</h2>
+          </div>
+            <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
+              e.stopPropagation();
+              onSearchClick();
+            }} />
         </div>
         <div className="windDirection">
           <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon" style={{ transform: `rotate(${current.wind.deg}deg)` }} />

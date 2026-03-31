@@ -239,12 +239,17 @@ return (
     onHourSelect={(hour) => setSelectedHour(hour)} 
     initialOffset={hourOffset}
 />}
-    {showSearch && ( 
+    {showSearch && (
       <SearchOverlay
         onClose={() => setShowSearch(false)}
-        onSearch={(city) => {
-          getWeatherObj(city);
-          getDailyWeatherObj(city);
+        onSearch={(query) => {
+          if (typeof query === "string") {
+            getWeatherObj(query);
+            getDailyWeatherObj(query);
+          } else {
+            getWeatherByCoords(query.lat, query.lon);
+            getDailyWeatherByCoords(query.lat, query.lon);
+          }
         }}
       />
     )}
