@@ -5,6 +5,7 @@ import clearNight from "/images/mappedIcons/moon.png";
 import fewCloudsDay from "/images/mappedIcons/cloudy.png";
 import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
 import scatteredClouds from "/images/mappedIcons/clouds.png";
+import scatteredCloudsNight from "/images/mappedIcons/cloudy-night.png";
 import showerRain from "/images/mappedIcons/shower.png";
 import rainDay from "/images/mappedIcons/rainy-day.png";
 import rainNight from "/images/mappedIcons/raining.png";
@@ -22,6 +23,11 @@ const getPageSize = (width) => {
   return 2;
 };
 
+const getDayNightIcon = (baseIcon, hour) => {
+  const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
+  return baseIcon.slice(0, -1) + suffix;
+};
+
 function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset }) {
   const [visibleHours, setVisibleHours] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -33,7 +39,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   const iconMap = {
     "01d": clearDay, "01n": clearNight,
     "02d": fewCloudsDay, "02n": fewCloudsNight,
-    "03d": scatteredClouds, "03n": scatteredClouds,
+    "03d": scatteredClouds, "03n": scatteredCloudsNight,
+    "04d": scatteredClouds,"04n": scatteredCloudsNight,
     "09d": showerRain, "09n": showerRain,
     "10d": rainDay, "10n": rainNight,
     "11d": thunderstorm, "11n": thunderstorm,
@@ -60,7 +67,6 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
 
     setDayHours(filtered);
 
-    // Clamp initialOffset to valid range using the already-correct pageSize
     const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
     setOffset(clampedOffset);
   }, [weather.list, selectedDay, initialOffset]);
@@ -98,7 +104,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
             const isNight = hourNum >= 20 || hourNum < 6;
             let iconCode = hour.weather[0].icon;
-            iconCode = isNight ? iconCode.replace("d", "n") : iconCode.replace("n", "d");
+            console.log(iconCode);
 
             return (
               <div key={`${hour.dt}-${idx}`} className="hour-panel"
@@ -134,16 +140,15 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             );
           })
         ) : dailyEntry ? (
+          
           [
-            { label: "Morning",   temp: dailyEntry.temp.morn,  feels: dailyEntry.feels_like.morn,  hour: 8  },
-            { label: "Afternoon", temp: dailyEntry.temp.day,   feels: dailyEntry.feels_like.day,   hour: 13 },
-            { label: "Evening",   temp: dailyEntry.temp.eve,   feels: dailyEntry.feels_like.eve,   hour: 18 },
-            { label: "Night",     temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22 },
+            { label: "Morning",   temp: dailyEntry.temp.morn,  feels: dailyEntry.feels_like.morn,  hour: 8,  icon: getDayNightIcon(dailyEntry.weather[0].icon, 8)  },
+            { label: "Afternoon", temp: dailyEntry.temp.day,   feels: dailyEntry.feels_like.day,   hour: 13, icon: getDayNightIcon(dailyEntry.weather[0].icon, 13) },
+            { label: "Evening",   temp: dailyEntry.temp.eve,   feels: dailyEntry.feels_like.eve,   hour: 18, icon: getDayNightIcon(dailyEntry.weather[0].icon, 18) },
+            { label: "Night",     temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22, icon: getDayNightIcon(dailyEntry.weather[0].icon, 22) },
           ].slice(0, pageSize)
+          
           .map((slot, idx) => {
-            const slotIsNight = slot.hour >= 20 || slot.hour < 6;
-            const slotIconCode = dailyEntry.weather[0].icon.replace(/[dn]/, slotIsNight ? 'n' : 'd');
-
             return (
               <div key={idx} className="hour-panel" style={{
                 cursor: 'pointer',
@@ -155,7 +160,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
               }}>
                 <div className="time">{slot.label}</div>
                 <div className="hour-temp-row">
-                  <img src={iconMap[slotIconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
+                  <img src={iconMap[slot.icon] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
                     <span className="temperature">{Math.round(slot.temp)}</span>
                     <span className="degree">°C</span>
