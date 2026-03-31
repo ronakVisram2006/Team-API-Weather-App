@@ -1,13 +1,31 @@
 import { useState } from 'react';
 
 function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, getWeatherByCoords, getDailyWeatherByCoords}) {
+    async function fetchWeather(city) {
+        const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=7adc71064a0153510e1edd7ee10cea2b`
+        );
+
+        if (!res.ok) {
+            throw new Error("Invalid city");
+        }
+
+        return res.json();
+        }
+
     const [input, setInput] = useState("");
 
-    const handleSearch = () => {
-        if (!input) return;
+    const handleSearch = async (city) => {
+    if (!city || !city.trim()) return;
 
-        onSearch(input);
+    try {
+        await fetchWeather(city);
+        await onSearch(city);
+
         onClose();
+    } catch (err) {
+        alert("City not found. Try again.");
+    }
     };
     const currentLocation = () => {
         if (!navigator.geolocation) {
@@ -54,7 +72,7 @@ function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, ge
 
 
             <button onClick={() => handleSearch(input)} className="search-btn">
-                    Search
+                            Search
             </button>
 
             <div className="popular-section">

@@ -11,13 +11,11 @@
     height: 16rem;
   }
 
-
   .main-weather-window {
-    margin-top: 4rem;
     margin-left: 3%;
     margin-right: 3%;
     width: 94%;
-    padding: 1.2rem 1.2rem;
+    padding: 5vh 3rem;
     padding-bottom:7rem;
     border-radius: 20px;
     gap: 1rem;
