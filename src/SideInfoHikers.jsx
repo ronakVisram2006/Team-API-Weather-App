@@ -1,4 +1,19 @@
 import { useState, useEffect } from 'react';
+import clearDay from "/images/mappedIcons/sun.png";
+import clearNight from "/images/mappedIcons/moon.png";
+
+import fewCloudsDay from "/images/mappedIcons/cloudy.png";
+import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
+
+import scatteredClouds from "/images/mappedIcons/clouds.png";
+
+import showerRain from "/images/mappedIcons/shower.png";
+import rainDay from "/images/mappedIcons/rainy-day.png";
+import rainNight from "/images/mappedIcons/raining.png";
+
+import thunderstorm from "/images/mappedIcons/thunder.png";
+import snow from "/images/mappedIcons/snow.png";
+import mist from "/images/mappedIcons/fog.png";
 
 const rainGear = {
   optional : "Low precipitation - No rain gear needed",
@@ -34,6 +49,27 @@ const footwear = {
 
 }
 
+const iconMap = {
+  "01d": clearDay,
+  "01n": clearNight,
+  "02d": fewCloudsDay,
+  "02n": fewCloudsNight,
+  "03d": scatteredClouds,
+  "03n": fewCloudsNight,
+  "04d": scatteredClouds,
+  "04n": fewCloudsNight,
+  "09d": showerRain,
+  "09n": showerRain,
+  "10d": rainDay,
+  "10n": rainNight,
+  "11d": thunderstorm,
+  "11n": thunderstorm,
+  "13d": snow,
+  "13n": snow,
+  "50d": mist,
+  "50n": mist,
+};
+
 function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst,onToggle}) {
     
     if (!dailyWeather?.list) return null;
@@ -56,9 +92,9 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
     const airPressure = current.pressure;
 
     const condition = current?.weather?.[0]?.description ?? "";
-    const conditionIcon = current?.weather?.[0]?.icon
-    ? `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`
-    : "";
+    const conditionIcon = iconMap[current?.weather?.[0]?.icon]
+    ? iconMap[current.weather[0].icon]
+    : "/images/mappedIcons/mountain.png";
 
     const avgPop = hourly.length
         ? hourly.reduce((sum, h) => sum + (h.pop ?? 0), 0) / hourly.length

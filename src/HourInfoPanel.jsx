@@ -36,6 +36,12 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   const [direction, setDirection] = useState("right");
   const [visibleDisplay, setVisibleDisplay] = useState([]);
 
+  const [activeHour, setActiveHour] = useState(null);
+
+  function onSelectHour(hour) {
+    setActiveHour(hour.dt);
+  }
+
   const iconMap = {
     "01d": clearDay, "01n": clearNight,
     "02d": fewCloudsDay, "02n": fewCloudsNight,
@@ -107,8 +113,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
             console.log(iconCode);
 
             return (
-              <div key={`${hour.dt}-${idx}`} className="hour-panel"
-                onClick={(e) => { e.stopPropagation(); onHourSelect(hour); }}
+              <div key={`${hour.dt}-${idx}`} className={`hour-panel ${activeHour === hour.dt ? "active" : ""}`}
+                onClick={(e) => { e.stopPropagation(); onHourSelect(hour); onSelectHour(hour); }}
                 style={{
                   cursor: 'pointer',
                   animationDelay: `${

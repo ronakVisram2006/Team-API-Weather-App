@@ -132,7 +132,7 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
         <div className="location">
           <h1 className="locationTag">{weather.city.name},</h1>
           <h2 className="greaterLocationTag">{weather.city.country}</h2>
-          <img className="currentLocationIcon" src="./images/location.png" alt="Location Icon" onClick={currentLocation} />
+          <img className="currentLocationIcon" src="./images/currentLocation.gif" alt="Location Icon" onClick={currentLocation} />
           <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
             e.stopPropagation();
             onSearchClick();
