@@ -23,10 +23,14 @@ const getPageSize = (width) => {
   return 2;
 };
 
-const getDayNightIcon = (baseIcon, hour) => {
-  const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
-  return baseIcon.slice(0, -1) + suffix;
-};
+  const getDayNightIcon = (baseIcon, hour) => {
+    const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
+    return baseIcon.slice(0, -1) + suffix;
+  };
+  
+  const getIsNight = (timestamp, sunrise, sunset) => {
+    return timestamp < sunrise || timestamp >= sunset;
+  };
 
 function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset }) {
   const [visibleHours, setVisibleHours] = useState([]);
@@ -71,6 +75,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
       return hDay === sDay && hMonth === sMonth;
     });
 
+    
+
     setDayHours(filtered);
 
     const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
@@ -107,10 +113,9 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
       <div className="hour-panel-row" key={`${selectedDay}-${direction}`}>
         {dayHours.length > 0 ? (
           visibleHours.map((hour, idx) => {
-            const hourNum = parseInt(hour.dt_txt.split(" ")[1].slice(0, 2));
-            const isNight = hourNum >= 20 || hourNum < 6;
-            let iconCode = hour.weather[0].icon;
-            console.log(iconCode);
+            const hourIsNight = getIsNight(hour.dt, weather.city.sunrise, weather.city.sunset);
+            const iconCode = hour.weather[0].icon.replace(/[dn]/, hourIsNight ? 'n' : 'd');
+          
 
             return (
               <div key={`${hour.dt}-${idx}`} className={`hour-panel ${activeHour === hour.dt ? "active" : ""}`}

@@ -45,23 +45,22 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
       const fixedHour = now.getHours(); 
 
       let isNight;
-      if (fixedHour < 6 || fixedHour >= 20) {
-        isNight = true;
-      } else {
-        isNight = false;
-      }
+
+      const getIsNight = (timestamp, sunrise, sunset) => {
+        return timestamp < sunrise || timestamp >= sunset;
+      };
 
 
+    const getDayNightIcon = (baseIcon, hour) => baseIcon.replace(/[dn]/, hour >= 20 || hour < 6 ? 'n' : 'd');
     const iconCode = selectedHour
       ? (() => {
-          const selectedHourNum = new Date(selectedHour.dt * 1000).getHours();
-          const selectedIsNight = selectedHourNum <= 6 || selectedHourNum >= 20;
-          return selectedHour.weather[0].icon.replace(/[dn]/, selectedIsNight ? 'n' : 'd');
+          const currentTimestamp = current.dt;
+          const isNightCurrent = getIsNight(currentTimestamp, weather.city.sunrise, weather.city.sunset);
+          return current.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd');
         })()
       : selectedDailyData
-        ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNight ? 'n' : 'd')
+        ? getDayNightIcon(selectedDailyData.weather[0].icon, 12) // use midday for daily
         : current.weather[0].icon;
-
         
 const iconMap = {
   "01d": clearDay,
@@ -91,24 +90,24 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
     return directions[Math.round(deg / 45) % 8];
   }
 
-  let sunriseHour = Math.round((((weather.city.sunrise + weather.city.timezone) / 60) / 60) % 24);
+  let sunriseHour = Math.floor((weather.city.sunrise + weather.city.timezone) / 3600) % 24;
   if (sunriseHour < 10) sunriseHour = "0".concat(sunriseHour.toString());
 
   let sunrisePeriod;
   if (sunriseHour<12) sunrisePeriod="AM";
   else sunrisePeriod="PM";
 
-  let sunriseMin = Math.round(((weather.city.sunrise + weather.city.timezone) / 60) % 60);
+  let sunriseMin = Math.floor(((weather.city.sunrise + weather.city.timezone) / 60) % 60);
   if (sunriseMin < 10) sunriseMin = "0".concat(sunriseMin.toString());
 
-  let sunsetHour = Math.round((((weather.city.sunset + weather.city.timezone) / 60) / 60) % 24);
+  let sunsetHour = Math.floor((weather.city.sunset + weather.city.timezone) / 3600) % 24;
   if (sunsetHour < 10) sunsetHour = "0".concat(sunsetHour.toString());
 
   let sunsetPeriod;
   if (sunsetHour<12) sunsetPeriod="AM";
   else sunsetPeriod="PM";
 
-  let sunsetMin = Math.round(((weather.city.sunset + weather.city.timezone) / 60) % 60);
+  let sunsetMin = Math.floor(((weather.city.sunset + weather.city.timezone) / 60) % 60);
   if (sunsetMin < 10) sunsetMin = "0".concat(sunsetMin.toString());
 
 
