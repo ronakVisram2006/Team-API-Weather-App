@@ -10,6 +10,7 @@
     border: 1.5px solid rgba(255, 255, 255, 0.5);
     padding-bottom:4rem;
   }
+  /* Adjust the side info stack for smaller screens */
 
   .locationTag {
     font-size: 5vw;
