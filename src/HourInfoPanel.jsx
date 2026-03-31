@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 import clearDay from "/images/mappedIcons/sun.png";

@@ -1,4 +1,3 @@
-
 function getTimeOfDay() {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 18) return "day";
