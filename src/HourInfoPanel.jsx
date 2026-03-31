@@ -88,13 +88,6 @@ function HourInfoPanel({
       localHourDate.getUTCMonth() === localSelectedDate.getUTCMonth()
     );
   });
-  // In HourInfoPanel, right after the filtered line:
-console.log("selectedDay:", selectedDay, new Date((selectedDay + timezoneOffset) * 1000).toUTCString());
-console.log("All hour dates:", weather.list.slice(0, 5).map(h => ({
-  dt: h.dt,
-  local: new Date((h.dt + timezoneOffset) * 1000).toUTCString()
-})));
-console.log("filtered count:", filtered.length);
 
   setDayHours(filtered);
 

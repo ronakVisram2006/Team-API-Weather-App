@@ -64,7 +64,6 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
 
   const current = dailyWeather.list.find(d => d.dt === selectedDay) ?? dailyWeather.list[0];
 
-  // ✅ Fixed: use timezoneOffset instead of browser locale
   const hourly = weather.list.filter(h => {
     const localHour = new Date((h.dt + timezoneOffset) * 1000);
     const localSelected = new Date((selectedDay + timezoneOffset) * 1000);
@@ -88,7 +87,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
     ? hourly.reduce((sum, h) => sum + (h.pop ?? 0), 0) / hourly.length
     : (current.pop ?? 0);
 
-    
+
   const getHikerRainInfo = () => {
     if (avgPop < 0.25) return rainGear.optional;
     if (avgPop < 0.55) return rainGear.recommended;

@@ -55,8 +55,8 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
     return timestamp < sunrise || timestamp >= sunset;
   };
 
-  const localTimestamp = current.dt + weather.city.timezone;
-  const localSunrise = sunriseRaw + weather.city.timezone;
+const localTimestamp = (selectedHour?.dt ?? selectedDailyData?.dt ?? current.dt) + weather.city.timezone;  
+const localSunrise = sunriseRaw + weather.city.timezone;
   const localSunset = sunsetRaw + weather.city.timezone;
   const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
 

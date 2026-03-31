@@ -70,6 +70,8 @@ const getConditionKey = (description = "") => {
 
 
   const getWeatherObj = (city) => {
+    setSelectedDay(null);
+    setSelectedHour(null);
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${city}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
     .then(res => res.json())
     .then(result => setWeather(result));
@@ -83,6 +85,8 @@ const getConditionKey = (description = "") => {
   }
 
   const getWeatherByCoords = (lat, lon) => {
+    setSelectedDay(null);
+    setSelectedHour(null);
     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${lat}&lon=${lon}&units=metric&appid=7adc71064a0153510e1edd7ee10cea2b`)
     .then(res => res.json())
     .then(result  => setWeather(result));
