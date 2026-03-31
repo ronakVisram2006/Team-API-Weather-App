@@ -27,12 +27,12 @@ const getPageSize = (width) => {
     const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
     return baseIcon.slice(0, -1) + suffix;
   };
-  
-  const getIsNight = (timestamp, sunrise, sunset) => {
-    return timestamp < sunrise || timestamp >= sunset;
-  };
 
-function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset }) {
+
+
+  
+
+function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset, timezoneOffset }) {
   const [visibleHours, setVisibleHours] = useState([]);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(() => getPageSize(window.innerWidth));
@@ -58,6 +58,20 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
     "50d": mist, "50n": mist,
   };
 
+  const getLocalTime = (dt) => {
+    const date = new Date((dt + timezoneOffset) * 1000);   // shift UTC to local
+    return date.toLocaleTimeString('en-GB', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
+
+  const getLocalDateKey = (dt) => {
+    const date = new Date((dt + timezoneOffset) * 1000);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+
   useEffect(() => {
     const updatePanels = () => setPageSize(getPageSize(window.innerWidth));
     window.addEventListener("resize", updatePanels);
@@ -67,33 +81,25 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   useEffect(() => {
     if (!weather.list || !selectedDay) return;
 
-    const filtered = weather.list.filter(h => {
-      const hDay = new Date(h.dt * 1000).getUTCDate();
-      const hMonth = new Date(h.dt * 1000).getUTCMonth();
-      const sDay = new Date(selectedDay * 1000).getUTCDate();
-      const sMonth = new Date(selectedDay * 1000).getUTCMonth();
-      return hDay === sDay && hMonth === sMonth;
-    });
+    const selectedKey = getLocalDateKey(selectedDay);
 
-    
+    const filtered = weather.list.filter(h => 
+      getLocalDateKey(h.dt) === selectedKey
+    );
 
     setDayHours(filtered);
-
+    
     const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
     setOffset(clampedOffset);
-  }, [weather.list, selectedDay, initialOffset]);
+  }, [weather.list, selectedDay, initialOffset, timezoneOffset, pageSize]);
 
   useEffect(() => {
     setVisibleHours(dayHours.slice(offset, offset + pageSize));
   }, [dayHours, offset, pageSize]);
 
-  const dailyEntry = dailyWeather?.list?.find(d => {
-    const dDay = new Date(d.dt * 1000).getUTCDate();
-    const dMonth = new Date(d.dt * 1000).getUTCMonth();
-    const sDay = new Date(selectedDay * 1000).getUTCDate();
-    const sMonth = new Date(selectedDay * 1000).getUTCMonth();
-    return dDay === sDay && dMonth === sMonth;
-  });
+  const dailyEntry = dailyWeather?.list?.find(d => 
+      getLocalDateKey(d.dt) === getLocalDateKey(selectedDay)
+    );
 
   return (
     <div className="hour-panel-wrapper">
@@ -113,9 +119,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
       <div className="hour-panel-row" key={`${selectedDay}-${direction}`}>
         {dayHours.length > 0 ? (
           visibleHours.map((hour, idx) => {
-            const hourIsNight = getIsNight(hour.dt, weather.city.sunrise, weather.city.sunset);
-            const iconCode = hour.weather[0].icon.replace(/[dn]/, hourIsNight ? 'n' : 'd');
-          
+            const iconCode = hour.weather[0].icon;   // ← Use the icon exactly as the API gives it
 
             return (
               <div key={`${hour.dt}-${idx}`} className={`hour-panel ${activeHour === hour.dt ? "active" : ""}`}
@@ -129,8 +133,8 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
                   }s`
                 }}
               >
-                <div className="time">{hour.dt_txt.split(" ")[1].slice(0, 5)}</div>
-                <div className="hour-temp-row">
+                <div className="time">{getLocalTime(hour.dt)}</div>             
+                 <div className="hour-temp-row">
                   <img src={iconMap[iconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
                     <span className="temperature">{Math.round(hour.main.temp)}</span>

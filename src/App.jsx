@@ -110,6 +110,8 @@ const handleNextDay = () => {
   }
 };
 
+  const timezoneOffset = weather ? weather.city.timezone : 0;
+
 const handlePrevDay = () => {
   const currentIndex = dailyWeather.list.findIndex(d => d.dt === selectedDay);
   const prev = dailyWeather.list[currentIndex - 1];
@@ -238,6 +240,7 @@ return (
     onPrevDay = {handlePrevDay}
     onHourSelect={(hour) => setSelectedHour(hour)} 
     initialOffset={hourOffset}
+    timezoneOffset={timezoneOffset}
 />}
     {showSearch && (
       <SearchOverlay

@@ -50,17 +50,26 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
         return timestamp < sunrise || timestamp >= sunset;
       };
 
+      // Use local times (timestamps + timezone offset)
+      const localTimestamp = current.dt + weather.city.timezone;
+      const localSunrise = weather.city.sunrise + weather.city.timezone;
+      const localSunset = weather.city.sunset + weather.city.timezone;
 
-    const getDayNightIcon = (baseIcon, hour) => baseIcon.replace(/[dn]/, hour >= 20 || hour < 6 ? 'n' : 'd');
-    const iconCode = selectedHour
-      ? (() => {
-          const currentTimestamp = current.dt;
-          const isNightCurrent = getIsNight(currentTimestamp, weather.city.sunrise, weather.city.sunset);
-          return current.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd');
-        })()
-      : selectedDailyData
-        ? getDayNightIcon(selectedDailyData.weather[0].icon, 12) // use midday for daily
-        : current.weather[0].icon;
+      const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
+
+
+      const iconCode = selectedHour
+        ? (() => {
+            const localTimestamp = current.dt + weather.city.timezone;
+            const localSunrise = weather.city.sunrise + weather.city.timezone;
+            const localSunset = weather.city.sunset + weather.city.timezone;
+
+            const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
+            return current.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd');
+          })()
+        : selectedDailyData
+          ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd')
+          : current.weather[0].icon;
         
 const iconMap = {
   "01d": clearDay,
@@ -90,26 +99,24 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
     return directions[Math.round(deg / 45) % 8];
   }
 
-  let sunriseHour = Math.floor((weather.city.sunrise + weather.city.timezone) / 3600) % 24;
-  if (sunriseHour < 10) sunriseHour = "0".concat(sunriseHour.toString());
+  const sunriseDate = new Date((weather.city.sunrise + weather.city.timezone) * 1000);
+  const sunsetDate = new Date((weather.city.sunset + weather.city.timezone) * 1000);
 
-  let sunrisePeriod;
-  if (sunriseHour<12) sunrisePeriod="AM";
-  else sunrisePeriod="PM";
+  const sunriseHourRaw = sunriseDate.getUTCHours();
+  const sunriseHour = (sunriseHourRaw % 12 || 12).toString().padStart(2, "0"); // 12-hour format
+  const sunriseMin = sunriseDate.getUTCMinutes().toString().padStart(2, "0");
+  const sunrisePeriod = sunriseHourRaw < 12 ? "AM" : "PM";
 
-  let sunriseMin = Math.floor(((weather.city.sunrise + weather.city.timezone) / 60) % 60);
-  if (sunriseMin < 10) sunriseMin = "0".concat(sunriseMin.toString());
+  const sunsetHourRaw = sunsetDate.getUTCHours();
+  const sunsetHour = (sunsetHourRaw % 12 || 12).toString().padStart(2, "0"); // 12-hour format
+  const sunsetMin = sunsetDate.getUTCMinutes().toString().padStart(2, "0");
+  const sunsetPeriod = sunsetHourRaw < 12 ? "AM" : "PM";
 
-  let sunsetHour = Math.floor((weather.city.sunset + weather.city.timezone) / 3600) % 24;
-  if (sunsetHour < 10) sunsetHour = "0".concat(sunsetHour.toString());
-
-  let sunsetPeriod;
-  if (sunsetHour<12) sunsetPeriod="AM";
-  else sunsetPeriod="PM";
-
-  let sunsetMin = Math.floor(((weather.city.sunset + weather.city.timezone) / 60) % 60);
-  if (sunsetMin < 10) sunsetMin = "0".concat(sunsetMin.toString());
-
+  console.log("Local time:", new Date(localTimestamp).toLocaleTimeString());
+  console.log("Sunrise:", new Date(localSunrise).toLocaleTimeString());
+  console.log("Sunset:", new Date(localSunset).toLocaleTimeString());
+  console.log("Is night:", isNightCurrent);
+  console.log("Icon code:", iconCode);
 
   return (
 <div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
