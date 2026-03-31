@@ -15,7 +15,7 @@ import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
-function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
+function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect , timezoneOffset = 0 }) {
   if (!dailyWeather?.list) return null;
   if (!weather?.list) return null;
 
@@ -74,9 +74,14 @@ function NewDayRow({ dailyWeather, weather, selectedDay, onDaySelect }) {
 
   const days = dailyWeather.list.slice(page * pageSize, page * pageSize + pageSize).map((day) => {
     const dayDate = new Date(day.dt * 1000).toLocaleDateString("en-GB");
-    const hourlyForDay = weather.list.filter(hour =>
-      new Date(hour.dt * 1000).toLocaleDateString("en-GB") === dayDate
-    );
+    const hourlyForDay = weather.list.filter(hour => {
+      const localHour = new Date((hour.dt + timezoneOffset) * 1000);
+      const localDay = new Date((day.dt + timezoneOffset) * 1000);
+      return (
+        localHour.getUTCDate() === localDay.getUTCDate() &&
+        localHour.getUTCMonth() === localDay.getUTCMonth()
+      );
+    });
     const temps = hourlyForDay.map(h => h.main.temp);
 
     const representativeHour = hourlyForDay.length

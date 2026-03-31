@@ -23,23 +23,26 @@ const getPageSize = (width) => {
   return 2;
 };
 
-  const getDayNightIcon = (baseIcon, hour) => {
-    const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
-    return baseIcon.slice(0, -1) + suffix;
-  };
+const getDayNightIcon = (baseIcon, hour) => {
+  const suffix = (hour >= 20 || hour < 6) ? "n" : "d";
+  return baseIcon.slice(0, -1) + suffix;
+};
 
-
-
-  
-
-function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNextDay, onPrevDay, initialOffset, timezoneOffset }) {
+function HourInfoPanel({
+  weather,
+  dailyWeather,
+  selectedDay,
+  onHourSelect,
+  onNextDay,
+  onPrevDay,
+  initialOffset,
+  timezoneOffset = 0,
+}) {
   const [visibleHours, setVisibleHours] = useState([]);
   const [offset, setOffset] = useState(0);
   const [pageSize, setPageSize] = useState(() => getPageSize(window.innerWidth));
   const [dayHours, setDayHours] = useState([]);
   const [direction, setDirection] = useState("right");
-  const [visibleDisplay, setVisibleDisplay] = useState([]);
-
   const [activeHour, setActiveHour] = useState(null);
 
   function onSelectHour(hour) {
@@ -50,7 +53,7 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
     "01d": clearDay, "01n": clearNight,
     "02d": fewCloudsDay, "02n": fewCloudsNight,
     "03d": scatteredClouds, "03n": scatteredCloudsNight,
-    "04d": scatteredClouds,"04n": scatteredCloudsNight,
+    "04d": scatteredClouds, "04n": scatteredCloudsNight,
     "09d": showerRain, "09n": showerRain,
     "10d": rainDay, "10n": rainNight,
     "11d": thunderstorm, "11n": thunderstorm,
@@ -59,17 +62,10 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   };
 
   const getLocalTime = (dt) => {
-    const date = new Date((dt + timezoneOffset) * 1000);   // shift UTC to local
-    return date.toLocaleTimeString('en-GB', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false 
-    });
-  };
-
-  const getLocalDateKey = (dt) => {
     const date = new Date((dt + timezoneOffset) * 1000);
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const mins = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${mins}`;
   };
 
   useEffect(() => {
@@ -79,27 +75,50 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
   }, []);
 
   useEffect(() => {
-    if (!weather.list || !selectedDay) return;
+  if (!weather?.list || !selectedDay) {
+    setDayHours([]);
+    return;
+  }
 
-    const selectedKey = getLocalDateKey(selectedDay);
-
-    const filtered = weather.list.filter(h => 
-      getLocalDateKey(h.dt) === selectedKey
+  const filtered = weather.list.filter((h) => {
+    const localHourDate = new Date((h.dt + timezoneOffset) * 1000);
+    const localSelectedDate = new Date((selectedDay + timezoneOffset) * 1000);
+    return (
+      localHourDate.getUTCDate() === localSelectedDate.getUTCDate() &&
+      localHourDate.getUTCMonth() === localSelectedDate.getUTCMonth()
     );
+  });
+  // In HourInfoPanel, right after the filtered line:
+console.log("selectedDay:", selectedDay, new Date((selectedDay + timezoneOffset) * 1000).toUTCString());
+console.log("All hour dates:", weather.list.slice(0, 5).map(h => ({
+  dt: h.dt,
+  local: new Date((h.dt + timezoneOffset) * 1000).toUTCString()
+})));
+console.log("filtered count:", filtered.length);
 
-    setDayHours(filtered);
-    
-    const clampedOffset = Math.min(initialOffset ?? 0, Math.max(0, filtered.length - pageSize));
-    setOffset(clampedOffset);
-  }, [weather.list, selectedDay, initialOffset, timezoneOffset, pageSize]);
+  setDayHours(filtered);
+
+  const clampedOffset = Math.min(
+    initialOffset ?? 0,
+    Math.max(0, filtered.length - pageSize)
+  );
+  setOffset(clampedOffset);
+}, [weather?.list, selectedDay, initialOffset, pageSize, timezoneOffset]); // 👈 added timezoneOffset
 
   useEffect(() => {
     setVisibleHours(dayHours.slice(offset, offset + pageSize));
   }, [dayHours, offset, pageSize]);
 
-  const dailyEntry = dailyWeather?.list?.find(d => 
-      getLocalDateKey(d.dt) === getLocalDateKey(selectedDay)
-    );
+const dailyEntry = dailyWeather?.list?.find((d) => {
+  const dDay = new Date((d.dt + timezoneOffset) * 1000).getUTCDate();
+  const dMonth = new Date((d.dt + timezoneOffset) * 1000).getUTCMonth();
+  const sDay = new Date((selectedDay + timezoneOffset) * 1000).getUTCDate();
+  const sMonth = new Date((selectedDay + timezoneOffset) * 1000).getUTCMonth();
+  return dDay === sDay && dMonth === sMonth;
+});
+
+  const hasHourlyData = dayHours.length > 0;
+  const shouldShowFallback = !hasHourlyData && !!dailyEntry;
 
   return (
     <div className="hour-panel-wrapper">
@@ -109,32 +128,35 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
           if (offset === 0) {
             onPrevDay?.();
           } else {
-            setOffset(prev => Math.max(0, prev - (pageSize - 1)));
+            setOffset((prev) => Math.max(0, prev - (pageSize - 1)));
           }
         }}
-        style={{ cursor: 'pointer' }}>
+        style={{ cursor: 'pointer' }}
+      >
         <img src="/images/left-arrow.svg" alt="Left Arrow Icon" />
       </div>
 
       <div className="hour-panel-row" key={`${selectedDay}-${direction}`}>
-        {dayHours.length > 0 ? (
+        {hasHourlyData ? (
           visibleHours.map((hour, idx) => {
-            const iconCode = hour.weather[0].icon;   // ← Use the icon exactly as the API gives it
+            const iconCode = hour.weather[0].icon;
 
             return (
-              <div key={`${hour.dt}-${idx}`} className={`hour-panel ${activeHour === hour.dt ? "active" : ""}`}
-                onClick={(e) => { e.stopPropagation(); onHourSelect(hour); onSelectHour(hour); }}
+              <div
+                key={`${hour.dt}-${idx}`}
+                className={`hour-panel ${activeHour === hour.dt ? "active" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onHourSelect(hour);
+                  onSelectHour(hour);
+                }}
                 style={{
                   cursor: 'pointer',
-                  animationDelay: `${
-                    (direction === "right"
-                      ? idx * 0.05
-                      : (pageSize - idx) * 0.05)
-                  }s`
+                  animationDelay: `${(direction === "right" ? idx : pageSize - idx) * 0.05}s`,
                 }}
               >
-                <div className="time">{getLocalTime(hour.dt)}</div>             
-                 <div className="hour-temp-row">
+                <div className="time">{getLocalTime(hour.dt)}</div>
+                <div className="hour-temp-row">
                   <img src={iconMap[iconCode] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
                   <div className="hour-temp-num-row">
                     <span className="temperature">{Math.round(hour.main.temp)}</span>
@@ -154,47 +176,39 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
               </div>
             );
           })
-        ) : dailyEntry ? (
-          
+        ) : shouldShowFallback ? (
           [
-            { label: "Morning",   temp: dailyEntry.temp.morn,  feels: dailyEntry.feels_like.morn,  hour: 8,  icon: getDayNightIcon(dailyEntry.weather[0].icon, 8)  },
-            { label: "Afternoon", temp: dailyEntry.temp.day,   feels: dailyEntry.feels_like.day,   hour: 13, icon: getDayNightIcon(dailyEntry.weather[0].icon, 13) },
-            { label: "Evening",   temp: dailyEntry.temp.eve,   feels: dailyEntry.feels_like.eve,   hour: 18, icon: getDayNightIcon(dailyEntry.weather[0].icon, 18) },
-            { label: "Night",     temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22, icon: getDayNightIcon(dailyEntry.weather[0].icon, 22) },
-          ].slice(0, pageSize)
-          
-          .map((slot, idx) => {
-            return (
-              <div key={idx} className="hour-panel" style={{
-                cursor: 'pointer',
-                animationDelay: `${
-                  direction === "right"
-                    ? idx * 0.05
-                    : (visibleHours.length - idx) * 0.05
-                }s`
-              }}>
-                <div className="time">{slot.label}</div>
-                <div className="hour-temp-row">
-                  <img src={iconMap[slot.icon] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
-                  <div className="hour-temp-num-row">
-                    <span className="temperature">{Math.round(slot.temp)}</span>
-                    <span className="degree">°C</span>
-                  </div>
-                </div>
-                <div className="feelsLike-small">Feels like {Math.round(slot.feels)}°C</div>
-                <div className="bottom-row">
-                  <div className="rain-info">
-                    <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
-                    <span className="humidity">{Math.round(dailyEntry.pop * 100)}%</span>
-                  </div>
-                  <div className="wind-info">
-                    <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
-                    <span className="wind-speed">{Math.round(dailyEntry.speed * 2.237)} mph</span>
-                  </div>
+            { label: "Morning", temp: dailyEntry.temp.morn, feels: dailyEntry.feels_like.morn, hour: 8, icon: getDayNightIcon(dailyEntry.weather[0].icon, 8) },
+            { label: "Afternoon", temp: dailyEntry.temp.day, feels: dailyEntry.feels_like.day, hour: 13, icon: getDayNightIcon(dailyEntry.weather[0].icon, 13) },
+            { label: "Evening", temp: dailyEntry.temp.eve, feels: dailyEntry.feels_like.eve, hour: 18, icon: getDayNightIcon(dailyEntry.weather[0].icon, 18) },
+            { label: "Night", temp: dailyEntry.temp.night, feels: dailyEntry.feels_like.night, hour: 22, icon: getDayNightIcon(dailyEntry.weather[0].icon, 22) },
+          ].slice(0, pageSize).map((slot, idx) => (
+            <div
+              key={idx}
+              className="hour-panel"
+              style={{ cursor: 'pointer', animationDelay: `${idx * 0.05}s` }}
+            >
+              <div className="time">{slot.label}</div>
+              <div className="hour-temp-row">
+                <img src={iconMap[slot.icon] || scatteredClouds} alt="Weather Icon" className="weather-icon-center" />
+                <div className="hour-temp-num-row">
+                  <span className="temperature">{Math.round(slot.temp)}</span>
+                  <span className="degree">°C</span>
                 </div>
               </div>
-            );
-          })
+              <div className="feelsLike-small">Feels like {Math.round(slot.feels)}°C</div>
+              <div className="bottom-row">
+                <div className="rain-info">
+                  <img src="/images/cloud-rain.svg" alt="Rain" className="bottom-icon" />
+                  <span className="humidity">{Math.round(dailyEntry.pop * 100)}%</span>
+                </div>
+                <div className="wind-info">
+                  <img src="/images/wind.svg" alt="Wind" className="bottom-icon" />
+                  <span className="wind-speed">{Math.round((dailyEntry.speed || 0) * 2.237)} mph</span>
+                </div>
+              </div>
+            </div>
+          ))
         ) : null}
       </div>
 
@@ -204,10 +218,11 @@ function HourInfoPanel({ weather, dailyWeather, selectedDay, onHourSelect, onNex
           if (offset + pageSize >= dayHours.length) {
             onNextDay?.();
           } else {
-            setOffset(prev => prev + (pageSize - 1));
+            setOffset((prev) => prev + (pageSize - 1));
           }
         }}
-        style={{ cursor: 'pointer' }}>
+        style={{ cursor: 'pointer' }}
+      >
         <img src="/images/right-arrow.svg" alt="Right Arrow Icon" />
       </div>
     </div>

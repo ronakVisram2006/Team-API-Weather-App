@@ -110,7 +110,6 @@ const handleNextDay = () => {
   }
 };
 
-  const timezoneOffset = weather ? weather.city.timezone : 0;
 
 const handlePrevDay = () => {
   const currentIndex = dailyWeather.list.findIndex(d => d.dt === selectedDay);
@@ -184,7 +183,9 @@ return (
         onDaySelect={(day) => {
           setSelectedDay(day);
           setSelectedHour(null);
-        }}      />
+        }} 
+        timezoneOffset={weather?.city?.timezone ?? 0}     
+        />
     )}    
     <div className="weather-layout">
       {isMobile ? (
@@ -240,7 +241,7 @@ return (
     onPrevDay = {handlePrevDay}
     onHourSelect={(hour) => setSelectedHour(hour)} 
     initialOffset={hourOffset}
-    timezoneOffset={timezoneOffset}
+    timezoneOffset={weather?.city?.timezone ?? 0}
 />}
     {showSearch && (
       <SearchOverlay

@@ -1,19 +1,14 @@
 import clearDay from "/images/mappedIcons/sun.png";
 import clearNight from "/images/mappedIcons/moon.png";
-
 import fewCloudsDay from "/images/mappedIcons/cloudy.png";
 import fewCloudsNight from "/images/mappedIcons/cloudy-night.png";
-
 import scatteredClouds from "/images/mappedIcons/clouds.png";
-
 import showerRain from "/images/mappedIcons/shower.png";
 import rainDay from "/images/mappedIcons/rainy-day.png";
 import rainNight from "/images/mappedIcons/raining.png";
-
 import thunderstorm from "/images/mappedIcons/thunder.png";
 import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
-
 
 function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle, selectedHour, onSearchClick }) {
   if (!weather.list) return null;
@@ -21,115 +16,87 @@ function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoo
   const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
 
   const selectedHourly = weather?.list?.filter(h => {
-    const hDate = new Date(h.dt * 1000).toLocaleDateString("en-GB");
-    const sDate = new Date(selectedDay * 1000).toLocaleDateString("en-GB");
-    return hDate === sDate;
+    const localHourDate = new Date((h.dt + weather.city.timezone) * 1000);
+    const localSelectedDate = new Date((selectedDay + weather.city.timezone) * 1000);
+    return (
+      localHourDate.getUTCDate() === localSelectedDate.getUTCDate() &&
+      localHourDate.getUTCMonth() === localSelectedDate.getUTCMonth()
+    );
   });
 
-  
+  const sunriseRaw = selectedDailyData?.sunrise ?? weather.city.sunrise;
+  const sunsetRaw = selectedDailyData?.sunset ?? weather.city.sunset;
+
+  const sunriseDate = new Date((sunriseRaw + weather.city.timezone) * 1000);
+  const sunsetDate = new Date((sunsetRaw + weather.city.timezone) * 1000);
+  const sunriseHourRaw = sunriseDate.getUTCHours();
+  const sunriseHour = (sunriseHourRaw % 12 || 12).toString().padStart(2, "0");
+  const sunriseMin = sunriseDate.getUTCMinutes().toString().padStart(2, "0");
+  const sunrisePeriod = sunriseHourRaw < 12 ? "AM" : "PM";
+
+  const sunsetHourRaw = sunsetDate.getUTCHours();
+  const sunsetHour = (sunsetHourRaw % 12 || 12).toString().padStart(2, "0");
+  const sunsetMin = sunsetDate.getUTCMinutes().toString().padStart(2, "0");
+  const sunsetPeriod = sunsetHourRaw < 12 ? "AM" : "PM";
 
   const now = new Date();
 
-  const current = selectedHour 
+  const current = selectedHour
     ? selectedHour
     : selectedHourly?.length
     ? selectedHourly.reduce((closest, hour) => {
         const hourTime = new Date(hour.dt * 1000);
         return Math.abs(hourTime - now) < Math.abs(new Date(closest.dt * 1000) - now)
-          ? hour
-          : closest;
+          ? hour : closest;
       }, selectedHourly[0])
     : weather.list[0];
 
+  const getIsNight = (timestamp, sunrise, sunset) => {
+    return timestamp < sunrise || timestamp >= sunset;
+  };
 
-      const fixedHour = now.getHours(); 
+  const localTimestamp = current.dt + weather.city.timezone;
+  const localSunrise = sunriseRaw + weather.city.timezone;
+  const localSunset = sunsetRaw + weather.city.timezone;
+  const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
 
-      let isNight;
+  const iconCode = selectedHour
+    ? current.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd')
+    : selectedDailyData
+      ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd')
+      : current.weather[0].icon;
 
-      const getIsNight = (timestamp, sunrise, sunset) => {
-        return timestamp < sunrise || timestamp >= sunset;
-      };
+  const iconMap = {
+    "01d": clearDay, "01n": clearNight,
+    "02d": fewCloudsDay, "02n": fewCloudsNight,
+    "03d": scatteredClouds, "03n": fewCloudsNight,
+    "04d": scatteredClouds, "04n": fewCloudsNight,
+    "09d": showerRain, "09n": showerRain,
+    "10d": rainDay, "10n": rainNight,
+    "11d": thunderstorm, "11n": thunderstorm,
+    "13d": snow, "13n": snow,
+    "50d": mist, "50n": mist,
+  };
 
-      // Use local times (timestamps + timezone offset)
-      const localTimestamp = current.dt + weather.city.timezone;
-      const localSunrise = weather.city.sunrise + weather.city.timezone;
-      const localSunset = weather.city.sunset + weather.city.timezone;
-
-      const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
-
-
-      const iconCode = selectedHour
-        ? (() => {
-            const localTimestamp = current.dt + weather.city.timezone;
-            const localSunrise = weather.city.sunrise + weather.city.timezone;
-            const localSunset = weather.city.sunset + weather.city.timezone;
-
-            const isNightCurrent = getIsNight(localTimestamp, localSunrise, localSunset);
-            return current.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd');
-          })()
-        : selectedDailyData
-          ? selectedDailyData.weather[0].icon.replace(/[dn]/, isNightCurrent ? 'n' : 'd')
-          : current.weather[0].icon;
-        
-const iconMap = {
-  "01d": clearDay,
-  "01n": clearNight,
-  "02d": fewCloudsDay,
-  "02n": fewCloudsNight,
-  "03d": scatteredClouds,
-  "03n": fewCloudsNight,
-  "04d": scatteredClouds,
-  "04n": fewCloudsNight,
-  "09d": showerRain,
-  "09n": showerRain,
-  "10d": rainDay,
-  "10n": rainNight,
-  "11d": thunderstorm,
-  "11n": thunderstorm,
-  "13d": snow,
-  "13n": snow,
-  "50d": mist,
-  "50n": mist,
-};
-
-const iconSrc = iconMap[iconCode] || scatteredClouds;
+  const iconSrc = iconMap[iconCode] || scatteredClouds;
 
   const getWindDirection = (deg) => {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     return directions[Math.round(deg / 45) % 8];
-  }
-
-  const sunriseDate = new Date((weather.city.sunrise + weather.city.timezone) * 1000);
-  const sunsetDate = new Date((weather.city.sunset + weather.city.timezone) * 1000);
-
-  const sunriseHourRaw = sunriseDate.getUTCHours();
-  const sunriseHour = (sunriseHourRaw % 12 || 12).toString().padStart(2, "0"); // 12-hour format
-  const sunriseMin = sunriseDate.getUTCMinutes().toString().padStart(2, "0");
-  const sunrisePeriod = sunriseHourRaw < 12 ? "AM" : "PM";
-
-  const sunsetHourRaw = sunsetDate.getUTCHours();
-  const sunsetHour = (sunsetHourRaw % 12 || 12).toString().padStart(2, "0"); // 12-hour format
-  const sunsetMin = sunsetDate.getUTCMinutes().toString().padStart(2, "0");
-  const sunsetPeriod = sunsetHourRaw < 12 ? "AM" : "PM";
-
-  console.log("Local time:", new Date(localTimestamp).toLocaleTimeString());
-  console.log("Sunrise:", new Date(localSunrise).toLocaleTimeString());
-  console.log("Sunset:", new Date(localSunset).toLocaleTimeString());
-  console.log("Is night:", isNightCurrent);
-  console.log("Icon code:", iconCode);
+  };
 
   return (
-<div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
-        <div className="top-row">
-        <div className ="locational-row">
+    <div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
+      <div className="top-row">
+        <div className="locational-row">
           <div className="location">
             <h1 className="locationTag">{weather.city.name},</h1>
             <h2 className="greaterLocationTag">{weather.city.country}</h2>
           </div>
-            <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
-              e.stopPropagation();
-              onSearchClick();
-            }} />
+          <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
+            e.stopPropagation();
+            onSearchClick();
+          }} />
         </div>
         <div className="windDirection">
           <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon" style={{ transform: `rotate(${current.wind.deg}deg)` }} />
