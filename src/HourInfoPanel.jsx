@@ -110,8 +110,15 @@ const dailyEntry = dailyWeather?.list?.find((d) => {
   return dDay === sDay && dMonth === sMonth;
 });
 
-  const hasHourlyData = dayHours.length > 0;
-  const shouldShowFallback = !hasHourlyData && !!dailyEntry;
+const isToday = (() => {
+  const localNow = new Date((Date.now() / 1000 + timezoneOffset) * 1000);
+  const localSelected = new Date((selectedDay + timezoneOffset) * 1000);
+  return localNow.getUTCDate() === localSelected.getUTCDate() &&
+         localNow.getUTCMonth() === localSelected.getUTCMonth();
+})();
+
+const hasHourlyData = dayHours.length > 0 && (isToday || dayHours.length >= 24);
+const shouldShowFallback = !hasHourlyData && !!dailyEntry;
 
   return (
     <div className="hour-panel-wrapper">
