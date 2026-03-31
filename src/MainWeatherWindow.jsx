@@ -15,7 +15,7 @@ import snow from "/images/mappedIcons/snow.png";
 import mist from "/images/mappedIcons/fog.png";
 
 
-function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle, selectedHour }) {
+function MainWeatherWindow({ weather, dailyWeather, selectedDay, getWeatherByCoords, getDailyWeatherByCoords, onToggle, selectedHour, onSearchClick }) {
   if (!weather.list) return null;
 
   const selectedDailyData = dailyWeather?.list?.find(d => d.dt === selectedDay);
@@ -133,6 +133,10 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
           <h1 className="locationTag">{weather.city.name},</h1>
           <h2 className="greaterLocationTag">{weather.city.country}</h2>
           <img className="currentLocationIcon" src="./images/location.png" alt="Location Icon" onClick={currentLocation} />
+          <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
+            e.stopPropagation();
+            onSearchClick();
+          }} />
         </div>
         <div className="windDirection">
           <img className="windDirectionIcon" src="/images/group-90.svg" alt="Wind Direction Icon" style={{ transform: `rotate(${current.wind.deg}deg)` }} />
