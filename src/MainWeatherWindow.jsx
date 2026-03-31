@@ -111,20 +111,6 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
   let sunsetMin = Math.round(((weather.city.sunset + weather.city.timezone) / 60) % 60);
   if (sunsetMin < 10) sunsetMin = "0".concat(sunsetMin.toString());
 
-  const currentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          getWeatherByCoords(position.coords.latitude, position.coords.longitude);
-          getDailyWeatherByCoords(position.coords.latitude, position.coords.longitude);
-        },
-        () => alert("Unable to retrieve your location. Please allow location access and try again.")
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-    
 
   return (
 <div className="main-weather-window" onClick={onToggle} style={{ cursor: 'pointer' }}>
@@ -132,7 +118,6 @@ const iconSrc = iconMap[iconCode] || scatteredClouds;
         <div className="location">
           <h1 className="locationTag">{weather.city.name},</h1>
           <h2 className="greaterLocationTag">{weather.city.country}</h2>
-          <img className="currentLocationIcon" src="./images/currentLocation.gif" alt="Location Icon" onClick={currentLocation} />
           <img className="currentLocationIcon" alt="Search" src="./images/magnifier.png" onClick={(e) => {
             e.stopPropagation();
             onSearchClick();

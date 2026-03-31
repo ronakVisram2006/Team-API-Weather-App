@@ -8,28 +8,54 @@ function SearchOverlay({onClose, onSearch}){
         onSearch(input);
         onClose();
     };
+    const currentLocation = () => {
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+            getWeatherByCoords(position.coords.latitude, position.coords.longitude);
+            getDailyWeatherByCoords(position.coords.latitude, position.coords.longitude);
+            },
+            () => alert("Unable to retrieve your location. Please allow location access and try again.")
+        );
+        } else {
+        alert("Geolocation is not supported by this browser.");
+        }
+    }
 
     return (
     <div className="search-overlay">
         <div className="search-box">
-        <div className="close-btn" onClick={onClose}>&times;</div>
-        <div className = "titleRow">
-            <h1 className="whereToText">Where to?</h1>
-            <img src = "/images/hiker.gif" alt="Hiker Icon" className="hikerIcon"/>
-        </div>
-        <div className="input-row">
-            <img src="/images/magnifier.png" className="search-icon" />
-            <input
-            type="text"
-            placeholder="Search for a city..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            />
-        </div>
+            <div className="close-btn" onClick={onClose}>&times;</div>
+            <div className = "titleRow">
+                <h1 className="whereToText">Where to?</h1>
+            </div>
+            <div className="input-row">
+                <img src="/images/magnifier.png" className="search-icon" />
+                <input
+                type="text"
+                placeholder="Search for a city..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                />
+                <div className="currentLocationIcon" onClick={currentLocation}>
+                    <img src="/images/currentLocation.gif" alt="Current Location Icon" className="current-location-icon"/>
+                </div>
+            </div>
+        
 
-        <button onClick={handleSearch} className="search-btn">
-            Search
-        </button>
+
+            <button onClick={handleSearch} className="search-btn">
+                Search
+            </button>
+
+            <div className="popular-section">
+                <p className="popular-label">Popular</p>
+                <div className="pills">
+                {["Tokyo","Paris","New York","Dubai","London","Sydney"].map(city => (
+                    <span key={city} className="pill" onClick={() => setInput(city)}>{city}</span>
+                ))}
+            </div>
+        </div>
         </div>
     </div>
     );}
