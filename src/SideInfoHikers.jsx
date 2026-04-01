@@ -122,7 +122,7 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
     if (temp < 8 && lowUVKeywords.some(keyword => c.includes(keyword))) return uvGear.optional;
     if (temp <= 18 && moderateUVKeywords.some(keyword => c.includes(keyword))) return uvGear.recommended;
     if (temp > 18 && highUVKeywords.some(keyword => c.includes(keyword))) return uvGear.essential;
-    else return uvGear.recommended;
+    else return uvGear.optional;
   };
 
   const getFootwearInfo = () => {
