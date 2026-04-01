@@ -78,7 +78,7 @@ function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, ge
             <div className="popular-section">
                 <p className="popular-label">Popular</p>
                 <div className="pills">
-                {["Tokyo","Paris","New York","Dubai","London","Sydney"].map(city => (
+                {["Rio de Janeiro","Mexico City","Cape Town","Kyoto"].map(city => (
                     <span key={city} className="pill" onClick={() => setInput(city)}>{city}</span>
                 ))}
             </div>
