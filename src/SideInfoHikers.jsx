@@ -56,7 +56,13 @@ const iconMap = {
   "50d": mist, "50n": mist,
 };
 
-function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst, onToggle, timezoneOffset = 0 }) {
+const lowUVKeywords = ["thunderstorm", "drizzle", "rain", "snow", "sleet", "mist", "smoke", "haze", "fog", "dust", "broken", "overcast"];
+
+const moderateUVKeywords = ["broken", "scattered", "mist", "haze", "fog"];
+
+const highUVKeywords = ["clear", "few clouds"];
+
+function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShowFirst, onToggle, timezoneOffset = 0 , uv}) {
 
   if (!dailyWeather?.list) return null;
   if (!weather?.list) return null;
@@ -111,10 +117,12 @@ function SideInfoHikers({ dailyWeather, weather, selectedDay, showFirst, setShow
   };
 
   const getHikerUVInfo = () => {
-    const uv = current.uvi ?? 0;
-    if (uv < 3) return uvGear.optional;
-    if (uv < 6) return uvGear.recommended;
-    return uvGear.essential;
+    const temp = current.temp?.day ?? current.temp;
+    const c = condition.toLowerCase();
+    if (temp < 8 && lowUVKeywords.some(keyword => c.includes(keyword))) return uvGear.optional;
+    if (temp <= 18 && moderateUVKeywords.some(keyword => c.includes(keyword))) return uvGear.recommended;
+    if (temp > 18 && highUVKeywords.some(keyword => c.includes(keyword))) return uvGear.essential;
+    else return uvGear.recommended;
   };
 
   const getFootwearInfo = () => {

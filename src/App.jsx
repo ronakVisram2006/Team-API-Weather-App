@@ -99,9 +99,9 @@ const getConditionKey = (description = "") => {
   }
 
   const getUVIndex = (lat, lon) => {
-    fetch(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=7adc71064a0153510e1edd7ee10cea2b`)
+    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,daily&appid=7adc71064a0153510e1edd7ee10cea2b`)
     .then(res => res.json())
-    .then(result => setUV(result));
+    .then(result => setUV(result)); 
 }
 
 const handleNextDay = () => {
@@ -135,17 +135,18 @@ const handlePrevDay = () => {
 
           getWeatherByCoords(lat, lon);
           getDailyWeatherByCoords(lat, lon);
+          getUVIndex(lat, lon);
         },
 
         () => {
-          const city = city_arr[Math.floor(Math.random() * city_arr.length)];
+          const city = city_arr[0];
           getWeatherObj(city);
           getDailyWeatherObj(city);
         }
       );
     }
     else {
-      const city = city_arr[Math.floor(Math.random() * city_arr.length)];
+      const city = city_arr[0];
       getWeatherObj(city);
       getDailyWeatherObj(city);
     }
@@ -212,6 +213,7 @@ return (
             showFirst={showFirst}
             setShowFirst={setShowFirst}
             onToggle={handleToggle}
+            uvi = {uv}
           />
         )
       ) : (
@@ -233,6 +235,7 @@ return (
             showFirst={showFirst}
             setShowFirst={setShowFirst}
             onToggle={handleToggle} // toggles side-info panels on desktop
+            uvi = {uv}
           />
         </>
       )}
@@ -254,9 +257,11 @@ return (
           if (typeof query === "string") {
             getWeatherObj(query);
             getDailyWeatherObj(query);
+            getUVIndex(query.lat, query.lon);
           } else {
             getWeatherByCoords(query.lat, query.lon);
             getDailyWeatherByCoords(query.lat, query.lon);
+            getUVIndex(query.lat, query.lon);
           }
         }}
       />
