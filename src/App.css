@@ -781,7 +781,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   margin: 0;
   font-size: 1.6rem;
   font-weight: 600;
-  color: white;
+  color: lightblue;
   text-align: center;
   letter-spacing: 0.5px;
 }
@@ -813,7 +813,7 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: lightblue;
   font-size: 15px;
 }
 
@@ -925,10 +925,11 @@ border: 1px solid rgba(255, 255, 255, 0.15);
   list-style: none;
   margin: 0.4rem 0 0;
   padding: 0;
-  background: /* match your search-box bg */;
+  background: /* match your search-box bg */ rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.15);
   overflow: hidden;
+  color: lightblue;
 }
 
 .suggestion-item {
