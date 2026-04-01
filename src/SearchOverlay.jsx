@@ -1,6 +1,46 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, getWeatherByCoords, getDailyWeatherByCoords}) {
+
+    const [input, setInput] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const debounceTimer = useRef(null);
+    const API_KEY = "7adc71064a0153510e1edd7ee10cea2b";
+
+    const fetchSuggestions = async (query) => {
+        if (query.length < 3) {
+            setSuggestions([]);
+            return;
+        }
+
+        // Simulate an API call to fetch suggestions
+        try {
+            const response = await fetch(
+            `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${API_KEY}`
+            );
+            const data = await response.json();
+            setSuggestions(data);
+        } catch {
+            setSuggestions([]);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const val = e.target.value;
+        setInput(val);
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = setTimeout(() => fetchSuggestions(val), 300);
+    };
+
+    const handleSuggestionSelect = (city) => {
+        setInput(city.name);
+        setSuggestions([]);
+        onSearch({ lat: city.lat, lon: city.lon });
+        onClose();
+    };
+
+
+
     async function fetchWeather(city) {
         const res = await fetch(
             `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=7adc71064a0153510e1edd7ee10cea2b`
@@ -13,20 +53,30 @@ function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, ge
         return res.json();
         }
 
-    const [input, setInput] = useState("");
-
-    const handleSearch = async (city) => {
-    if (!city || !city.trim()) return;
-
-    try {
-        await fetchWeather(city);
-        await onSearch(city);
-
-        onClose();
-    } catch (err) {
-        alert("City not found. Try again.");
-    }
+    const handleSearch = async () => {
+        if (!input.trim()) return;
+    
+        if (suggestions.length > 0) {
+            handleSuggestionSelect(suggestions[0]);
+            return;
+        }
+    
+        try {
+            const res = await fetch(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${input}&appid=${API_KEY}`
+            );
+            if (!res.ok) throw new Error();
+            onSearch(input);
+            onClose();
+          } catch {
+            alert("City not found. Try again.");
+        }
     };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") handleSearch();
+    };
+
     const currentLocation = () => {
         if (!navigator.geolocation) {
             alert("Geolocation is not supported by this browser.");
@@ -62,14 +112,33 @@ function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, ge
                 type="text"
                 placeholder="Search for a city..."
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}   
+                autoFocus
                 />
                 <div className="currentLocationIcon" onClick={currentLocation}>
                     <img src="/images/currentLocation.gif" alt="Current Location Icon" className="current-location-icon"/>
                 </div>
             </div>
-        
 
+            {suggestions.length > 0 && (
+                <ul className="suggestions-list">
+                {suggestions.map((city, i) => (
+                    <li
+                        key={i}
+                        className='suggestion-item'
+                        onClick={() => handleSuggestionSelect(city)}
+                    >
+                        <span className='suggestion-city'>
+                            {city.name}{city.state ? `, ${city.state}` : ''}
+                        </span>
+                        <span className='suggestion-country'>
+                            {city.country}
+                        </span>
+                    </li>
+                    ))}
+                </ul>
+            )}
 
             <button onClick={() => handleSearch(input)} className="search-btn">
                             Search

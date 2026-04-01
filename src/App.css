@@ -920,3 +920,35 @@ border: 1px solid rgba(255, 255, 255, 0.15);
 .currentLocationIcon:hover {
   transform: scale(1.1);
 }
+
+.suggestions-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  background: /* match your search-box bg */;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  overflow: hidden;
+}
+
+.suggestion-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.suggestion-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.suggestion-city {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.suggestion-country {
+  font-size: 0.75rem;
+  opacity: 0.55;
+}
