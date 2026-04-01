@@ -104,7 +104,7 @@ function SearchOverlay({onClose, onSearch, getWeatherObj, getDailyWeatherObj, ge
         <div className="search-box">
             <div className="close-btn" onClick={onClose}>&times;</div>
             <div className = "titleRow">
-                <h1 className="whereToText">What's the weather like?</h1>
+                <h1 className="whereToText">Where to?</h1>
             </div>
             <div className="input-row">
                 <img src="/images/magnifier.png" className="search-icon" />
