@@ -10,7 +10,7 @@ import SideInfoHikers from './SideInfoHikers.jsx';
 import { useState, useEffect } from 'react';
 import SearchOverlay from './SearchOverlay.jsx';
 
-const city_arr = ["Chongqing", "London", "Paris", "New York", "Tokyo", "Sydney", "Cairo", "Rio de Janeiro", "Berlin", "Beijing", "Mumbai", "Sylhet"];
+const city_arr = ["London"];
 
 function App() {
 
