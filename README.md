@@ -44,8 +44,7 @@ Start the Vite development server:
 npm run dev
 
 
-You will see a local URL such as:
-http://localhost:5173
+You will see a local URL named localhost
 
 
 Open it in your browser to view the app.
