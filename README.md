@@ -5,7 +5,7 @@ This project demonstrates a fast development workflow, hot module replacement (H
 
 ---
 
-## 🚀 Requirements
+##  Requirements
 
 Before running the project, make sure you have the following installed:
 
@@ -21,7 +21,7 @@ Comes bundled with Node.js.
 
 ---
 
-## 📦 Installation
+## Installation
 
 After downloading or unzipping the project:
 
@@ -38,7 +38,7 @@ This will recreate the `node_modules` folder (removed for submission).
 
 ---
 
-## ▶️ Running the Project (Development Mode)
+## Running the Project (Development Mode)
 
 Start the Vite development server:
 npm run dev
@@ -52,7 +52,7 @@ Open it in your browser to view the app.
 
 ---
 
-## 🏗️ Building for Production
+## Building for Production
 
 To generate an optimized production build:
 
@@ -63,7 +63,7 @@ This creates a `dist` folder containing the final output.
 
 ---
 
-## 🔧 Preview Production Build (Optional)
+##  Preview Production Build (Optional)
 
 To preview the built app locally:
 
@@ -71,14 +71,14 @@ npm run preview
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 src/ components/ assets/ App.jsx main.jsx index.html package.json vite.config.j
 
 
 ---
 
-## 📄 Notes for Markers
+##  Notes for Markers
 
 - `node_modules` has been removed to reduce file size.
 - Run `npm install` before starting the project.
@@ -86,7 +86,7 @@ src/ components/ assets/ App.jsx main.jsx index.html package.json vite.config.j
 
 ---
 
-## 🙌 Technologies Used
+##  Technologies Used
 
 - React
 - Vite
